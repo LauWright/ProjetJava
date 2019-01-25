@@ -1,5 +1,5 @@
 package element;
 
-public class Produit {
-
+public class Produit extends Element{
+	
 }

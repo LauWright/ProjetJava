@@ -6,6 +6,4 @@ public class MatierePremiere extends Element{
 	public MatierePremiere() {
 		super();
 	}
-	
-	
 }
