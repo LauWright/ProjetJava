@@ -13,6 +13,8 @@ public class ChaineProduction {
 		this.nom = nom;
 		this.entrees = entrees;
 		this.sorties = sorties;
+		
+		
 	}
 		
 }
