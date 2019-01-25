@@ -8,5 +8,4 @@ public class MatierePremiere extends Element{
 		this.prixAchat = prixAchat;
 	}
 
-
 }
