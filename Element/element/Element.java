@@ -7,6 +7,15 @@ public class Element {
 	private String mesure;
 	private double prixVente;
 	
+	
+	/**
+	 * Constructeur d'un Element
+	 * @param code d'un element : String
+	 * @param nom nom d'un element : String
+	 * @param quantite quantité d'un element : double
+	 * @param mesure mesure d'un element : String
+	 * @param prixVente prix de vente d'un element : double
+	 */
 	public Element(String code, String nom, double quantite, String mesure, double prixVente) {
 		this.code = code;
 		this.nom = nom;
@@ -15,24 +24,52 @@ public class Element {
 		this.prixVente = prixVente;
 	}
 
+	/**
+	 * Recuperer code d'un element
+	 * @return code d'un element : String
+	 */
 	public String getCode() {
 		return code;
 	}
 
+	/**
+	 * Recuperer nom d'un element
+	 * @return nom d'un element : String
+	 */
 	public String getNom() {
 		return nom;
 	}
 
+	/**
+	 * Recuperer quantité d'un element
+	 * @return quantite d'un element : double
+	 */
 	public double getQuantite() {
 		return quantite;
 	}
 
+	/**
+	 * Recuperer mesure d'un element
+	 * @return mesure d'un element : String
+	 */
 	public String getMesure() {
 		return mesure;
 	}
 
+	/**
+	 * Recuperer prix de vente d'un element
+	 * @return prixVente d'un element : double
+	 */
 	public double getPrixVente() {
 		return prixVente;
 	}
+
+	@Override
+	public String toString() {
+		return "Code=" + code + ", nom=" + nom + ", quantité=" + quantite + ", mesure=" + mesure
+				+ ", prix de vente=" + prixVente;
+	}
+	
+	
 	
 }

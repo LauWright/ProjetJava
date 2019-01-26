@@ -27,4 +27,11 @@ public class Couple {
 	public double getQte() {
 		return qte;
 	}
+	
+	@Override
+	public String toString() {
+		return "Couple [code=" + this.code + ", qte=" + this.qte + "]";
+	}
+	
+	
 }

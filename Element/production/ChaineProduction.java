@@ -56,7 +56,19 @@ public class ChaineProduction {
 	public List<Couple> getSorties() {
 		return sorties;
 	}
-	
+
+	public void afficher() {
+		System.out.println("ChaineProduction [code=" + this.code + ", nom=" + this.nom); 
+		System.out.println("Liste des entrees : ");
+		for(Couple c : this.entrees) {
+			System.out.println(c.toString());
+		}
+		System.out.println("Liste des sorties : ");
+		for(Couple c : this.sorties) {
+			System.out.println(c.toString());
+		}
+
+	}
 }
 
 

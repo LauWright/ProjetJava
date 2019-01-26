@@ -12,4 +12,8 @@ public class Produit extends Element{
 	public Produit(String c, String n, double q, String m, double p) {
 		super(c, n, q, m, p);
 	}
+	
+	public String toString() {
+		return "Produit : " + super.toString();
+	}
 }
