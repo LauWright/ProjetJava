@@ -3,6 +3,7 @@ package production;
 public class Couple {
 	private String code;
 	private double qte;
+	private String testK;
 	
 	/**
 	 * Constructeur du couple
