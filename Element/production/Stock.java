@@ -86,4 +86,12 @@ public class Stock {
 			System.out.println(e.toString());
 		}
 	}
+	/**
+	 * Soustraction d'une quantité sur un élément
+	 * @param quantite 
+	 * @param code
+	 */
+	public void soustraire(int quantite, String code) {
+		
+	}
 }
