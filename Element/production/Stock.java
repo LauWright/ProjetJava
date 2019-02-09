@@ -19,9 +19,8 @@ public class Stock {
 	 * @param nomFichier nom du fichier csv à importer
 	 * @param separateur symbole de separation des informations dans le fichier csv
 	 */
-	public Stock( String nomFichier, String separateur) {
-		this.lesElements = new ArrayList<>();
-		this.importCsv(nomFichier, separateur);
+	public Stock( String nomFichier, char separateur) {
+		this.lesElements = ImportCsv.importElement(nomFichier, separateur);
 	}
 
 	/**
@@ -86,6 +85,7 @@ public class Stock {
 			System.out.println(e.toString());
 		}
 	}
+	
 	/**
 	 * Soustraction d'une quantité sur un élément
 	 * @param quantite 

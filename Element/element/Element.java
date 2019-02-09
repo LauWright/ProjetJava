@@ -69,7 +69,4 @@ public class Element {
 		return "Code=" + code + ", nom=" + nom + ", quantité=" + quantite + ", mesure=" + mesure
 				+ ", prix de vente=" + prixVente;
 	}
-	
-	
-	
 }
