@@ -1,17 +1,9 @@
 package production;
 
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import element.Achat;
-import element.Element;
-import element.MatierePremiere;
-import element.Produit;
 import element.ProduitManquant;
 
 public class Production {
