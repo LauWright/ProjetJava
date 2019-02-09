@@ -70,8 +70,5 @@ public class Production {
 	public Stock getLeStock() {
 		return leStock;
 	}
-	
-	
-	
-	
+
 }
