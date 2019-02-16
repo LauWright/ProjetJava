@@ -29,7 +29,7 @@ public class Production {
 		//Stock réel
 		this.leStock = leStock;
 		//Stock servant à la simulation
-		//this.stockTemp = new Stock(leStock);
+		this.stockTemp = new Stock(leStock);
 		
 		//création de la liste des chaines de production grace à un fichier csv
 		this.lesChaines = ImportCsv.importChaineProduction(nomFichier, separateur);
