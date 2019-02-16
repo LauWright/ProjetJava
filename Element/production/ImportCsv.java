@@ -16,7 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
-public class ImportCsv {
+public abstract class ImportCsv {
 	
 	public static List<Element> importElement(String nomFichier, char separateur){
 		List<Element> elements = new ArrayList<>();

@@ -26,19 +26,20 @@ public class Production {
 		this.lesProduitsManquant = new ArrayList<>();
 		this.lesAchats = new ArrayList<>();
 
+		//Stock réel
 		this.leStock = leStock;
-		this.stockTemp = leStock;
+		//Stock servant à la simulation
+		//this.stockTemp = new Stock(leStock);
 		
 		//création de la liste des chaines de production grace à un fichier csv
 		this.lesChaines = ImportCsv.importChaineProduction(nomFichier, separateur);
-		
 	}
 	
 	/**
 	 * 
-	 * @return la chaine testée
+	 * @return les chaines de Production
 	 */
-	public List<ChaineProduction> getUneChaine() {
+	public List<ChaineProduction> getChainesProduction() {
 		return this.lesChaines;
 	}
 	

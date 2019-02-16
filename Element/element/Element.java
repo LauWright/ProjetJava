@@ -1,6 +1,6 @@
 package element;
 
-public class Element {
+public abstract class Element {
 	private String code;
 	private String nom;
 	private double quantite;
@@ -23,6 +23,21 @@ public class Element {
 		this.mesure = mesure;
 		this.prixVente = prixVente;
 	}
+	
+	
+	/**
+	 * Examine la quantite d'un element
+	 * @return true si la quantite est negatif sinon false
+	 */
+	public boolean examiner() {
+		boolean quantiteNegatif = false;
+		if(this.quantite < 0) {
+			quantiteNegatif = true;
+		}
+		return quantiteNegatif;
+	}
+	
+	////////////////////////////////GETTERS/SETTERS////////////////////////////////////////////////////////
 
 	/**
 	 * Recuperer code d'un element
@@ -62,6 +77,10 @@ public class Element {
 	 */
 	public double getPrixVente() {
 		return prixVente;
+	}
+	
+	public void setNom(String n) {
+		this.nom= n;
 	}
 
 	@Override

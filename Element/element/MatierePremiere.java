@@ -16,6 +16,15 @@ public class MatierePremiere extends Element{
 		super(code, nom, quantite, mesure, prixVente);
 		this.prixAchat = prixAchat;
 	}
+	
+	/**
+	 * Constructeur MatierePremiere à partir d'une autre matiere premiere
+	 * @param ma
+	 */
+	public MatierePremiere(MatierePremiere ma) {
+		super(ma.getCode(), ma.getNom(), ma.getQuantite(), ma.getMesure(), ma.getPrixVente());
+		this.prixAchat = ma.prixAchat;
+	}
 
 	/**
 	 * Récupère le prix d'achat d'une matière première
