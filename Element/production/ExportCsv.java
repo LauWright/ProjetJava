@@ -17,11 +17,11 @@ public abstract class ExportCsv {
     //CSV file header
     private static final String FILE_HEADER_ELEMENT = "Code;Nom;Quantite;unite;achat;vente;type";
  
-    public static void writeCsvElement(List<Element> elements) {
+    public static void writeCsvElement(String nomFichier, List<Element> elements) {
          FileWriter fileWriter = null;
                  
         try {
-            fileWriter = new FileWriter("elements1.csv");
+            fileWriter = new FileWriter(nomFichier);
  
             //Entête Csv
             fileWriter.append(FILE_HEADER_ELEMENT.toString());
@@ -83,7 +83,24 @@ public abstract class ExportCsv {
     }
     
 
-    public static void ajouterCsvChaineProduction(List<Element> elements) { 
+    public static void ajouterCsvChaineProduction(List<ChaineProduction> chaines) { 
+    	// Crée un BufferedWriter.
+        BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter("chaine.csv", true));
+			String s = "";
+	        for(ChaineProduction c : chaines) {
+	        	s += c.getCode() + ";" + c.getNom();
+	        	s += "\n";
+	        	ExportCsv.ajouterCsvEntree(c.getCode(), c.getEntrees());
+	        	ExportCsv.ajouterCsvSortie(c.getCode(), c.getSorties());
+	        }
+	        //ecrit la chaine de charactere
+	        writer.write(s);
+	        writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}       
     	
     }
     
@@ -91,7 +108,7 @@ public abstract class ExportCsv {
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
-			writer = new BufferedWriter(new FileWriter("entrees1.csv", true));
+			writer = new BufferedWriter(new FileWriter("entrees.csv", true));
 			String s = code ;
 	        for(Couple c : entrees) {
 	        	s += ";" + c.getCode() + "," + c.getQte();
@@ -104,6 +121,26 @@ public abstract class ExportCsv {
 			e.printStackTrace();
 		}       
     }
+    
+    public static void ajouterCsvSortie(String code, List<Couple> sorties) { 
+        // Crée un BufferedWriter.
+        BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter("sortie.csv", true));
+			String s = code ;
+	        for(Couple c : sorties) {
+	        	s += ";" + c.getCode() + "," + c.getQte();
+	        }
+	        s += "\n";
+	        //ecrit la chaine de charactere
+	        writer.write(s);
+	        writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}       
+    }
+    
+    
 }
    
 
