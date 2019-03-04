@@ -4,8 +4,6 @@ public class Couple {
 	private String code;
 	private double qte;
 	
-	//TEST
-	
 	/**
 	 * Constructeur du couple
 	 * @param c code d'un élément : String
