@@ -46,6 +46,26 @@ public class Stock {
 			System.out.println(e.toString());
 		}
 	}
+	/**
+	 * Retourne un élément grâce à son code
+	 * @param c le code de l'élément cherché
+	 * @return l'élément recherché
+	 */
+	public Element getElement(String c) {
+		boolean ok = false;
+		Element reponse = null;
+		int i = 0;
+		while (i<this.lesElements.size() && !ok) {
+			if (this.lesElements.get(i).getCode() == c){
+				ok = true;
+				reponse = this.lesElements.get(i);
+			}
+		}
+		if (!ok) {
+			reponse = null;
+		}
+		return reponse;
+	}
 	
 	/**
 	 * Soustraction d'une quantité sur un élément
@@ -53,6 +73,16 @@ public class Stock {
 	 * @param code
 	 */
 	public void soustraire(int quantite, String code) {
-		
+		Element elem = this.getElement(code);
+		elem.setQuantite(elem.getQuantite()-quantite);
+	}
+	/**
+	 * Ajout d'une quantité sur un élément
+	 * @param quantite 
+	 * @param code
+	 */
+	public void ajouter(int quantite, String code) {
+		Element elem = this.getElement(code);
+		elem.setQuantite(elem.getQuantite()+quantite);
 	}
 }
