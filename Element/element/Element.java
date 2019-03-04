@@ -78,9 +78,19 @@ public abstract class Element {
 	public double getPrixVente() {
 		return prixVente;
 	}
-	
+	/**
+	 * Modifie le nom de l'élément
+	 * @param n nouveau nom de l'élément
+	 */
 	public void setNom(String n) {
 		this.nom= n;
+	}
+	/**
+	 * Modifie la quantité de l'élément
+	 * @param q nouvelle quantité de l'élément
+	 */
+	public void setQuantite(double q) {
+		this.quantite = q;
 	}
 
 	@Override
