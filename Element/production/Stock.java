@@ -51,7 +51,7 @@ public class Stock {
 	 * @param c le code de l'élément cherché
 	 * @return l'élément recherché
 	 */
-	public Element getElement(String c) {
+	public Element getElementByCode(String c) {
 		boolean ok = false;
 		Element reponse = null;
 		int i = 0;
@@ -66,14 +66,20 @@ public class Stock {
 		}
 		return reponse;
 	}
-	
+	/**
+	 * Retourne les éléments du stock
+	 * @return
+	 */
+	public List<Element> getElements(){
+		return this.lesElements;
+	}
 	/**
 	 * Soustraction d'une quantité sur un élément
 	 * @param quantite 
 	 * @param code
 	 */
 	public void soustraire(int quantite, String code) {
-		Element elem = this.getElement(code);
+		Element elem = this.getElementByCode(code);
 		elem.setQuantite(elem.getQuantite()-quantite);
 	}
 	/**
@@ -82,7 +88,7 @@ public class Stock {
 	 * @param code
 	 */
 	public void ajouter(int quantite, String code) {
-		Element elem = this.getElement(code);
+		Element elem = this.getElementByCode(code);
 		elem.setQuantite(elem.getQuantite()+quantite);
 	}
 }

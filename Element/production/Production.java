@@ -71,5 +71,15 @@ public class Production {
 	public Stock getLeStock() {
 		return leStock;
 	}
+	/**
+	 * Met à jour le stock par rapport au stock temporaire, écrire le stock dans le fichier oldElements 
+	 * avant la mise à jour et le stock màj dans le fichier newElements
+	 */
+	public void charger() {
+		ExportCsv.writeCsvElement("oldElements.csv", this.leStock.getElements());
+		this.leStock = this.stockTemp;
+		ExportCsv.writeCsvElement("neWElements.csv", this.stockTemp.getElements());
+		this.stockTemp = null;
+	}
 
 }
