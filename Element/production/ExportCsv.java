@@ -82,6 +82,34 @@ public abstract class ExportCsv {
         }
     }
     
+    public static void ajouterCsvElement(Element element) { 
+        // Crée un BufferedWriter.
+        BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter("elements1.csv", true));
+			String s="";			
+			s +=  element.getCode() + ";" + element.getNom() + ";" + element.getQuantite() + ";" + element.getMesure();
+			if(element.getClass().getSimpleName().equals("MatierePremiere")) {
+				MatierePremiere ma = (MatierePremiere) element;
+				s += ";" + ma.getPrixAchat();
+				if(ma.getPrixVente() == -1.0) { 
+					s += ";" + "NA";
+				} else {
+					s += ";" + ma.getPrixVente();
+				}
+				s += ";" + "MA";
+			} else {
+				s += ";" + "NA" + ";" + element.getPrixVente() + ";" + "P";
+			}
+	        s += "\n";
+	        //ecrit la chaine de charactere
+	        writer.write(s);
+	        writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}       
+    }
+    
 
     public static void ajouterCsvChaineProduction(List<ChaineProduction> chaines) { 
     	// Crée un BufferedWriter.
