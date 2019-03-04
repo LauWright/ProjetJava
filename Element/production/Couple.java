@@ -4,6 +4,7 @@ public class Couple {
 	private String code;
 	private double qte;
 	
+	//TEST
 	
 	/**
 	 * Constructeur du couple
