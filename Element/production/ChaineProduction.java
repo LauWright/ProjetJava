@@ -1,6 +1,10 @@
 package production;
 
 import java.util.List;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,8 +14,8 @@ import java.io.FileReader;
  *
  */
 public class ChaineProduction {
-	private String code;
-	private String nom;
+	private StringProperty code;
+	private StringProperty nom;
 	private List<Couple> entrees;
 	private List<Couple> sorties;
 	
@@ -23,8 +27,8 @@ public class ChaineProduction {
 	 * @param sorties produits sortants de la chaine : List<Couple>
 	 */
 	public ChaineProduction(String code, String nom, List<Couple> entrees, List<Couple> sorties) {
-		this.code = code;
-		this.nom = nom;
+		this.code = new SimpleStringProperty(code);
+		this.nom = new SimpleStringProperty(nom);
 		this.entrees = entrees;
 		this.sorties = sorties;
 	}
@@ -33,6 +37,13 @@ public class ChaineProduction {
 	 * @return le code de la chaine de production
 	 */
 	public String getCode() {
+		return code.get();
+	}
+	
+	/**
+	 * @return la propriété code de la chaine de production
+	 */
+	public StringProperty getCodeProperty() {
 		return code;
 	}
 	
@@ -40,6 +51,13 @@ public class ChaineProduction {
 	 * @return le nom de la chaine de production
 	 */
 	public String getNom() {
+		return nom.get();
+	}
+	
+	/**
+	 * @return la propriété nom de la chaine de production
+	 */
+	public StringProperty getNomProperty() {
 		return nom;
 	}
 	

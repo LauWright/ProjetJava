@@ -1,11 +1,18 @@
 package element;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public abstract class Element {
-	private String code;
-	private String nom;
-	private double quantite;
-	private String mesure;
-	private double prixVente;
+	private StringProperty code;
+	private StringProperty nom;
+	private DoubleProperty quantite;
+	private StringProperty mesure;
+	private DoubleProperty prixVente;
 	
 	
 	/**
@@ -17,11 +24,11 @@ public abstract class Element {
 	 * @param prixVente prix de vente d'un element : double
 	 */
 	public Element(String code, String nom, double quantite, String mesure, double prixVente) {
-		this.code = code;
-		this.nom = nom;
-		this.quantite = quantite;
-		this.mesure = mesure;
-		this.prixVente = prixVente;
+		this.code = new SimpleStringProperty(code);
+		this.nom = new SimpleStringProperty(nom);
+		this.quantite = new SimpleDoubleProperty(quantite);
+		this.mesure = new SimpleStringProperty(mesure);
+		this.prixVente = new SimpleDoubleProperty(prixVente);
 	}
 	
 	
@@ -31,7 +38,7 @@ public abstract class Element {
 	 */
 	public boolean examiner() {
 		boolean quantiteNegatif = false;
-		if(this.quantite < 0) {
+		if(this.quantite.get() < 0) {
 			quantiteNegatif = true;
 		}
 		return quantiteNegatif;
@@ -44,7 +51,15 @@ public abstract class Element {
 	 * @return code d'un element : String
 	 */
 	public String getCode() {
-		return code;
+		return this.code.get();
+	}
+	
+	/**
+	 * Recuperer la propriété code d'un element
+	 * @return code d'un element : String
+	 */
+	public StringProperty getCodeProperty() {
+		return this.code;
 	}
 
 	/**
@@ -52,7 +67,15 @@ public abstract class Element {
 	 * @return nom d'un element : String
 	 */
 	public String getNom() {
-		return nom;
+		return this.nom.get();
+	}
+	
+	/**
+	 * Recuperer la propriété code d'un element
+	 * @return code d'un element : String
+	 */
+	public StringProperty getNomProperty() {
+		return this.nom;
 	}
 
 	/**
@@ -60,7 +83,15 @@ public abstract class Element {
 	 * @return quantite d'un element : double
 	 */
 	public double getQuantite() {
-		return quantite;
+		return this.quantite.get();
+	}
+	
+	/**
+	 * Recuperer la propriété quantité d'un element
+	 * @return quantite d'un element : double
+	 */
+	public DoubleProperty getQuantiteProperty() {
+		return this.quantite;
 	}
 
 	/**
@@ -68,7 +99,15 @@ public abstract class Element {
 	 * @return mesure d'un element : String
 	 */
 	public String getMesure() {
-		return mesure;
+		return this.mesure.get();
+	}
+	
+	/**
+	 * Recuperer la propriete mesure d'un element
+	 * @return mesure d'un element : String
+	 */
+	public StringProperty getMesureProperty() {
+		return this.mesure;
 	}
 
 	/**
@@ -76,26 +115,35 @@ public abstract class Element {
 	 * @return prixVente d'un element : double
 	 */
 	public double getPrixVente() {
-		return prixVente;
+		return this.prixVente.get();
 	}
+	
+	/**
+	 * Recuperer la propriétéprix de vente d'un element
+	 * @return prixVente d'un element : double
+	 */
+	public DoubleProperty getPrixVenteProperty() {
+		return this.prixVente;
+	}
+	
 	/**
 	 * Modifie le nom de l'élément
 	 * @param n nouveau nom de l'élément
 	 */
 	public void setNom(String n) {
-		this.nom= n;
+		this.nom.set(n);
 	}
 	/**
 	 * Modifie la quantité de l'élément
 	 * @param q nouvelle quantité de l'élément
 	 */
 	public void setQuantite(double q) {
-		this.quantite = q;
+		this.quantite.set(q);
 	}
 
 	@Override
 	public String toString() {
-		return "Code=" + code + ", nom=" + nom + ", quantité=" + quantite + ", mesure=" + mesure
-				+ ", prix de vente=" + prixVente;
+		return "Code=" + this.code + ", nom=" + this.nom + ", quantité=" + this.quantite + ", mesure=" + this.mesure
+				+ ", prix de vente=" + this.prixVente;
 	}
 }

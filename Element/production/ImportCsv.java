@@ -10,6 +10,8 @@ import com.opencsv.CSVReaderBuilder;
 import element.Element;
 import element.MatierePremiere;
 import element.Produit;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,8 +20,8 @@ import java.io.IOException;
 
 public abstract class ImportCsv {
 	
-	public static List<Element> importElement(String nomFichier, char separateur){
-		List<Element> elements = new ArrayList<>();
+	public static ObservableList<Element> importElement(String nomFichier, char separateur){
+		ObservableList<Element> elements = FXCollections.observableArrayList();
 		CSVParser parser = new CSVParserBuilder().withSeparator(separateur)
 				                                 .withIgnoreQuotations(true)
                                                  .build();
@@ -62,8 +64,8 @@ public abstract class ImportCsv {
 		return elements;
 	}
 
-	public static List<ChaineProduction> importChaineProduction(String nomFichier, char separateur){
-		List<ChaineProduction> chaineProductions = new ArrayList<>();
+	public static ObservableList<ChaineProduction> importChaineProduction(String nomFichier, char separateur){
+		ObservableList<ChaineProduction> chaineProductions = FXCollections.observableArrayList();
 		CSVParser parser = new CSVParserBuilder().withSeparator(separateur)
 				                                 .withIgnoreQuotations(true)
                                                  .build();
