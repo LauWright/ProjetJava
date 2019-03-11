@@ -46,6 +46,8 @@ public abstract class Element {
 	
 	////////////////////////////////GETTERS/SETTERS////////////////////////////////////////////////////////
 
+	//GETTEURS
+	
 	/**
 	 * Recuperer code d'un element
 	 * @return code d'un element : String
@@ -126,6 +128,13 @@ public abstract class Element {
 		return this.prixVente;
 	}
 	
+
+	public DoubleProperty getNoPrixAchatProperty() {
+		return new SimpleDoubleProperty(0.0);
+	}
+	
+	//SETTERS
+	
 	/**
 	 * Modifie le nom de l'élément
 	 * @param n nouveau nom de l'élément
@@ -140,6 +149,22 @@ public abstract class Element {
 	public void setQuantite(double q) {
 		this.quantite.set(q);
 	}
+	
+	
+	public void setCode(String code) {
+		this.code.set(code);
+	}
+
+
+	public void setMesure(String mesure) {
+		this.mesure.set(mesure);
+	}
+
+
+	public void setPrixVente(Double prixVente) {
+		this.prixVente.set(prixVente);;
+	}
+
 
 	@Override
 	public String toString() {

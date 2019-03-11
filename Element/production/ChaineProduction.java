@@ -48,6 +48,14 @@ public class ChaineProduction {
 	}
 	
 	/**
+	 * Modifie le code de la chaine
+	 * @param code
+	 */
+	public void setCode(String code) {
+		this.code = new SimpleStringProperty(code);
+	}
+
+	/**
 	 * @return le nom de la chaine de production
 	 */
 	public String getNom() {
@@ -62,6 +70,14 @@ public class ChaineProduction {
 	}
 	
 	/**
+	 * Modifie le nom de la chaine
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.nom = new SimpleStringProperty(nom);
+	}
+
+	/**
 	 * @return les éléments nécessaires pour effectuer chaine de production
 	 */
 	public List<Couple> getEntrees() {
@@ -69,10 +85,26 @@ public class ChaineProduction {
 	}
 	
 	/**
+	 * Modifie les entrees
+	 * @param entrees
+	 */
+	public void setEntrees(List<Couple> entrees) {
+		this.entrees = entrees;
+	}
+
+	/**
 	 * @return les produits sortant de la chaine de production
 	 */
 	public List<Couple> getSorties() {
 		return sorties;
+	}
+	
+	/**
+	 * Modifie les sorties
+	 * @param sorties
+	 */
+	public void setSorties(List<Couple> sorties) {
+		this.sorties = sorties;
 	}
 
 	public void afficher() {

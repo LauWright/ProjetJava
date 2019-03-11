@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MajStockController">
+   <children>
+      <Button layoutX="32.0" layoutY="661.0" mnemonicParsing="false" onAction="#handleNew" text="Ajouter" />
+      <Button layoutX="466.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleDeleteElement" text="Supprimer" />
+      <Button layoutX="379.0" layoutY="625.0" mnemonicParsing="false" text="Modifier" />
+      <TableView fx:id="elementTable" layoutX="29.0" layoutY="43.0" prefHeight="569.0" prefWidth="521.0">
+        <columns>
+          <TableColumn fx:id="codeColumn" prefWidth="65.0" text="Code" />
+          <TableColumn fx:id="nomColumn" prefWidth="260.0" text="Nom" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="73.0" text="Quantité" />
+            <TableColumn fx:id="mesureColumn" prefWidth="122.0" text="Mesure" />
+        </columns>
+      </TableView>
+      <GridPane layoutX="580.0" layoutY="95.0" prefHeight="154.0" prefWidth="395.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Code" GridPane.valignment="TOP">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label text="Prix d'Achat" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label text="Prix de vente" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="codeLabel" text="Label" GridPane.columnIndex="1" GridPane.valignment="TOP" />
+            <Label fx:id="prixAchatLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+            <Label fx:id="prixVenteLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+         </children>
+      </GridPane>
+      <Label layoutX="576.0" layoutY="44.0" text="Details">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="messageExport" layoutX="577.0" layoutY="630.0" text="Label" textFill="#47c33e" />
+      <Button layoutX="837.0" layoutY="624.0" mnemonicParsing="false" text="Enregistrer" />
+      <Label layoutX="589.0" layoutY="600.0" text="N'oubliez pas d'enregistrer pour conserver vos modifications." textFill="#ff8c00">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="maRadio" layoutX="32.0" layoutY="637.0" mnemonicParsing="false" text="Matiere Premiere" />
+      <RadioButton fx:id="produitRadio" layoutX="178.0" layoutY="637.0" mnemonicParsing="false" text="Produit" />
+      <Label layoutX="106.0" layoutY="668.0" text="Veuillez selectionner un type avant de cliquer sur ajouter." textFill="#ff8c00">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

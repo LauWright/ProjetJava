@@ -53,7 +53,7 @@ public class Couple {
 	
 	@Override
 	public String toString() {
-		return "Couple [code=" + this.code + ", qte=" + this.qte + "]";
+		return this.getCode() + " " + this.getQte();
 	}
 	
 	

@@ -1,7 +1,10 @@
 package element;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class MatierePremiere extends Element{
-	private double prixAchat;
+	private DoubleProperty prixAchat;
 
 	/**
 	 * Constructeur MatierePremiere
@@ -14,7 +17,7 @@ public class MatierePremiere extends Element{
 	 */
 	public MatierePremiere(String code, String nom, double quantite, String mesure, double prixVente, double prixAchat) {
 		super(code, nom, quantite, mesure, prixVente);
-		this.prixAchat = prixAchat;
+		this.prixAchat = new SimpleDoubleProperty(prixAchat);
 	}
 	
 	/**
@@ -32,9 +35,24 @@ public class MatierePremiere extends Element{
 	 * 
 	 * */
 	public double getPrixAchat() {
-		return prixAchat;
+		return prixAchat.get();
 	}
 	
+	/**
+	 * Récupère le prix d'achat d'une matière première
+	 * @return prix Achat d'une matière première : double
+	 * 
+	 * */
+	public DoubleProperty getPrixAchatProperty() {
+		return this.prixAchat;
+	}
+	
+	
+	
+	public void setPrixAchat(Double prixAchat) {
+		this.prixAchat.set(prixAchat);
+	}
+
 	public String toString() {
 		return "Matière première : " + super.toString() + " prix d'achat=" + this.getPrixAchat();
 	}

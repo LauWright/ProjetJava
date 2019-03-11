@@ -17,6 +17,11 @@ public abstract class ExportCsv {
     //CSV file header
     private static final String FILE_HEADER_ELEMENT = "Code;Nom;Quantite;unite;achat;vente;type";
  
+    /**
+     * Réécriture du fichier élément avec en parametre le nom du fichier dans lequel on vet réécrire la liste d'éléments
+     * @param nomFichier
+     * @param elements
+     */
     public static void writeCsvElement(String nomFichier, List<Element> elements) {
          FileWriter fileWriter = null;
                  
@@ -82,6 +87,10 @@ public abstract class ExportCsv {
         }
     }
     
+    /**
+     * Ajouter un élément au fichier élément
+     * @param element
+     */
     public static void ajouterCsvElement(Element element) { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
@@ -110,7 +119,10 @@ public abstract class ExportCsv {
 		}       
     }
     
-
+/**
+ * Aouter une chaine de production au fichier
+ * @param chaines
+ */
     public static void ajouterCsvChaineProduction(List<ChaineProduction> chaines) { 
     	// Crée un BufferedWriter.
         BufferedWriter writer;
@@ -132,11 +144,16 @@ public abstract class ExportCsv {
     	
     }
     
+    /**
+     * Ajouter une entree pour une chaine
+     * @param code
+     * @param entrees
+     */
     public static void ajouterCsvEntree(String code, List<Couple> entrees) { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
-			writer = new BufferedWriter(new FileWriter("entrees.csv", true));
+			writer = new BufferedWriter(new FileWriter("entrees.csv",true));
 			String s = code ;
 	        for(Couple c : entrees) {
 	        	s += ";" + c.getCode() + "," + c.getQte();
@@ -150,11 +167,35 @@ public abstract class ExportCsv {
 		}       
     }
     
+    /**
+     * réécriture du fichier des entrees
+     * @param code
+     * @param entrees
+     */
+    public static void writeCsvEntree() { 
+        // Crée un BufferedWriter.
+        BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter("entrees.csv"));
+			String s = "Code;Entrees \n";
+	        //ecrit la chaine de charactere
+	        writer.write(s);
+	        writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}       
+    }
+    
+    /**
+     * Ajouter une sortie au fichier pour une chaine
+     * @param code
+     * @param sorties
+     */
     public static void ajouterCsvSortie(String code, List<Couple> sorties) { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
-			writer = new BufferedWriter(new FileWriter("sortie.csv", true));
+			writer = new BufferedWriter(new FileWriter("sorties.csv", true));
 			String s = code ;
 	        for(Couple c : sorties) {
 	        	s += ";" + c.getCode() + "," + c.getQte();
@@ -168,7 +209,48 @@ public abstract class ExportCsv {
 		}       
     }
     
+    /**
+     * réécriture du fichier des sorties
+     * @param code
+     * @param entrees
+     */
+    public static void writeCsvSortie() { 
+        // Crée un BufferedWriter.
+        BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter("sorties.csv"));
+			String s = "Code;Sorties \n";
+	        //ecrit la chaine de charactere
+	        writer.write(s);
+	        writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}       
+    }
     
+    /**
+     * Ecrire le fichier de chaines de production
+     * @param chaines
+     */
+    public static void writeCsvChaineProduction(List<ChaineProduction> chaines) { 
+    	// Crée un BufferedWriter.
+        BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter("chaines.csv"));
+			String s = "Code;Nom \n";
+			ExportCsv.writeCsvEntree();
+			ExportCsv.writeCsvSortie();
+	        for(ChaineProduction c : chaines) {
+	        	s += c.getCode() + ";" + c.getNom();
+	        	s += "\n";
+	        	ExportCsv.ajouterCsvEntree(c.getCode(), c.getEntrees());
+	        	ExportCsv.ajouterCsvSortie(c.getCode(), c.getSorties());
+	        }
+	        //ecrit la chaine de charactere
+	        writer.write(s);
+	        writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}       
+    }
 }
-   
-
