@@ -57,9 +57,9 @@ public class ElementEditDialogController {
        }
        this.codeField.setText(this.element.getCode());
        this.nomField.setText(this.element.getNom());
-       if (element != null) {
-    	   this.codeField.isDisable();
-    	   this.nomField.isDisable();
+       if (!this.element.getCode().equals("") && !this.element.getNom().equals("")) {
+    	   this.codeField.setDisable(true);;
+    	   this.nomField.setDisable(true);;
        }
        this.quantiteField.setText(String.valueOf(this.element.getQuantite()));
        this.mesureField.setText(this.element.getMesure());
