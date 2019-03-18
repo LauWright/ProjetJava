@@ -35,6 +35,8 @@ public class MajStockController {
 	@FXML
 	private Label prixVenteLabel;
 	@FXML
+	private Label typeLabel;
+	@FXML
 	private Label messageExport;
 
 	@FXML
@@ -98,8 +100,10 @@ public class MajStockController {
 			if (element.getClass().getSimpleName().equals("MatierePremiere")) {
 				MatierePremiere ma = (MatierePremiere) element;
 				this.prixAchatLabel.setText(String.valueOf(ma.getPrixAchat()));
+				this.typeLabel.setText("Matière première");
 			} else {
 				this.prixAchatLabel.setText("Aucun");
+				this.typeLabel.setText("Produit");
 			}
 
 			if (element.getPrixVente() == -1) {
@@ -107,11 +111,13 @@ public class MajStockController {
 			} else {
 				this.prixVenteLabel.setText(String.valueOf(element.getPrixVente()));
 			}
+			
 		} else {
 			// si element est null.
 			this.codeLabel.setText("");
 			this.prixAchatLabel.setText("");
 			this.prixVenteLabel.setText("");
+			this.typeLabel.setText("");
 		}
 	}
 
@@ -180,5 +186,56 @@ public class MajStockController {
 			}
 		}
 	}
+	
+	/**
+	 * Appelé lors du clique sur le bouton modifier
+	 */
+	@FXML
+	private void handleEditElement() {
+	    Element selectedElement = this.elementTable.getSelectionModel().getSelectedItem();
+	    if (selectedElement != null) {
+	        boolean okClicked = this.mainApp.showElementEditDialog(selectedElement);
+	        if (okClicked) {
+	            showElementDetails(selectedElement);
+	        }
+
+	    } else {
+	        // Nothing selected.
+	        Alert alert = new Alert(AlertType.WARNING);
+	        alert.initOwner(mainApp.getPrimaryStage());
+	        alert.setTitle("Aucune sélèction");
+	        alert.setHeaderText("Aucun élément selectionné");
+	        alert.setContentText("Veuillez choisir un élément à modifier.");
+
+	        alert.showAndWait();
+	    }
+	}
+	
+	 /**
+     * Appelé lors du clique sur le bouton enregistrer
+     */
+    @FXML
+    private void handleExporter() {
+    	 Alert alert = new Alert(AlertType.CONFIRMATION);
+         alert.initOwner(mainApp.getPrimaryStage());
+         alert.setTitle("Confirmation");
+         alert.setHeaderText("Etes-vous sûr de vouloir enregistrer vos modifications?");
+
+         // option != null.
+         Optional<ButtonType> option = alert.showAndWait();
+    
+         if (option.get() == null) {
+            this.messageExport.setText("No selection!");
+         } else if (option.get() == ButtonType.OK) {
+            this.messageExport.setText("Modifications enregistrés");
+            ExportCsv.writeCsvElement("newElements.csv", this.mainApp.getElementData());
+            ExportCsv.writeCsvElement("oldElements.csv", this.mainApp.getElementData());
+         } else if (option.get() == ButtonType.CANCEL) {
+            this.messageExport.setText("Modifications non enregistrés");
+         } else {
+            this.messageExport.setText("");
+         }
+    	
+    }
 
 }

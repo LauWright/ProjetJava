@@ -153,7 +153,7 @@ public class ChaineController {
     
     
     /**
-     * Called when the user clicks on the delete button.
+     * Appelé lors du clique sur le bouton enregistrer.
      */
     @FXML
     private void handleExporter() {
