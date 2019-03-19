@@ -17,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 
 /**
@@ -57,6 +58,8 @@ public class ElementController {
 	private Tab chainetab = new Tab();
 	@FXML
 	private Tab majStocktab = new Tab();
+	@FXML
+	private Tab productiontab = new Tab();
 	
 	private ObservableList<element.MatierePremiere> matieresPremieres = FXCollections.observableArrayList();
 	private ObservableList<element.Produit> produits = FXCollections.observableArrayList();
@@ -137,7 +140,7 @@ public class ElementController {
 	}
 	
 	/**
-	 * Insert la vue mise à jeur du stock dans l'onget mise à jour des stocks
+	 * Insert la vue mise à jour du stock dans l'onget mise à jour des stocks
 	 */
 	public void showMajStockOverview() {
 		try {
@@ -147,7 +150,7 @@ public class ElementController {
 			AnchorPane majStock = (AnchorPane) loader.load();
 
 			this.majStocktab.setContent(majStock);
-
+			
 			// connexion de MajStockController à la mainPage
 			MajStockController majStockController = loader.getController();
 			majStockController.setMainApp(this.mainApp);
@@ -156,5 +159,27 @@ public class ElementController {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Insert la vue simulationProduction dans l'onget production
+	 */
+	public void showProductionOverview() {
+		try {
+			// Load menu overview.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("SimulationProduction.fxml"));
+			AnchorPane production = (AnchorPane) loader.load();
+
+			this.productiontab.setContent(production);
+
+			// connexion de SimulationProductionController à la mainPage
+			SimulationProductionController productionController = loader.getController();
+			productionController.setMainApp(this.mainApp);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 }

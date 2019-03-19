@@ -2,7 +2,9 @@ package view;
 
 import java.io.IOException;
 
+import element.Achat;
 import element.Element;
+import element.ProduitManquant;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,13 +24,16 @@ public class MainApp extends Application {
 	private ChaineProduction newChaine;
 
 	private ObservableList<element.Element> stockElements = FXCollections.observableArrayList();
+	private ObservableList<element.Element> stockElementsSimulation = FXCollections.observableArrayList();
 	private ObservableList<production.ChaineProduction> chaines = FXCollections.observableArrayList();
-
+	private ObservableList<Achat> achats = FXCollections.observableArrayList();
+	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
 	/**
 	 * Constructeur
 	 */
 	public MainApp() {
 		this.stockElements = ImportCsv.importElement("elements1.csv", ';');
+		this.stockElementsSimulation = ImportCsv.importElement("elements1.csv", ';');
 		this.chaines = ImportCsv.importChaineProduction("chaines.csv", ';');
 	}
 
@@ -38,12 +43,33 @@ public class MainApp extends Application {
 	public ObservableList<element.Element> getElementData() {
 		return this.stockElements;
 	}
+	
+	/**
+	 * Retourne la liste d'elementssimulé
+	 */
+	public ObservableList<element.Element> getElementSimulationData() {
+		return this.stockElementsSimulation;
+	}
 
 	/**
 	 * Retourne la liste des chaines de production
 	 */
 	public ObservableList<production.ChaineProduction> getChaineData() {
 		return this.chaines;
+	}
+	
+	/**
+	 * Retourne la liste des achats
+	 */
+	public ObservableList<Achat> getAchatData() {
+		return this.achats;
+	}
+	
+	/**
+	 * Retourne la liste des produits mnquants
+	 */
+	public ObservableList<ProduitManquant> getProduitManquantData() {
+		return this.produitM;
 	}
 
 	@Override
@@ -81,7 +107,7 @@ public class MainApp extends Application {
 	 */
 	public void showMenuOverview() {
 		try {
-			// Load person overview.
+			// Load menu overview.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("Menu.fxml"));
 			AnchorPane menu = (AnchorPane) loader.load();
@@ -169,6 +195,42 @@ public class MainApp extends Application {
 	        return false;
 	    }
 	}
+	
+	/**
+	 * Ouvre la boite de dialogue pour editer un element
+	 * @param element
+	 * @return
+	 */
+	public boolean showRecapSimulationDialog(String s) {
+	    try {
+	        // Load the fxml file and create a new stage for the popup dialog.
+	        FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(MainApp.class.getResource("RecapSimulationDialog.fxml"));
+	        AnchorPane page = (AnchorPane) loader.load();
+
+	        // Create the dialog Stage.
+	        Stage dialogStage = new Stage();
+	        dialogStage.setTitle("Récapitulation simulation");
+	        dialogStage.initModality(Modality.WINDOW_MODAL);
+	        dialogStage.initOwner(primaryStage);
+	        Scene scene = new Scene(page);
+	        dialogStage.setScene(scene);
+
+	        // Set the person into the controller.
+	        RecapSimulationController controller = loader.getController();
+	        controller.setDialogStage(dialogStage);
+	        controller.setText(s);
+
+	        // Show the dialog and wait until the user closes it
+	        dialogStage.showAndWait();
+
+	        return true;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
 
 	public static void main(String[] args) {
 		launch(args);

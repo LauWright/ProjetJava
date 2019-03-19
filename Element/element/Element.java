@@ -44,6 +44,24 @@ public abstract class Element {
 		return quantiteNegatif;
 	}
 	
+	
+	/**
+	 * Soustraction d'une quantité sur un élément
+	 * @param quantite
+	 */
+	public void soustraire(double quantite) {
+		this.setQuantite(this.getQuantite()-quantite);
+	}
+	
+	/**
+	 * Ajout d'une quantité sur un élément
+	 * @param quantite 
+	 * @param code
+	 */
+	public void ajouter(double quantite) {
+		this.setQuantite(this.getQuantite()+quantite);
+	}
+	
 	////////////////////////////////GETTERS/SETTERS////////////////////////////////////////////////////////
 
 	//GETTEURS
@@ -164,7 +182,6 @@ public abstract class Element {
 	public void setPrixVente(Double prixVente) {
 		this.prixVente.set(prixVente);;
 	}
-
 
 	@Override
 	public String toString() {

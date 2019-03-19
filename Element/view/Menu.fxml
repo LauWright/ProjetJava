@@ -67,9 +67,13 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
-                        <Tab text="Production">
+                        <Tab fx:id="productiontab" onSelectionChanged="#showProductionOverview" text="Production">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="568.0" layoutY="405.0" text="Label" />
+                                    <Label layoutX="550.0" layoutY="354.0" text="ftycyjjc" />
+                                 </children></AnchorPane>
                           </content>
                         </Tab>
                     </tabs>

@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import element.Achat;
 import element.Element;
 import element.MatierePremiere;
 
@@ -16,7 +17,7 @@ public abstract class ExportCsv {
      
     //CSV file header
     private static final String FILE_HEADER_ELEMENT = "Code;Nom;Quantite;unite;achat;vente;type";
- 
+    private static final String FILE_HEADER_ACHAT= "Chaine;Element;Nom;Mesure;Achat;Quantité";
     /**
      * Réécriture du fichier élément avec en parametre le nom du fichier dans lequel on vet réécrire la liste d'éléments
      * @param nomFichier
@@ -252,5 +253,51 @@ public abstract class ExportCsv {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}       
+    }
+    
+    
+    
+    /**
+     * Ecriture du fichier des achats avec en parametre le nom du fichier et la liste des Matieres premieres à acheter
+     * @param nomFichier
+     * @param elements
+     */
+    public static void writeCsvAchat(String nomFichier, List<Achat> mas) {
+         FileWriter fileWriter = null;
+                 
+        try {
+            fileWriter = new FileWriter(nomFichier);
+ 
+            //Entête Csv
+            fileWriter.append(FILE_HEADER_ACHAT.toString());
+             
+            //Nouvelle ligne
+            fileWriter.append(NEW_LINE_SEPARATOR);
+             
+            for (Achat ma : mas) {
+            		 fileWriter.append(ma.getChaine().getCode());
+            		 fileWriter.append(DELIMITER);
+            		 fileWriter.append(ma.getCode());
+                     fileWriter.append(DELIMITER);
+                     fileWriter.append(ma.getNom());
+                     fileWriter.append(DELIMITER);
+                     fileWriter.append(ma.getMesure());
+                     fileWriter.append(DELIMITER);
+                     fileWriter.append(String.valueOf(ma.getPrixAchat()));
+                     fileWriter.append(DELIMITER);
+                     fileWriter.append(String.valueOf(ma.getQteA()));
+                     fileWriter.append(DELIMITER);
+            }
+            System.out.println("Fichier créé avec succes");             
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {      
+            try {
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } 
+        }
     }
 }
