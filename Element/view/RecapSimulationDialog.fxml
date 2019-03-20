@@ -14,5 +14,9 @@
       </Label>
       <Label fx:id="recapLabel" alignment="TOP_LEFT" layoutX="26.0" layoutY="70.0" prefHeight="449.0" prefWidth="694.0" />
       <Button layoutX="658.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="29.0" prefWidth="62.0" text="OK" />
+      <Label fx:id="efficLabel" layoutX="33.0" layoutY="542.0">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
    </children>
 </AnchorPane>

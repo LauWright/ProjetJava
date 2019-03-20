@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 public class RecapSimulationController {
 	@FXML
 	private Label recapLabel;
+	@FXML
+	private Label efficLabel;
 	
 	private Stage dialogStage;
 	
@@ -31,8 +33,9 @@ public class RecapSimulationController {
 	 * Set le texte du label recap
 	 * @param s
 	 */
-	public void setText(String s) {
+	public void setText(String s, String effic) {
 		this.recapLabel.setText(s);
+		this.efficLabel.setText(effic);
 	}
 	
 	 /**

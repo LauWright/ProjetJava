@@ -32,8 +32,8 @@ public class MainApp extends Application {
 	 * Constructeur
 	 */
 	public MainApp() {
-		this.stockElements = ImportCsv.importElement("elements1.csv", ';');
-		this.stockElementsSimulation = ImportCsv.importElement("elements1.csv", ';');
+		this.stockElements = ImportCsv.importElement("newElements.csv", ';');
+		this.stockElementsSimulation = ImportCsv.importElement("newElements.csv", ';');
 		this.chaines = ImportCsv.importChaineProduction("chaines.csv", ';');
 	}
 
@@ -201,7 +201,7 @@ public class MainApp extends Application {
 	 * @param element
 	 * @return
 	 */
-	public boolean showRecapSimulationDialog(String s) {
+	public boolean showRecapSimulationDialog(String s, String effic) {
 	    try {
 	        // Load the fxml file and create a new stage for the popup dialog.
 	        FXMLLoader loader = new FXMLLoader();
@@ -219,7 +219,7 @@ public class MainApp extends Application {
 	        // Set the person into the controller.
 	        RecapSimulationController controller = loader.getController();
 	        controller.setDialogStage(dialogStage);
-	        controller.setText(s);
+	        controller.setText(s, effic);
 
 	        // Show the dialog and wait until the user closes it
 	        dialogStage.showAndWait();
