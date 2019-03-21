@@ -76,7 +76,7 @@
       </Label>
       <RadioButton fx:id="maRadio" layoutX="32.0" layoutY="631.0" mnemonicParsing="false" text="Matiere Premiere" />
       <RadioButton fx:id="produitRadio" layoutX="178.0" layoutY="631.0" mnemonicParsing="false" text="Produit" />
-      <Label layoutX="106.0" layoutY="662.0" text="Veuillez selectionner un type avant de cliquer sur ajouter." textFill="#ff8c00">
+      <Label layoutX="106.0" layoutY="662.0" text="Veuillez sélectionner un type avant de cliquer sur ajouter." textFill="#ff8c00">
          <font>
             <Font size="11.0" />
          </font>

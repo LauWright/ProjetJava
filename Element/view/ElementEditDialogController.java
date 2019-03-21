@@ -90,12 +90,15 @@ public class ElementEditDialogController {
     	   this.element.setNom(this.nomField.getText());
            this.element.setQuantite(Double.parseDouble(this.quantiteField.getText()));
            this.element.setMesure(this.mesureField.getText());
-           this.element.setPrixVente(Double.parseDouble(this.prixVenteField.getText()));
+           if(this.prixVenteField.getText().equals("Aucun")) {
+        	   this.element.setPrixVente(Double .valueOf(-1));
+           } else {
+        	   this.element.setPrixVente(Double .valueOf(this.prixVenteField.getText()));
+           }
            
            if(this.element.getClass().getSimpleName().equals("MatierePremiere")) {
         	   MatierePremiere ma = (MatierePremiere) element;
         	   ma.setPrixAchat(Double.parseDouble(this.prixAchatField.getText()));;
-
            }
            okClicked = true;
            dialogStage.close();
@@ -136,8 +139,8 @@ public class ElementEditDialogController {
            // Show the error message.
            Alert alert = new Alert(AlertType.ERROR);
            alert.initOwner(dialogStage);
-           alert.setTitle("Invalid Fields");
-           alert.setHeaderText("Please correct invalid fields");
+           alert.setTitle("Champs incorrect");
+           alert.setHeaderText("Veuillez corriger les champs incorrects");
            alert.setContentText(errorMessage);
 
            alert.showAndWait();

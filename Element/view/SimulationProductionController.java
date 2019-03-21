@@ -262,7 +262,7 @@ public class SimulationProductionController {
 		this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 		this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 		this.mainApp.getElementSimulationData().removeAll(this.mainApp.getElementSimulationData());
-		this.mainApp.getElementSimulationData().addAll(ImportCsv.importElement("elements1.csv", ';'));
+		this.mainApp.getElementSimulationData().addAll(ImportCsv.importElement("newElements.csv", ';'));
 		for(int i=0; i< this.mainApp.getChaineData().size(); i++) {
 			for(Node no : this.gridChaine.getChildren()) {
 	    		if(GridPane.getRowIndex(no) == i+1 && GridPane.getColumnIndex(no) == 0) {
