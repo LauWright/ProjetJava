@@ -171,8 +171,18 @@ public class MajStockController {
 			alert.setContentText("Veuillez sélectionner un type \n (matière première ou produit");
 			alert.showAndWait();			
 		}
+		int id = this.mainApp.getElementData().size() + 1;
 		if (this.maRadio.isSelected()) {
 			MatierePremiere ma = new MatierePremiere("", "", 0, "", 0, 0);
+			if(id < 10) {
+				ma.setCode("E00" + id);
+			}
+			if(id >= 10 && id < 100) {
+				ma.setCode("E0" + id);
+			}
+			if(id >= 100) {
+				ma.setCode("E" + id);
+			}
 			boolean okClicked = mainApp.showElementEditDialog(ma);
 			if (okClicked) {
 				mainApp.getElementData().add(ma);
@@ -180,6 +190,15 @@ public class MajStockController {
 		}
 		if (this.produitRadio.isSelected()) {
 			Produit ma = new Produit("", "", 0, "", 0);
+			if(id < 10) {
+				ma.setCode("E00" + id);
+			}
+			if(id >= 10 && id < 100) {
+				ma.setCode("E0" + id);
+			}
+			if(id >= 100) {
+				ma.setCode("E" + id);
+			}
 			boolean okClicked = mainApp.showElementEditDialog(ma);
 			if (okClicked) {
 				mainApp.getElementData().add(ma);

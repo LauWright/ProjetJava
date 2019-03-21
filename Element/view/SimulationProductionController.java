@@ -187,7 +187,7 @@ public class SimulationProductionController {
 						            						reussi = false;
 						            					} else {
 						            						this.mainApp.getAchatData().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(), ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0-e.getQuantite(), c));
-						            						s+="Attention matière(s) première(s) manquante(s) dans le stock \n";
+						            						s+="Attention matière première" + ma.getCode() +" manquante dans le stock \n";
 						            					}	
 					            					}
 					            					if(e.getClass().getSimpleName().equals("Produit")){				            						

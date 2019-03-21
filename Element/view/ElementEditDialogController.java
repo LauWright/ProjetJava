@@ -56,10 +56,10 @@ public class ElementEditDialogController {
     	   this.prixAchatField.setDisable(true);
        }
        this.codeField.setText(this.element.getCode());
+       this.codeField.setDisable(true);
        this.nomField.setText(this.element.getNom());
        if (!this.element.getCode().equals("") && !this.element.getNom().equals("")) {
-    	   this.codeField.setDisable(true);;
-    	   this.nomField.setDisable(true);;
+    	   this.nomField.setDisable(true);
        }
        this.quantiteField.setText(String.valueOf(this.element.getQuantite()));
        this.mesureField.setText(this.element.getMesure());
