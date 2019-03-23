@@ -25,44 +25,16 @@ import javafx.util.Callback;
  *
  */
 public class ElementController {
-	// tableau des matières premières
-	@FXML
-	private TableView<element.MatierePremiere> matierePremiereTable;
-	@FXML
-	private TableColumn<element.MatierePremiere, String> codeMAColumn;
-	@FXML
-	private TableColumn<element.MatierePremiere, String> nomMAColumn;
-	@FXML
-	private TableColumn<element.MatierePremiere, Double> quantiteMAColumn;
-	@FXML
-	private TableColumn<element.MatierePremiere, String> mesureMAColumn;
-	@FXML
-	private TableColumn<element.MatierePremiere, Double> prixAchatMAColumn;
-	@FXML
-	private TableColumn<element.MatierePremiere, Double> prixVenteMAColumn;
-
-	@FXML
-	private TableView<element.Produit> produitTable;
-	@FXML
-	private TableColumn<element.Produit, String> codePColumn;
-	@FXML
-	private TableColumn<element.Produit, String> nomPColumn;
-	@FXML
-	private TableColumn<element.Produit, Double> quantitePColumn;
-	@FXML
-	private TableColumn<element.Produit, String> mesurePColumn;
-	@FXML
-	private TableColumn<element.Produit, Double> prixVentePColumn;
-
+	
 	@FXML
 	private Tab chainetab = new Tab();
 	@FXML
 	private Tab majStocktab = new Tab();
 	@FXML
 	private Tab productiontab = new Tab();
+	@FXML
+	private Tab elementtab = new Tab();
 	
-	private ObservableList<element.MatierePremiere> matieresPremieres = FXCollections.observableArrayList();
-	private ObservableList<element.Produit> produits = FXCollections.observableArrayList();
 
 	// reference l'application principale
 	private MainApp mainApp;
@@ -79,43 +51,48 @@ public class ElementController {
 	 */
 	@FXML
 	private void initialize() {
-		// Initialize le tableau des matieres premieres.
-		this.codeMAColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-		this.nomMAColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-		this.quantiteMAColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
-		this.mesureMAColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-		this.prixAchatMAColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixAchatProperty().asObject());
-		this.prixVenteMAColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixVenteProperty().asObject());
-
-		// Initialize le tableau des produits.
-		this.codePColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-		this.nomPColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-		this.quantitePColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
-		this.mesurePColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-		this.prixVentePColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixVenteProperty().asObject());
 	}
 
 	/**
 	 * appelé par l'application main
 	 * 
 	 * @param mainApp
+	 * @throws IOException 
 	 */
-	public void setMainApp(MainApp mainApp) {
+	public void setMainApp(MainApp mainApp) throws IOException {
 		this.mainApp = mainApp;
+		
+		// Load menu overview.
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
+		AnchorPane elements = (AnchorPane) loader.load();
 
-		// Add liste des element à la table elementTable
-		ObservableList<Element> elements = this.mainApp.getElementData();
-		for (Element e : elements) {
-			if (e.getClass().getSimpleName().equals("Produit")) {
-				this.produits.add((Produit) e);
-			} else {
-				this.matieresPremieres.add((MatierePremiere) e);
-			}
+		this.elementtab.setContent(elements);
+
+		// connexion de ChaineController à la mainPage
+		ElementStocksController elemController = loader.getController();
+		elemController.setMainApp(this.mainApp);
+	}
+
+	/**
+	 * Insert la vue chaine dans l'onget gerer les chaines
+	 */
+	public void showElementOverview() {
+		try {
+			// Load menu overview.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
+			AnchorPane elements = (AnchorPane) loader.load();
+
+			this.elementtab.setContent(elements);
+
+			// connexion de ChaineController à la mainPage
+			ElementStocksController elemController = loader.getController();
+			elemController.setMainApp(this.mainApp);
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		this.produitTable.setItems(this.produits);
-		this.matierePremiereTable.setItems(this.matieresPremieres);
-
 	}
 
 	/**

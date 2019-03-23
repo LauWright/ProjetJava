@@ -187,7 +187,7 @@ public class SimulationProductionController {
 						            						reussi = false;
 						            					} else {
 						            						this.mainApp.getAchatData().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(), ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0-e.getQuantite(), c));
-						            						s+="Attention matière première" + ma.getCode() +" manquante dans le stock \n";
+						            						s+="Attention matière première " + ma.getCode() +" manquante dans le stock \n";
 						            					}	
 					            					}
 					            					if(e.getClass().getSimpleName().equals("Produit")){				            						
@@ -207,6 +207,15 @@ public class SimulationProductionController {
 			            					for(Element e : this.mainApp.getElementSimulationData()) {
 				            					if(e.getCode().equals(so.getCode())) {
 				            						e.setQuantite(so.getQte()*Double.valueOf(tf.getText()));
+				            						if (e.getQuantite() >= 0) {
+				            							ProduitManquant prm = null;
+				            							for(ProduitManquant pm : this.mainApp.getProduitManquantData()) {
+				            								if(pm.getCode().equals(e.getCode())) {
+				            									prm = pm;
+				            								}
+				            							}
+				            							this.mainApp.getProduitManquantData().remove(prm);
+				            						}
 				            						double total = so.getQte()*Double.valueOf(tf.getText());
 				            						s+= e.getCode() + " - " + so.getQte() + " x " + tf.getText() + " = " + total + " " + e.getMesure() + "\n";
 				            					}
