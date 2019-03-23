@@ -94,5 +94,26 @@ public class ElementStocksController {
 			this.matierePremiereTable.setItems(this.matieresPremieres);
 
 		}
+		
+		/**
+		 * Mise à jours des tables de stocks
+		 */
+		
+		public void majTable() {
+			this.produitTable.getItems().removeAll(this.produitTable.getItems());
+			this.matierePremiereTable.getItems().removeAll(this.matierePremiereTable.getItems());
+			// Add liste des element à la table elementTable
+						ObservableList<Element> elements = this.mainApp.getElementData();
+						for (Element e : elements) {
+							if (e.getClass().getSimpleName().equals("Produit")) {
+								this.produits.add((Produit) e);
+							} else {
+								this.matieresPremieres.add((MatierePremiere) e);
+							}
+						}
+
+						this.produitTable.setItems(this.produits);
+						this.matierePremiereTable.setItems(this.matieresPremieres);
+		}
 
 }

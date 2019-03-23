@@ -83,26 +83,7 @@ public class ElementController {
 		}
 	}
 
-	/**
-	 * Insert la vue chaine dans l'onget gerer les chaines
-	 * @return 
-	 */
-	public void showElementOverview() {
-		try {			
-			// Load element overview.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
-			AnchorPane elements = (AnchorPane) loader.load();
-			
-			this.elementtab.setContent(elements);
-			// connexion de ChaineController à la mainPage
-			ElementStocksController elemController = loader.getController();
-			elemController.setMainApp(this.mainApp);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 
 	/**
 	 * Insert la vue chaine dans l'onget gerer les chaines

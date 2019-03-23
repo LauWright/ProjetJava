@@ -19,7 +19,7 @@
                <children>
                   <TabPane prefHeight="544.0" prefWidth="804.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
-                      <Tab fx:id="elementtab" onSelectionChanged="#showElementOverview" text="Etat du stock">
+                      <Tab fx:id="elementtab" text="Etat du stock">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="913.0" />
                         </content>
