@@ -69,8 +69,7 @@ public class SimulationProductionController {
     
 	// reference l'application principale
 	private MainApp mainApp;
-	//permet de savoir si une simulation a été effectué
-	private boolean simulation = false;
+
 
 	/**
 	 * Constructeur
@@ -160,7 +159,7 @@ public class SimulationProductionController {
 
             alert.showAndWait();
 		}else {
-			this.simulation = true;
+			this.mainApp.setSimulation(true);
 			String s ="";
 			for(Node n : this.gridChaine.getChildren()) {
 				CheckBox ch;
@@ -271,7 +270,7 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	public void reinitialiser() {
-		this.simulation = false;
+		this.mainApp.setSimulation(false);
 		this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 		this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 		this.mainApp.getElementSimulationData().removeAll(this.mainApp.getElementSimulationData());
@@ -297,7 +296,7 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	public void produire() {
-		if (this.simulation) {
+		if (this.mainApp.getSimulation()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Confirmation");
@@ -319,10 +318,13 @@ public class SimulationProductionController {
 			    DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(
 			        DateFormat.MEDIUM,
 			        DateFormat.MEDIUM);
-				String nomA = "achats" + mediumDateFormat.format(d).toString() + ".csv";
+				String nomA = "achats " + mediumDateFormat.format(d).toString() + ".csv";
 				ExportCsv.writeCsvAchat(nomA, this.mainApp.getAchatData());
-				String nomP = "produitsManquants" + mediumDateFormat.format(d).toString() + ".csv";
-				ExportCsv.writeCsvProduitManquant(nomP, this.mainApp.getProduitManquantData());
+				if(this.mainApp.getProduitManquantData().size() != 0) {
+					String nomP = "produitsManquants " + mediumDateFormat.format(d).toString() + ".csv";
+					ExportCsv.writeCsvProduitManquant(nomP, this.mainApp.getProduitManquantData());
+				}
+				
 				this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 				this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 

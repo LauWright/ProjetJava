@@ -28,6 +28,7 @@ public class MainApp extends Application {
 	private ObservableList<production.ChaineProduction> chaines = FXCollections.observableArrayList();
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
+	private boolean simulation = false;
 	/**
 	 * Constructeur
 	 */
@@ -70,6 +71,20 @@ public class MainApp extends Application {
 	 */
 	public ObservableList<ProduitManquant> getProduitManquantData() {
 		return this.produitM;
+	}
+	
+	/**
+	 * Retourne le simulation
+	 */
+	public boolean getSimulation() {
+		return this.simulation;
+	}
+	
+	/**
+	 * Retourne le simulation
+	 */
+	public void setSimulation(boolean b) {
+		this.simulation = b;
 	}
 
 	@Override
