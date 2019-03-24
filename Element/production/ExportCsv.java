@@ -290,6 +290,7 @@ public abstract class ExportCsv {
                      fileWriter.append(DELIMITER);
                      fileWriter.append(String.valueOf(ma.getQteA()));
                      fileWriter.append(DELIMITER);
+                     fileWriter.append("\n");
             }
             System.out.println("Fichier créé avec succes");             
         } catch (Exception e) {
@@ -332,6 +333,7 @@ public abstract class ExportCsv {
                      fileWriter.append(DELIMITER);
                      fileWriter.append(String.valueOf(ma.getQuantiteM()));
                      fileWriter.append(DELIMITER);
+                     fileWriter.append("\n");
             }
             System.out.println("Fichier créé avec succes");             
         } catch (Exception e) {
