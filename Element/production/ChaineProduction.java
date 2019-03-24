@@ -37,14 +37,14 @@ public class ChaineProduction {
 	 * @return le code de la chaine de production
 	 */
 	public String getCode() {
-		return code.get();
+		return this.code.get();
 	}
 	
 	/**
 	 * @return la propriété code de la chaine de production
 	 */
 	public StringProperty getCodeProperty() {
-		return code;
+		return this.code;
 	}
 	
 	/**

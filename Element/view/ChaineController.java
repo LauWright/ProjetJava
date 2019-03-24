@@ -106,7 +106,17 @@ public class ChaineController {
     	this.messageExport.setText("");
     	List<Couple> evide = new ArrayList<>();
     	List<Couple> svide = new ArrayList<>();
-        ChaineProduction tempChaine = new ChaineProduction("", "", evide, svide);
+    	ChaineProduction tempChaine = new ChaineProduction("", "", evide, svide);
+    	int id = this.mainApp.getChaineData().size() + 1;
+    	if(id < 10) {
+    		tempChaine.setCode("C00" + id);
+		}
+		if(id >= 10 && id < 100) {
+			tempChaine.setCode("C0" + id);
+		}
+		if(id >= 100) {
+			tempChaine.setCode("C" + id);
+		}
         boolean okClicked = this.mainApp.showNewChaineDialog(tempChaine);
         if (okClicked) {
             this.mainApp.getChaineData().add(tempChaine);

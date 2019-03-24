@@ -72,7 +72,8 @@ public class NewChaineDialogController {
 	public void setChaine(ChaineProduction ch) {
 		this.chaine = ch;
 
-		this.codeField.setText("");
+		this.codeField.setText(this.chaine.getCode());
+		this.codeField.setDisable(true);
 		this.nomField.setText("");
 		this.entreesField.setText("");
 		this.sortiesField.setText("");

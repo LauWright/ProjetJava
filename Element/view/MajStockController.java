@@ -142,7 +142,7 @@ public class MajStockController {
 				this.messageExport.setText("Elément(s) supprimé(s)");
 				this.elementTable.getItems().remove(selectedIndex);
 			} else if (option.get() == ButtonType.CANCEL) {
-				this.messageExport.setText("Suppression annulé");
+				this.messageExport.setText("Suppression annulée");
 			} else {
 				this.messageExport.setText("");
 			}
@@ -150,9 +150,9 @@ public class MajStockController {
 			// Aucune selection.
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("Aucune selection");
-			alert.setHeaderText("Aucun élément seletionné");
-			alert.setContentText("Veuillez selectionner un ou plusieurs éléments dans le tableau.");
+			alert.setTitle("Aucune sélection");
+			alert.setHeaderText("Aucun élément séletionné");
+			alert.setContentText("Veuillez sélectionner un ou plusieurs éléments dans le tableau.");
 
 			alert.showAndWait();
 		}
@@ -166,13 +166,23 @@ public class MajStockController {
 		if (!this.maRadio.isSelected() && !this.produitRadio.isSelected()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("Aucune selection");
-			alert.setHeaderText("Aucun type seletionné");
-			alert.setContentText("Veuillez selectionner un type \n (matière première ou produit");
+			alert.setTitle("Aucune sélection");
+			alert.setHeaderText("Aucun type séletionné");
+			alert.setContentText("Veuillez sélectionner un type \n (matière première ou produit");
 			alert.showAndWait();			
 		}
+		int id = this.mainApp.getElementData().size() + 1;
 		if (this.maRadio.isSelected()) {
 			MatierePremiere ma = new MatierePremiere("", "", 0, "", 0, 0);
+			if(id < 10) {
+				ma.setCode("E00" + id);
+			}
+			if(id >= 10 && id < 100) {
+				ma.setCode("E0" + id);
+			}
+			if(id >= 100) {
+				ma.setCode("E" + id);
+			}
 			boolean okClicked = mainApp.showElementEditDialog(ma);
 			if (okClicked) {
 				mainApp.getElementData().add(ma);
@@ -180,6 +190,15 @@ public class MajStockController {
 		}
 		if (this.produitRadio.isSelected()) {
 			Produit ma = new Produit("", "", 0, "", 0);
+			if(id < 10) {
+				ma.setCode("E00" + id);
+			}
+			if(id >= 10 && id < 100) {
+				ma.setCode("E0" + id);
+			}
+			if(id >= 100) {
+				ma.setCode("E" + id);
+			}
 			boolean okClicked = mainApp.showElementEditDialog(ma);
 			if (okClicked) {
 				mainApp.getElementData().add(ma);
@@ -231,7 +250,7 @@ public class MajStockController {
             ExportCsv.writeCsvElement("newElements.csv", this.mainApp.getElementData());
             ExportCsv.writeCsvElement("oldElements.csv", this.mainApp.getElementData());
          } else if (option.get() == ButtonType.CANCEL) {
-            this.messageExport.setText("Modifications non enregistrés");
+            this.messageExport.setText("Modifications annulées");
          } else {
             this.messageExport.setText("");
          }

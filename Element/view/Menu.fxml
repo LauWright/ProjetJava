@@ -4,10 +4,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ElementController">
    <children>
@@ -22,39 +19,9 @@
                <children>
                   <TabPane prefHeight="544.0" prefWidth="804.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
-                      <Tab text="Etat du stock">
+                      <Tab fx:id="elementtab" text="Etat du stock">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="913.0">
-                                 <children>
-                                    <Label layoutX="30.0" layoutY="14.0" text="Matières premières en stock">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font></Label>
-                                    <TableView fx:id="matierePremiereTable" layoutX="30.0" layoutY="40.0" prefHeight="277.0" prefWidth="938.0">
-                                      <columns>
-                                        <TableColumn fx:id="codeMAColumn" prefWidth="83.0" text="Code" />
-                                        <TableColumn fx:id="nomMAColumn" prefWidth="405.0" text="Nom" />
-                                          <TableColumn fx:id="quantiteMAColumn" prefWidth="114.0" text="Quantité" />
-                                          <TableColumn fx:id="mesureMAColumn" prefWidth="100.0" text="Mesure" />
-                                          <TableColumn fx:id="prixAchatMAColumn" prefWidth="117.0" text="Prix d'achat" />
-                                          <TableColumn fx:id="prixVenteMAColumn" prefWidth="118.0" text="Prix de vente" />
-                                      </columns>
-                                    </TableView>
-                                    <TableView fx:id="produitTable" layoutX="30.0" layoutY="364.0" prefHeight="305.0" prefWidth="940.0">
-                                       <columns>
-                                          <TableColumn fx:id="codePColumn" prefWidth="83.0" text="Code" />
-                                          <TableColumn fx:id="nomPColumn" prefWidth="515.0" text="Nom" />
-                                          <TableColumn fx:id="quantitePColumn" prefWidth="112.0" text="Quantite" />
-                                          <TableColumn fx:id="mesurePColumn" prefWidth="109.0" text="Mesure" />
-                                          <TableColumn fx:id="prixVentePColumn" prefWidth="120.0" text="Prix de vente" />
-                                       </columns>
-                                    </TableView>
-                                    <Label layoutX="31.0" layoutY="335.0" text="Produits en stock">
-                                       <font>
-                                          <Font size="17.0" />
-                                       </font>
-                                    </Label>
-                                 </children></AnchorPane>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="913.0" />
                         </content>
                       </Tab>
                       <Tab fx:id="majStocktab" onSelectionChanged="#showMajStockOverview" text="Mise à jour du stock">
@@ -67,9 +34,13 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
-                        <Tab text="Production">
+                        <Tab fx:id="productiontab" onSelectionChanged="#showProductionOverview" text="Production">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="568.0" layoutY="405.0" text="Label" />
+                                    <Label layoutX="550.0" layoutY="354.0" text="ftycyjjc" />
+                                 </children></AnchorPane>
                           </content>
                         </Tab>
                     </tabs>

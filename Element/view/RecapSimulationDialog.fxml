@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RecapSimulationController">
+   <children>
+      <Label layoutX="26.0" layoutY="21.0" text="Récapitulatif de la simulation">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="recapLabel" alignment="TOP_LEFT" layoutX="26.0" layoutY="70.0" prefHeight="449.0" prefWidth="694.0" />
+      <Button layoutX="658.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="29.0" prefWidth="62.0" text="OK" />
+      <Label fx:id="efficLabel" layoutX="33.0" layoutY="542.0">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+   </children>
+</AnchorPane>
