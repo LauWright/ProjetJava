@@ -249,6 +249,7 @@ public class MajStockController {
             this.messageExport.setText("Modifications enregistrés");
             ExportCsv.writeCsvElement("newElements.csv", this.mainApp.getElementData());
             ExportCsv.writeCsvElement("oldElements.csv", this.mainApp.getElementData());
+            
          } else if (option.get() == ButtonType.CANCEL) {
             this.messageExport.setText("Modifications annulées");
          } else {

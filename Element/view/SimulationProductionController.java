@@ -2,7 +2,11 @@ package view;
 
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import element.Achat;
@@ -65,8 +69,7 @@ public class SimulationProductionController {
     
 	// reference l'application principale
 	private MainApp mainApp;
-	//permet de savoir si une simulation a été effectué
-	private boolean simulation = false;
+
 
 	/**
 	 * Constructeur
@@ -156,7 +159,7 @@ public class SimulationProductionController {
 
             alert.showAndWait();
 		}else {
-			this.simulation = true;
+			this.mainApp.setSimulation(true);
 			String s ="";
 			for(Node n : this.gridChaine.getChildren()) {
 				CheckBox ch;
@@ -267,7 +270,7 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	public void reinitialiser() {
-		this.simulation = false;
+		this.mainApp.setSimulation(false);
 		this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 		this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 		this.mainApp.getElementSimulationData().removeAll(this.mainApp.getElementSimulationData());
@@ -293,7 +296,7 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	public void produire() {
-		if (this.simulation) {
+		if (this.mainApp.getSimulation()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Confirmation");
@@ -311,8 +314,17 @@ public class SimulationProductionController {
 				this.mainApp.getElementData().removeAll(this.mainApp.getElementData());
 				this.mainApp.getElementData().addAll(this.mainApp.getElementSimulationData());
 				ExportCsv.writeCsvElement("newElements.csv", this.mainApp.getElementData());
-				ExportCsv.writeCsvAchat("achats.csv", this.mainApp.getAchatData());
-				ExportCsv.writeCsvProduitManquant("produitsManquants.csv", this.mainApp.getProduitManquantData());
+				Date d = new Date();
+			    DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(
+			        DateFormat.MEDIUM,
+			        DateFormat.MEDIUM);
+				String nomA = "achats " + mediumDateFormat.format(d).toString() + ".csv";
+				ExportCsv.writeCsvAchat(nomA, this.mainApp.getAchatData());
+				if(this.mainApp.getProduitManquantData().size() != 0) {
+					String nomP = "produitsManquants " + mediumDateFormat.format(d).toString() + ".csv";
+					ExportCsv.writeCsvProduitManquant(nomP, this.mainApp.getProduitManquantData());
+				}
+				
 				this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 				this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 
