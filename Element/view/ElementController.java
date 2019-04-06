@@ -21,7 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
-import production.ImportCsv;
+import production.ImportExportCsv;
 
 /**
  * @author laure
@@ -82,8 +82,6 @@ public class ElementController {
 			e.printStackTrace();
 		}
 	}
-
-
 
 	/**
 	 * Insert la vue chaine dans l'onget gerer les chaines

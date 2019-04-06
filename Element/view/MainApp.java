@@ -15,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import production.ChaineProduction;
-import production.ImportCsv;
+import production.ImportExportCsv;
 
 public class MainApp extends Application {
 
@@ -33,9 +33,9 @@ public class MainApp extends Application {
 	 * Constructeur
 	 */
 	public MainApp() {
-		this.stockElements = ImportCsv.importElement("newElements.csv", ';');
-		this.stockElementsSimulation = ImportCsv.importElement("newElements.csv", ';');
-		this.chaines = ImportCsv.importChaineProduction("chaines.csv", ';');
+		this.stockElements = new ImportExportCsv().importElement("newElements.csv", ';');
+		this.stockElementsSimulation = new ImportExportCsv().importElement("newElements.csv", ';');
+		this.chaines = new ImportExportCsv().importChaineProduction("chaines.csv", ';');
 	}
 
 	/**

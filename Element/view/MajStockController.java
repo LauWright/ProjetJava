@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import production.ExportCsv;
+import production.ImportExportCsv;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -247,8 +247,8 @@ public class MajStockController {
             this.messageExport.setText("No selection!");
          } else if (option.get() == ButtonType.OK) {
             this.messageExport.setText("Modifications enregistrés");
-            ExportCsv.writeCsvElement("newElements.csv", this.mainApp.getElementData());
-            ExportCsv.writeCsvElement("oldElements.csv", this.mainApp.getElementData());
+            (new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
+            (new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
             
          } else if (option.get() == ButtonType.CANCEL) {
             this.messageExport.setText("Modifications annulées");
