@@ -28,8 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import production.ChaineProduction;
 import production.Couple;
-import production.ExportCsv;
-import production.ImportCsv;
+import production.ImportExportCsv;
 
 public class SimulationProductionController {
 	
@@ -274,7 +273,7 @@ public class SimulationProductionController {
 		this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 		this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 		this.mainApp.getElementSimulationData().removeAll(this.mainApp.getElementSimulationData());
-		this.mainApp.getElementSimulationData().addAll(ImportCsv.importElement("newElements.csv", ';'));
+		this.mainApp.getElementSimulationData().addAll(new ImportExportCsv().importElement("newElements.csv", ';'));
 		for(int i=0; i< this.mainApp.getChaineData().size(); i++) {
 			for(Node no : this.gridChaine.getChildren()) {
 	    		if(GridPane.getRowIndex(no) == i+1 && GridPane.getColumnIndex(no) == 0) {
@@ -310,19 +309,21 @@ public class SimulationProductionController {
 			} else if (option.get() == ButtonType.OK) {
 				this.messageExport.setTextFill(Color.web("#52BE80"));
 				this.messageExport.setText("Production effectuée");
-				ExportCsv.writeCsvElement("oldElements.csv", this.mainApp.getElementData());
+				(new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
 				this.mainApp.getElementData().removeAll(this.mainApp.getElementData());
 				this.mainApp.getElementData().addAll(this.mainApp.getElementSimulationData());
-				ExportCsv.writeCsvElement("newElements.csv", this.mainApp.getElementData());
+				(new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
 				Date d = new Date();
 			    DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(
 			        DateFormat.MEDIUM,
 			        DateFormat.MEDIUM);
-				String nomA = "achats " + mediumDateFormat.format(d).toString() + ".csv";
-				ExportCsv.writeCsvAchat(nomA, this.mainApp.getAchatData());
+			    if(this.mainApp.getAchatData().size() != 0) {
+					String nomA = "achats " + mediumDateFormat.format(d).toString() + ".csv";
+					(new ImportExportCsv()).writeCsvAchat(nomA, this.mainApp.getAchatData());
+			    }
 				if(this.mainApp.getProduitManquantData().size() != 0) {
 					String nomP = "produitsManquants " + mediumDateFormat.format(d).toString() + ".csv";
-					ExportCsv.writeCsvProduitManquant(nomP, this.mainApp.getProduitManquantData());
+					(new ImportExportCsv()).writeCsvProduitManquant(nomP, this.mainApp.getProduitManquantData());
 				}
 				
 				this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());

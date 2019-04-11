@@ -13,7 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import production.ChaineProduction;
 import production.Couple;
-import production.ExportCsv;
+import production.ImportExportCsv;
 
 public class ChaineController {
 	
@@ -179,7 +179,7 @@ public class ChaineController {
             this.messageExport.setText("No selection!");
          } else if (option.get() == ButtonType.OK) {
             this.messageExport.setText("Modifications enregistrés");
-            ExportCsv.writeCsvChaineProduction(this.mainApp.getChaineData());
+            (new ImportExportCsv()).writeCsvChaineProduction(this.mainApp.getChaineData());
          } else if (option.get() == ButtonType.CANCEL) {
             this.messageExport.setText("Modifications non enregistrés");
          } else {

@@ -79,7 +79,8 @@ public class ElementStocksController {
 		 */
 		public void setMainApp(MainApp mainApp) {
 			this.mainApp = mainApp;
-
+			this.produitTable.getItems().removeAll(this.produitTable.getItems());
+			this.matierePremiereTable.getItems().removeAll(this.matierePremiereTable.getItems());
 			// Add liste des element à la table elementTable
 			ObservableList<Element> elements = this.mainApp.getElementData();
 			for (Element e : elements) {

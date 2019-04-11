@@ -1,17 +1,28 @@
 package production;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import element.Achat;
 import element.Element;
 import element.MatierePremiere;
+import element.Produit;
 import element.ProduitManquant;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-public abstract class ExportCsv {
-	
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
+public class ImportExportCsv implements ImportExport{
 	//Delimiter used in CSV file
     private static final String DELIMITER = ";";
     private static final String NEW_LINE_SEPARATOR = "\n";
@@ -20,13 +31,159 @@ public abstract class ExportCsv {
     private static final String FILE_HEADER_ELEMENT = "Code;Nom;Quantite;unite;achat;vente;type";
     private static final String FILE_HEADER_ACHAT= "Chaine;Element;Nom;Mesure;Achat;Quantité";
     private static final String FILE_HEADER_PRODUITM= "Chaine;Element;Nom;Mesure;Quantité";
-    
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////IMPORT/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Importation des éléments
+	 * @param nomFichier
+	 * @param separateur
+	 * @return
+	 */
+	@Override
+	public ObservableList<Element> importElement(String nomFichier, char separateur){
+		ObservableList<Element> elements = FXCollections.observableArrayList();
+		CSVParser parser = new CSVParserBuilder().withSeparator(separateur)
+				                                 .withIgnoreQuotations(true)
+                                                 .build();
+		CSVReader reader = null;
+		try {
+			reader = new CSVReaderBuilder(new FileReader(nomFichier)).withSkipLines(1)
+                                                                     .withCSVParser(parser)
+                                                                     .build();
+			String [] line;
+			while ((line = reader.readNext()) != null)
+			{
+				// -1.0 signifie que l'élément n'a pas de prix de vente
+            	double d = -1.0;
+            	if(!line[5].equals("NA")) {
+            		d= Double.valueOf(line[5]);
+            	}
+                
+                //création d'un element à ajouter à la liste des elements grace au CSV
+                //création de l'élément en fonction du type contenu dans le csv
+                Element e = null;
+                if (line[6].equals("MA")) {
+                	e = new MatierePremiere(line[0], line[1], Double.valueOf(line[2]), line[3], d, Double.valueOf(line[4]));
+                	
+                }
+                if (line[6].equals("P")) {
+                	e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], d);
+                	
+                }
+				elements.add(e);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return elements;
+	}
+
+	/**
+	 * Importation des chaines de production
+	 * @param nomFichier
+	 * @param separateur
+	 * @return
+	 */
+	@Override
+	public ObservableList<ChaineProduction> importChaineProduction(String nomFichier, char separateur){
+		ObservableList<ChaineProduction> chaineProductions = FXCollections.observableArrayList();
+		CSVParser parser = new CSVParserBuilder().withSeparator(separateur)
+				                                 .withIgnoreQuotations(true)
+                                                 .build();
+		CSVReader reader = null;
+		try {
+			reader = new CSVReaderBuilder(new FileReader(nomFichier)).withSkipLines(1)
+                                                                     .withCSVParser(parser)
+                                                                     .build();
+			String [] line;
+			while ((line = reader.readNext()) != null)
+			{
+				//Récupère les entrées de la chaine de production à créer
+				List<Couple> entrees = new ArrayList<>();
+				entrees = importCouple("entrees.csv", ';', line[0]);
+				//Récupère les sorties de la chaine de production à créer
+				List<Couple> sorties = new ArrayList<>();
+				sorties = importCouple("sorties.csv", ';', line[0]);
+				
+				ChaineProduction ch = new ChaineProduction(line[0], line[1], entrees, sorties);
+				chaineProductions.add(ch);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return chaineProductions;
+	}
+
+	
+	/**
+	 * Créer une liste de d'entrées ou de sorties pour une chaine de production
+	 * @param nomFichier
+	 * @param separateur
+	 * @return une liste d'entrées ou de sorties pour une chaine de production
+	 */
+	@Override
+	public List<Couple> importCouple(String nomFichier, char separateur, String codeChaine){
+		List<Couple> couples = new ArrayList<>();
+		CSVParser parser = new CSVParserBuilder().withSeparator(separateur)
+												 .withIgnoreQuotations(true)
+				                                 .build();
+		CSVReader reader = null;
+		try {
+			reader = new CSVReaderBuilder(new FileReader(nomFichier)).withSkipLines(1)
+					                                                 .withCSVParser(parser)
+					                                                 .build();
+			String [] line;
+			while ((line = reader.readNext()) != null)
+			{
+				if(line[0].equals(codeChaine)) {
+					for(int i=1; i < line.length; i++ )
+					{
+						String [] couple = line[i].split(",");
+						Couple c = new Couple(couple[0], Double.valueOf(couple[1]));
+						couples.add(c);
+					}
+				}
+			}	
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return couples;
+	}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////EXPORT/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
     /**
      * Réécriture du fichier élément avec en parametre le nom du fichier dans lequel on vet réécrire la liste d'éléments
      * @param nomFichier
      * @param elements
      */
-    public static void writeCsvElement(String nomFichier, List<Element> elements) {
+	@Override
+    public void writeCsvElement(String nomFichier, List<Element> elements) {
          FileWriter fileWriter = null;
                  
         try {
@@ -95,7 +252,8 @@ public abstract class ExportCsv {
      * Ajouter un élément au fichier élément
      * @param element
      */
-    public static void ajouterCsvElement(Element element) { 
+	@Override
+    public void ajouterCsvElement(Element element) { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
@@ -127,7 +285,8 @@ public abstract class ExportCsv {
  * Aouter une chaine de production au fichier
  * @param chaines
  */
-    public static void ajouterCsvChaineProduction(List<ChaineProduction> chaines) { 
+	@Override
+    public void ajouterCsvChaineProduction(List<ChaineProduction> chaines) { 
     	// Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
@@ -136,8 +295,8 @@ public abstract class ExportCsv {
 	        for(ChaineProduction c : chaines) {
 	        	s += c.getCode() + ";" + c.getNom();
 	        	s += "\n";
-	        	ExportCsv.ajouterCsvEntree(c.getCode(), c.getEntrees());
-	        	ExportCsv.ajouterCsvSortie(c.getCode(), c.getSorties());
+	        	ajouterCsvEntree(c.getCode(), c.getEntrees());
+	        	ajouterCsvSortie(c.getCode(), c.getSorties());
 	        }
 	        //ecrit la chaine de charactere
 	        writer.write(s);
@@ -153,7 +312,8 @@ public abstract class ExportCsv {
      * @param code
      * @param entrees
      */
-    public static void ajouterCsvEntree(String code, List<Couple> entrees) { 
+	@Override
+    public void ajouterCsvEntree(String code, List<Couple> entrees) { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
@@ -176,7 +336,8 @@ public abstract class ExportCsv {
      * @param code
      * @param entrees
      */
-    public static void writeCsvEntree() { 
+	@Override
+    public void writeCsvEntree() { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
@@ -195,7 +356,8 @@ public abstract class ExportCsv {
      * @param code
      * @param sorties
      */
-    public static void ajouterCsvSortie(String code, List<Couple> sorties) { 
+	@Override
+    public void ajouterCsvSortie(String code, List<Couple> sorties) { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
@@ -218,7 +380,8 @@ public abstract class ExportCsv {
      * @param code
      * @param entrees
      */
-    public static void writeCsvSortie() { 
+	@Override
+    public void writeCsvSortie() { 
         // Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
@@ -236,19 +399,20 @@ public abstract class ExportCsv {
      * Ecrire le fichier de chaines de production
      * @param chaines
      */
-    public static void writeCsvChaineProduction(List<ChaineProduction> chaines) { 
+	@Override
+    public void writeCsvChaineProduction(List<ChaineProduction> chaines) { 
     	// Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new FileWriter("chaines.csv"));
 			String s = "Code;Nom \n";
-			ExportCsv.writeCsvEntree();
-			ExportCsv.writeCsvSortie();
+			writeCsvEntree();
+			writeCsvSortie();
 	        for(ChaineProduction c : chaines) {
 	        	s += c.getCode() + ";" + c.getNom();
 	        	s += "\n";
-	        	ExportCsv.ajouterCsvEntree(c.getCode(), c.getEntrees());
-	        	ExportCsv.ajouterCsvSortie(c.getCode(), c.getSorties());
+	        	ajouterCsvEntree(c.getCode(), c.getEntrees());
+	        	ajouterCsvSortie(c.getCode(), c.getSorties());
 	        }
 	        //ecrit la chaine de charactere
 	        writer.write(s);
@@ -258,14 +422,13 @@ public abstract class ExportCsv {
 		}       
     }
     
-    
-    
     /**
      * Ecriture du fichier des achats avec en parametre le nom du fichier et la liste des Matieres premieres à acheter
      * @param nomFichier
      * @param elements
      */
-    public static void writeCsvAchat(String nomFichier, List<Achat> mas) {
+	@Override
+    public void writeCsvAchat(String nomFichier, List<Achat> mas) {
          FileWriter fileWriter = null;
                  
         try {
@@ -310,7 +473,8 @@ public abstract class ExportCsv {
      * @param nomFichier
      * @param elements
      */
-    public static void writeCsvProduitManquant(String nomFichier, List<ProduitManquant> pms) {
+	@Override
+    public void writeCsvProduitManquant(String nomFichier, List<ProduitManquant> pms) {
          FileWriter fileWriter = null;
                  
         try {
@@ -347,4 +511,8 @@ public abstract class ExportCsv {
             } 
         }
     }
+	
+
 }
+
+
