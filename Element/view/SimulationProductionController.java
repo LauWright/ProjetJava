@@ -1,6 +1,5 @@
 package view;
 
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -36,7 +35,7 @@ import production.Couple;
 import production.ImportExportCsv;
 
 public class SimulationProductionController {
-	
+
 	@FXML
 	private TableView<Achat> achatsTable;
 	@FXML
@@ -51,8 +50,7 @@ public class SimulationProductionController {
 	private TableColumn<Achat, Double> aPrixAchatColumn;
 	@FXML
 	private TableColumn<Achat, Double> QuantiteColumn;
-	
-	
+
 	@FXML
 	private TableView<ProduitManquant> produitsTable;
 	@FXML
@@ -65,50 +63,50 @@ public class SimulationProductionController {
 	private TableColumn<ProduitManquant, String> pMesureColumn;
 	@FXML
 	private TableColumn<ProduitManquant, Double> pQuantiteColumn;
-	
-    @FXML
+
+	@FXML
 	private GridPane gridChaine;
-    @FXML
-    private ScrollPane scrollChaine;
-    @FXML
-    private Label messageExport;
-    
+	@FXML
+	private ScrollPane scrollChaine;
+	@FXML
+	private Label messageExport;
+
 	// reference l'application principale
 	private MainApp mainApp;
-
 
 	/**
 	 * Constructeur
 	 */
-	public SimulationProductionController() {		
+	public SimulationProductionController() {
 	}
-	
+
 	/**
 	 * Initialise le controller appelé automatiquement à l'ouverture de la page
 	 * .fxml
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	@FXML
-	private void initialize() throws IOException {	
+	private void initialize() throws IOException {
 		this.aChaineColumn.setCellValueFactory(cellData -> cellData.getValue().getChaine().getCodeProperty());
 		this.aCodeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-        this.aNomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-        this.aMesureColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-        this.aPrixAchatColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixAchatProperty().asObject());
-        this.QuantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQteAProperty().asObject());
-        
-        this.pChaineColumn.setCellValueFactory(cellData -> cellData.getValue().getChaine().getCodeProperty());
+		this.aNomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
+		this.aMesureColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
+		this.aPrixAchatColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixAchatProperty().asObject());
+		this.QuantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQteAProperty().asObject());
+
+		this.pChaineColumn.setCellValueFactory(cellData -> cellData.getValue().getChaine().getCodeProperty());
 		this.pCodeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-        this.pNomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-        this.pMesureColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-        this.pQuantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteMProperty().asObject());
+		this.pNomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
+		this.pMesureColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
+		this.pQuantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteMProperty().asObject());
 	}
-	
+
 	/**
 	 * appelé par l'application main
 	 * 
 	 * @param mainApp
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void setMainApp(MainApp mainApp) throws IOException {
 		this.mainApp = mainApp;
@@ -116,170 +114,180 @@ public class SimulationProductionController {
 		this.achatsTable.setItems(this.mainApp.getAchatData());
 		this.produitsTable.setItems(this.mainApp.getProduitManquantData());
 	}
-	
+
 	public void tableChaine() {
 		Label chaineLabel = new Label("Chaine");
 		Label nivLabel = new Label("Niveau");
-		
-		this.gridChaine.add(chaineLabel, 0,  0);
-		this.gridChaine.add(nivLabel, 1,  0);
-		
-		ObservableList<ChaineProduction> chaines = this.mainApp.getChaineData();
+
+		this.gridChaine.add(chaineLabel, 0, 0);
+		this.gridChaine.add(nivLabel, 1, 0);
+
+		ObservableList<Map.Entry<String, ChaineProduction>> chaines = FXCollections
+				.observableArrayList(this.mainApp.getChaineData().entrySet());
 		for (int i = 0; i < chaines.size(); i++) {
-				CheckBox ch = new CheckBox();
-				ch.setText(chaines.get(i).getCode() + " " + chaines.get(i).getNom());
-				this.gridChaine.add(ch, 0, i+1);
+			CheckBox ch = new CheckBox();
+			ch.setText(chaines.get(i).getValue().getCode() + " " + chaines.get(i).getValue().getNom());
+			this.gridChaine.add(ch, 0, i + 1);
 		}
-		
+
 		for (int i = 0; i < chaines.size(); i++) {
 			TextField tf = new TextField();
 			tf.setText("0");
-			this.gridChaine.add(tf, 1, i+1);
+			this.gridChaine.add(tf, 1, i + 1);
 		}
 		this.scrollChaine.setContent(gridChaine);
 		this.scrollChaine.setHbarPolicy(ScrollBarPolicy.NEVER);
 		this.scrollChaine.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		this.scrollChaine.setFitToHeight(true);
 		this.scrollChaine.setPannable(true);
-		
+
 	}
-	
+
 	/**
 	 * Clicque sur le bouton simuler
 	 */
 	@FXML
 	public void simuler() {
-		//verification que au moins une case est cochée
+		// verification que au moins une case est cochée
 		boolean coche = false;
-		for(int i=0; i< this.mainApp.getChaineData().size(); i++) {
-			for(Node no : this.gridChaine.getChildren()) {
-	    		if(GridPane.getRowIndex(no) == i+1 && GridPane.getColumnIndex(no) == 0) {
-	    			CheckBox ch = (CheckBox) no;
-	    			if(ch.isSelected()) {
-	    				coche = true;
-	    			}
-	    		}
+		for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+			for (Node no : this.gridChaine.getChildren()) {
+				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
+					CheckBox ch = (CheckBox) no;
+					if (ch.isSelected()) {
+						coche = true;
+					}
+				}
 			}
 		}
-		if(coche == false) {
+		if (coche == false) {
 			Alert alert = new Alert(AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("Aucune selection");
-            alert.setHeaderText("Aucune chaîne selectionée");
-            alert.setContentText("Veuillez selectionner une chaîne \n"
-            		+ "et rentrer un niveau.");
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("Aucune selection");
+			alert.setHeaderText("Aucune chaîne selectionée");
+			alert.setContentText("Veuillez selectionner une chaîne \n" + "et rentrer un niveau.");
 
-            alert.showAndWait();
-		}else {
+			alert.showAndWait();
+		} else {
 			this.mainApp.setSimulation(true);
-			String s ="";
-			for(Node n : this.gridChaine.getChildren()) {
+			String s = "";
+			for (Node n : this.gridChaine.getChildren()) {
 				CheckBox ch;
-				for( int i = 0; i< this.mainApp.getChaineData().size(); i++) {
-					if(GridPane.getRowIndex(n) == i+1 && GridPane.getColumnIndex(n) == 0) {
-			            ch = (CheckBox) n;
-			            if(ch.isSelected()){
-			            	ChaineProduction c = this.mainApp.getChaineData().get(i);
-			            	s+="\n";
-			            	s+= "Chaîne : " + c.getCode();
-			            	for(Node no : this.gridChaine.getChildren()) {
-			            		if(GridPane.getRowIndex(no) == i+1 && GridPane.getColumnIndex(no) == 1) {
-			            			TextField tf = (TextField) no;
-			            			s += " , niveau " + tf.getText() + "\n";
-			            			List<Couple> entrees = c.getEntrees();
-			            			boolean reussi = true;
-			            			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
-			            			for(Couple couple : entrees) {
-			            				for(Entry<String, Element> e : elements) {
-				            				if(couple.getCode().equals(e.getValue().getCode())) {
-				            					e.getValue().soustraire(couple.getQte()*Double.valueOf(tf.getText()));
-				            					System.out.println(e.getValue().getQuantite());
-			            						if(e.getValue().examiner()) {
-					            					if(e.getClass().getSimpleName().equals("MatierePremiere")){
-					            						MatierePremiere ma = (MatierePremiere) e;
-					            						if(ma.getPrixAchat() == -1) {
-						            						s += "Production impossible, élément " + e.getValue().getCode() +" ne possède pas de prix d'achat et la quantité est insuffisante \n";
-						            						e.getValue().ajouter(couple.getQte()*Double.valueOf(tf.getText()));
-						            						reussi = false;
-						            					} else {
-						            						this.mainApp.getAchatData().add(new Achat(ma.getCode(), ma.getNom(), e.getValue().getQuantite(), ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0-e.getValue().getQuantite(), c));
-						            						s+="Attention matière première " + ma.getCode() +" manquante dans le stock \n";
-						            					}	
-					            					}
-					            					if(e.getClass().getSimpleName().equals("Produit")){				            						
-					            							s += "Production impossible, élément " + e.getValue().getCode() +" ne possède pas de prix d'achat et la quantité est insuffisante \n";
-					            							this.mainApp.getProduitManquantData().add(new ProduitManquant(e.getValue().getCode(), e.getValue().getNom(), e.getValue().getQuantite(), e.getValue().getMesure(), e.getValue().getPrixVente(), 0-e.getValue().getQuantite(), c));
-					            							e.getValue().ajouter(couple.getQte()*Double.valueOf(tf.getText()));
-					            							reussi = false;
-					            					}
-			            						}
-				            				}
-				            			}
-			            			}
-			            			List<Couple> sorties = c.getSorties();
-			            			if(reussi) {
-			            				s+= "Produit(s) obtenu(s) : ";
-			            				for(Couple so: sorties) {
-			            					ObservableList<Map.Entry<String, Element>> elements1 = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
-			            					for(Entry<String, Element> e : elements1) {
-				            					if(e.getValue().getCode().equals(so.getCode())) {
-				            						e.getValue().setQuantite(so.getQte()*Double.valueOf(tf.getText()));
-				            						if (e.getValue().getQuantite() >= 0) {
-				            							ProduitManquant prm = null;
-				            							for(ProduitManquant pm : this.mainApp.getProduitManquantData()) {
-				            								if(pm.getCode().equals(e.getValue().getCode())) {
-				            									prm = pm;
-				            								}
-				            							}
-				            							this.mainApp.getProduitManquantData().remove(prm);
-				            						}
-				            						double total = so.getQte()*Double.valueOf(tf.getText());
-				            						s+= e.getValue().getCode() + " - " + so.getQte() + " x " + tf.getText() + " = " + total + " " + e.getValue().getMesure() + "\n";
-				            					}
-				            				}
-			            				}
-			            			}	            					            			
-			            		}
-			            	} 
-			            }
-			        }
+				for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+					if (GridPane.getRowIndex(n) == i + 1 && GridPane.getColumnIndex(n) == 0) {
+						ch = (CheckBox) n;
+						if (ch.isSelected()) {
+							ChaineProduction c = this.mainApp.getChaineData().get(ch.getText().split(" ")[0]);
+							s += "\n";
+							s += "Chaîne : " + c.getCode();
+							for (Node no : this.gridChaine.getChildren()) {
+								if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
+									TextField tf = (TextField) no;
+									s += " , niveau " + tf.getText() + "\n";
+									List<Couple> entrees = c.getEntrees();
+									boolean reussi = true;
+									for (Couple couple : entrees) {
+										Element e = this.mainApp.getElementData().get(couple.getCode());
+										if (couple.getCode().equals(e.getCode())) {
+											e.soustraire(couple.getQte() * Double.valueOf(tf.getText()));
+											System.out.println(e.getQuantite());
+											if (e.examiner()) {
+												if (e.getClass().getSimpleName().equals("MatierePremiere")) {
+													MatierePremiere ma = (MatierePremiere) e;
+													if (ma.getPrixAchat() == -1) {
+														s += "Production impossible, élément " + e.getCode()
+																+ " ne possède pas de prix d'achat et la quantité est insuffisante \n";
+														e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
+														reussi = false;
+													} else {
+														this.mainApp.getAchatData()
+																.add(new Achat(ma.getCode(), ma.getNom(),
+																		e.getQuantite(), ma.getMesure(),
+																		ma.getPrixVente(), ma.getPrixAchat(),
+																		0 - e.getQuantite(), c));
+														s += "Attention matière première " + ma.getCode()
+																+ " manquante dans le stock \n";
+													}
+												}
+												if (e.getClass().getSimpleName().equals("Produit")) {
+													s += "Production impossible, élément " + e.getCode()
+															+ " ne possède pas de prix d'achat et la quantité est insuffisante \n";
+													this.mainApp.getProduitManquantData()
+															.add(new ProduitManquant(e.getCode(), e.getNom(),
+																	e.getQuantite(), e.getMesure(), e.getPrixVente(),
+																	0 - e.getQuantite(), c));
+													e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
+													reussi = false;
+												}
+											}
+										}
+									}
+									List<Couple> sorties = c.getSorties();
+									if (reussi) {
+										s += "Produit(s) obtenu(s) : ";
+										for (Couple so : sorties) {
+											Element e = this.mainApp.getElementData().get(so.getCode());
+											if (e.getCode().equals(so.getCode())) {
+												e.setQuantite(so.getQte() * Double.valueOf(tf.getText()));
+												if (e.getQuantite() >= 0) {
+													ProduitManquant prm = null;
+													for (ProduitManquant pm : this.mainApp.getProduitManquantData()) {
+														if (pm.getCode().equals(e.getCode())) {
+															prm = pm;
+														}
+													}
+													this.mainApp.getProduitManquantData().remove(prm);
+												}
+												double total = so.getQte() * Double.valueOf(tf.getText());
+												s += e.getCode() + " - " + so.getQte() + " x " + tf.getText() + " = "
+														+ total + " " + e.getMesure() + "\n";
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 			double efficacite = 0;
-			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
-			for(Entry<String, Element> e :elements) {
+			ObservableList<Map.Entry<String, Element>> elements = FXCollections
+					.observableArrayList(this.mainApp.getElementData().entrySet());
+			for (Entry<String, Element> e : elements) {
 				if (e.getValue().getPrixVente() != -1 && e.getValue().getQuantite() >= 0) {
 					efficacite += e.getValue().getPrixVente() * e.getValue().getQuantite();
 				}
 			}
-			for(Achat e : this.mainApp.getAchatData()) {
+			for (Achat e : this.mainApp.getAchatData()) {
 				if (e.getPrixVente() != -1 && e.getQuantite() >= 0) {
 					efficacite -= e.getPrixAchat() * e.getQteA();
 				}
 			}
-			
-			String effic= "Efficacité " + efficacite;
+
+			String effic = "Efficacité " + efficacite;
 			boolean okClicked = this.mainApp.showRecapSimulationDialog(s, effic);
 		}
 	}
+
 	/**
 	 * Retourne un élément grâce à son code
-	 * @param c le code de l'élément cherché
+	 * 
+	 * @param c              le code de l'élément cherché
 	 * @param observableList
 	 * @return l'élément recherché
 	 */
 	public int getElementByCode(String c, ObservableList<Achat> observableList) {
 		boolean ok = false;
-		int index= -1;
-		for( int i =0; i<observableList.size();i++ ) {
-			if (observableList.get(i).getCode().equals(c)){
+		int index = -1;
+		for (int i = 0; i < observableList.size(); i++) {
+			if (observableList.get(i).getCode().equals(c)) {
 				ok = true;
 				index = i;
 			}
 		}
 		return index;
 	}
-	
+
 	/**
 	 * Appelé lors du clique sur le bouton réinitialiser
 	 */
@@ -290,22 +298,22 @@ public class SimulationProductionController {
 		this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 		this.mainApp.getElementSimulationData().clear();
 		this.mainApp.getElementSimulationData().putAll(new ImportExportCsv().importElement("newElements.csv", ';'));
-		for(int i=0; i< this.mainApp.getChaineData().size(); i++) {
-			for(Node no : this.gridChaine.getChildren()) {
-	    		if(GridPane.getRowIndex(no) == i+1 && GridPane.getColumnIndex(no) == 0) {
-	    			CheckBox ch = (CheckBox) no;
-	    			ch.setSelected(false);
-	    		}
+		for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+			for (Node no : this.gridChaine.getChildren()) {
+				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
+					CheckBox ch = (CheckBox) no;
+					ch.setSelected(false);
+				}
 			}
-			for(Node no : this.gridChaine.getChildren()) {
-	    		if(GridPane.getRowIndex(no) == i+1 && GridPane.getColumnIndex(no) == 1) {
-	    			TextField tf = (TextField) no;
-	    			tf.setText("0");
-	    		}
+			for (Node no : this.gridChaine.getChildren()) {
+				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
+					TextField tf = (TextField) no;
+					tf.setText("0");
+				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Appelé lors du clique sur produire
 	 */
@@ -325,23 +333,23 @@ public class SimulationProductionController {
 			} else if (option.get() == ButtonType.OK) {
 				this.messageExport.setTextFill(Color.web("#52BE80"));
 				this.messageExport.setText("Production effectuée");
-				//(new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
+				// (new ImportExportCsv()).writeCsvElement("oldElements.csv",
+				// this.mainApp.getElementData());
 				this.mainApp.getElementData().clear();
 				this.mainApp.getElementData().putAll(this.mainApp.getElementSimulationData());
-				//(new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
+				// (new ImportExportCsv()).writeCsvElement("newElements.csv",
+				// this.mainApp.getElementData());
 				Date d = new Date();
-			    DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(
-			        DateFormat.MEDIUM,
-			        DateFormat.MEDIUM);
-			    if(this.mainApp.getAchatData().size() != 0) {
+				DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+				if (this.mainApp.getAchatData().size() != 0) {
 					String nomA = "achats " + mediumDateFormat.format(d).toString() + ".csv";
 					(new ImportExportCsv()).writeCsvAchat(nomA, this.mainApp.getAchatData());
-			    }
-				if(this.mainApp.getProduitManquantData().size() != 0) {
+				}
+				if (this.mainApp.getProduitManquantData().size() != 0) {
 					String nomP = "produitsManquants " + mediumDateFormat.format(d).toString() + ".csv";
 					(new ImportExportCsv()).writeCsvProduitManquant(nomP, this.mainApp.getProduitManquantData());
 				}
-				
+
 				this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 				this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
 
@@ -366,15 +374,14 @@ public class SimulationProductionController {
 			} else {
 				this.messageExport.setText("");
 			}
-		}else {
+		} else {
 			Alert alert = new Alert(AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("Aucune simulation");
-            alert.setHeaderText("Aucune simulation effectuée");
-            alert.setContentText("Veuillez réaliser une simulation avant de produire");
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("Aucune simulation");
+			alert.setHeaderText("Aucune simulation effectuée");
+			alert.setContentText("Veuillez réaliser une simulation avant de produire");
 
-            alert.showAndWait();
+			alert.showAndWait();
 		}
-	} 
+	}
 }
-

@@ -26,7 +26,7 @@ public interface ImportExport {
 	 * @param separateur
 	 * @return
 	 */
-	public abstract ObservableList<ChaineProduction> importChaineProduction(String nomFichier, char separateur);
+	public abstract ObservableMap<String, ChaineProduction> importChaineProduction(String nomFichier, char separateur);
 	
 	/**
 	 * Créer une liste de d'entrées ou de sorties pour une chaine de production

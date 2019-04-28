@@ -29,7 +29,7 @@ public class MainApp extends Application {
 
 	private ObservableMap<String, element.Element> stockElements = FXCollections.observableHashMap();
 	private ObservableMap<String, element.Element> stockElementsSimulation = FXCollections.observableHashMap();
-	private ObservableList<production.ChaineProduction> chaines = FXCollections.observableArrayList();
+	private ObservableMap<String, ChaineProduction> chaines = FXCollections.observableHashMap();
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
 	private boolean simulation = false;
@@ -59,7 +59,7 @@ public class MainApp extends Application {
 	/**
 	 * Retourne la liste des chaines de production
 	 */
-	public ObservableList<production.ChaineProduction> getChaineData() {
+	public ObservableMap<String, ChaineProduction> getChaineData() {
 		return this.chaines;
 	}
 	

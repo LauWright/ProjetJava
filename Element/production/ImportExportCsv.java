@@ -95,8 +95,8 @@ public class ImportExportCsv implements ImportExport{
 	 * @return
 	 */
 	@Override
-	public ObservableList<ChaineProduction> importChaineProduction(String nomFichier, char separateur){
-		ObservableList<ChaineProduction> chaineProductions = FXCollections.observableArrayList();
+	public ObservableMap<String, ChaineProduction> importChaineProduction(String nomFichier, char separateur){
+		ObservableMap<String, ChaineProduction> chaineProductions = FXCollections.observableHashMap();
 		CSVParser parser = new CSVParserBuilder().withSeparator(separateur)
 				                                 .withIgnoreQuotations(true)
                                                  .build();
@@ -116,7 +116,7 @@ public class ImportExportCsv implements ImportExport{
 				sorties = importCouple("sorties.csv", ';', line[0]);
 				
 				ChaineProduction ch = new ChaineProduction(line[0], line[1], entrees, sorties);
-				chaineProductions.add(ch);
+				chaineProductions.put(ch.getCode(), ch);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
