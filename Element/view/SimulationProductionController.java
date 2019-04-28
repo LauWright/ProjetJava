@@ -333,12 +333,12 @@ public class SimulationProductionController {
 			} else if (option.get() == ButtonType.OK) {
 				this.messageExport.setTextFill(Color.web("#52BE80"));
 				this.messageExport.setText("Production effectuée");
-				// (new ImportExportCsv()).writeCsvElement("oldElements.csv",
-				// this.mainApp.getElementData());
+				 (new ImportExportCsv()).writeCsvElement("oldElements.csv",
+				this.mainApp.getElementData());
 				this.mainApp.getElementData().clear();
 				this.mainApp.getElementData().putAll(this.mainApp.getElementSimulationData());
-				// (new ImportExportCsv()).writeCsvElement("newElements.csv",
-				// this.mainApp.getElementData());
+				(new ImportExportCsv()).writeCsvElement("newElements.csv",
+				this.mainApp.getElementData());
 				Date d = new Date();
 				DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
 				if (this.mainApp.getAchatData().size() != 0) {

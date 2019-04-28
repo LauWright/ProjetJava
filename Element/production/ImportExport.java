@@ -2,6 +2,7 @@ package production;
 
 import java.io.FileWriter;
 import java.util.List;
+import java.util.Map;
 
 import element.Achat;
 import element.Element;
@@ -42,7 +43,7 @@ public interface ImportExport {
      * @param nomFichier
      * @param elements
      */
-	 public void writeCsvElement(String nomFichier, List<Element> elements);
+	 public void writeCsvElement(String nomFichier, Map<String, Element> elements);
 	 
 	 /**
 	     * Ajouter un élément au fichier élément
@@ -54,7 +55,7 @@ public interface ImportExport {
 	  * Aouter une chaine de production au fichier
 	  * @param chaines
 	  */
-	 public void ajouterCsvChaineProduction(List<ChaineProduction> chaines);
+	 public void ajouterCsvChaineProduction(Map<String, ChaineProduction> chaines);
 	 
 	 /**
 	     * Ajouter une entree pour une chaine
@@ -88,7 +89,7 @@ public interface ImportExport {
 	     * Ecrire le fichier de chaines de production
 	     * @param chaines
 	     */
-	 public void writeCsvChaineProduction(List<ChaineProduction> chaines);
+	 public void writeCsvChaineProduction(Map<String, ChaineProduction> chaines);
 	 
 	 /**
 	     * Ecriture du fichier des achats avec en parametre le nom du fichier et la liste des Matieres premieres à acheter

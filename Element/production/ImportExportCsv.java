@@ -1,6 +1,7 @@
 package production;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -184,7 +185,7 @@ public class ImportExportCsv implements ImportExport{
      * @param elements
      */
 	@Override
-    public void writeCsvElement(String nomFichier, List<Element> elements) {
+	public void writeCsvElement(String nomFichier, Map<String, Element> elements) {
          FileWriter fileWriter = null;
                  
         try {
@@ -195,26 +196,25 @@ public class ImportExportCsv implements ImportExport{
              
             //Nouvelle ligne
             fileWriter.append(NEW_LINE_SEPARATOR);
-             
-            for (Element e : elements) {
-            	if(e.getClass().getSimpleName().equals("Produit")) {
-            		 fileWriter.append(e.getCode());
+            for (Map.Entry<String, Element> e : elements.entrySet()) {
+            	if(e.getValue().getClass().getSimpleName().equals("Produit")) {
+            		 fileWriter.append(e.getValue().getCode());
                      fileWriter.append(DELIMITER);
-                     fileWriter.append(e.getNom());
+                     fileWriter.append(e.getValue().getNom());
                      fileWriter.append(DELIMITER);
-                     fileWriter.append(String.valueOf(e.getQuantite()));
+                     fileWriter.append(String.valueOf(e.getValue().getQuantite()));
                      fileWriter.append(DELIMITER);
-                     fileWriter.append(e.getMesure());
+                     fileWriter.append(e.getValue().getMesure());
                      fileWriter.append(DELIMITER);
                      fileWriter.append("NA");
                      fileWriter.append(DELIMITER);
-                     fileWriter.append(String.valueOf(e.getPrixVente()));
+                     fileWriter.append(String.valueOf(e.getValue().getPrixVente()));
                      fileWriter.append(DELIMITER);
                      fileWriter.append("P");
                      fileWriter.append(NEW_LINE_SEPARATOR);
             	}
-            	if(e.getClass().getSimpleName().equals("MatierePremiere")) {
-            		 MatierePremiere ma = (MatierePremiere) e;
+            	if(e.getValue().getClass().getSimpleName().equals("MatierePremiere")) {
+            		 MatierePremiere ma = (MatierePremiere) e.getValue();
             		 fileWriter.append(ma.getCode());
                      fileWriter.append(DELIMITER);
                      fileWriter.append(ma.getNom());
@@ -287,17 +287,18 @@ public class ImportExportCsv implements ImportExport{
  * @param chaines
  */
 	@Override
-    public void ajouterCsvChaineProduction(List<ChaineProduction> chaines) { 
+    public void ajouterCsvChaineProduction(Map<String, ChaineProduction> chaines) { 
     	// Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new FileWriter("chaine.csv", true));
 			String s = "";
-	        for(ChaineProduction c : chaines) {
-	        	s += c.getCode() + ";" + c.getNom();
+			
+			 for (Map.Entry<String, ChaineProduction> c:  chaines.entrySet()) {
+	        	s += c.getValue().getCode() + ";" + c.getValue().getNom();
 	        	s += "\n";
-	        	ajouterCsvEntree(c.getCode(), c.getEntrees());
-	        	ajouterCsvSortie(c.getCode(), c.getSorties());
+	        	ajouterCsvEntree(c.getValue().getCode(), c.getValue().getEntrees());
+	        	ajouterCsvSortie(c.getValue().getCode(), c.getValue().getSorties());
 	        }
 	        //ecrit la chaine de charactere
 	        writer.write(s);
@@ -401,7 +402,7 @@ public class ImportExportCsv implements ImportExport{
      * @param chaines
      */
 	@Override
-    public void writeCsvChaineProduction(List<ChaineProduction> chaines) { 
+    public void writeCsvChaineProduction(Map<String, ChaineProduction> chaines) { 
     	// Crée un BufferedWriter.
         BufferedWriter writer;
 		try {
@@ -409,11 +410,12 @@ public class ImportExportCsv implements ImportExport{
 			String s = "Code;Nom \n";
 			writeCsvEntree();
 			writeCsvSortie();
-	        for(ChaineProduction c : chaines) {
-	        	s += c.getCode() + ";" + c.getNom();
+			
+			for (Map.Entry<String, ChaineProduction> c:  chaines.entrySet()) {
+	        	s += c.getValue().getCode() + ";" + c.getValue().getNom();
 	        	s += "\n";
-	        	ajouterCsvEntree(c.getCode(), c.getEntrees());
-	        	ajouterCsvSortie(c.getCode(), c.getSorties());
+	        	ajouterCsvEntree(c.getValue().getCode(), c.getValue().getEntrees());
+	        	ajouterCsvSortie(c.getValue().getCode(), c.getValue().getSorties());
 	        }
 	        //ecrit la chaine de charactere
 	        writer.write(s);
