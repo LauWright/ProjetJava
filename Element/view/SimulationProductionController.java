@@ -7,12 +7,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import element.Achat;
 import element.Element;
 import element.MatierePremiere;
 import element.ProduitManquant;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -20,6 +23,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -63,6 +68,8 @@ public class SimulationProductionController {
 	
     @FXML
 	private GridPane gridChaine;
+    @FXML
+    private ScrollPane scrollChaine;
     @FXML
     private Label messageExport;
     
@@ -129,6 +136,12 @@ public class SimulationProductionController {
 			tf.setText("0");
 			this.gridChaine.add(tf, 1, i+1);
 		}
+		this.scrollChaine.setContent(gridChaine);
+		this.scrollChaine.setHbarPolicy(ScrollBarPolicy.NEVER);
+		this.scrollChaine.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		this.scrollChaine.setFitToHeight(true);
+		this.scrollChaine.setPannable(true);
+		
 	}
 	
 	/**
@@ -175,27 +188,28 @@ public class SimulationProductionController {
 			            			s += " , niveau " + tf.getText() + "\n";
 			            			List<Couple> entrees = c.getEntrees();
 			            			boolean reussi = true;
+			            			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
 			            			for(Couple couple : entrees) {
-			            				for(Element e : this.mainApp.getElementSimulationData()) {
-				            				if(couple.getCode().equals(e.getCode())) {
-				            					e.soustraire(couple.getQte()*Double.valueOf(tf.getText()));
-				            					System.out.println(e.getQuantite());
-			            						if(e.examiner()) {
+			            				for(Entry<String, Element> e : elements) {
+				            				if(couple.getCode().equals(e.getValue().getCode())) {
+				            					e.getValue().soustraire(couple.getQte()*Double.valueOf(tf.getText()));
+				            					System.out.println(e.getValue().getQuantite());
+			            						if(e.getValue().examiner()) {
 					            					if(e.getClass().getSimpleName().equals("MatierePremiere")){
 					            						MatierePremiere ma = (MatierePremiere) e;
 					            						if(ma.getPrixAchat() == -1) {
-						            						s += "Production impossible, élément " + e.getCode() +" ne possède pas de prix d'achat et la quantité est insuffisante \n";
-						            						e.ajouter(couple.getQte()*Double.valueOf(tf.getText()));
+						            						s += "Production impossible, élément " + e.getValue().getCode() +" ne possède pas de prix d'achat et la quantité est insuffisante \n";
+						            						e.getValue().ajouter(couple.getQte()*Double.valueOf(tf.getText()));
 						            						reussi = false;
 						            					} else {
-						            						this.mainApp.getAchatData().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(), ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0-e.getQuantite(), c));
+						            						this.mainApp.getAchatData().add(new Achat(ma.getCode(), ma.getNom(), e.getValue().getQuantite(), ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0-e.getValue().getQuantite(), c));
 						            						s+="Attention matière première " + ma.getCode() +" manquante dans le stock \n";
 						            					}	
 					            					}
 					            					if(e.getClass().getSimpleName().equals("Produit")){				            						
-					            							s += "Production impossible, élément " + e.getCode() +" ne possède pas de prix d'achat et la quantité est insuffisante \n";
-					            							this.mainApp.getProduitManquantData().add(new ProduitManquant(e.getCode(), e.getNom(), e.getQuantite(), e.getMesure(), e.getPrixVente(), 0-e.getQuantite(), c));
-					            							e.ajouter(couple.getQte()*Double.valueOf(tf.getText()));
+					            							s += "Production impossible, élément " + e.getValue().getCode() +" ne possède pas de prix d'achat et la quantité est insuffisante \n";
+					            							this.mainApp.getProduitManquantData().add(new ProduitManquant(e.getValue().getCode(), e.getValue().getNom(), e.getValue().getQuantite(), e.getValue().getMesure(), e.getValue().getPrixVente(), 0-e.getValue().getQuantite(), c));
+					            							e.getValue().ajouter(couple.getQte()*Double.valueOf(tf.getText()));
 					            							reussi = false;
 					            					}
 			            						}
@@ -206,20 +220,21 @@ public class SimulationProductionController {
 			            			if(reussi) {
 			            				s+= "Produit(s) obtenu(s) : ";
 			            				for(Couple so: sorties) {
-			            					for(Element e : this.mainApp.getElementSimulationData()) {
-				            					if(e.getCode().equals(so.getCode())) {
-				            						e.setQuantite(so.getQte()*Double.valueOf(tf.getText()));
-				            						if (e.getQuantite() >= 0) {
+			            					ObservableList<Map.Entry<String, Element>> elements1 = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+			            					for(Entry<String, Element> e : elements1) {
+				            					if(e.getValue().getCode().equals(so.getCode())) {
+				            						e.getValue().setQuantite(so.getQte()*Double.valueOf(tf.getText()));
+				            						if (e.getValue().getQuantite() >= 0) {
 				            							ProduitManquant prm = null;
 				            							for(ProduitManquant pm : this.mainApp.getProduitManquantData()) {
-				            								if(pm.getCode().equals(e.getCode())) {
+				            								if(pm.getCode().equals(e.getValue().getCode())) {
 				            									prm = pm;
 				            								}
 				            							}
 				            							this.mainApp.getProduitManquantData().remove(prm);
 				            						}
 				            						double total = so.getQte()*Double.valueOf(tf.getText());
-				            						s+= e.getCode() + " - " + so.getQte() + " x " + tf.getText() + " = " + total + " " + e.getMesure() + "\n";
+				            						s+= e.getValue().getCode() + " - " + so.getQte() + " x " + tf.getText() + " = " + total + " " + e.getValue().getMesure() + "\n";
 				            					}
 				            				}
 			            				}
@@ -231,9 +246,10 @@ public class SimulationProductionController {
 				}
 			}
 			double efficacite = 0;
-			for(Element e : this.mainApp.getElementSimulationData()) {
-				if (e.getPrixVente() != -1 && e.getQuantite() >= 0) {
-					efficacite += e.getPrixVente() * e.getQuantite();
+			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+			for(Entry<String, Element> e :elements) {
+				if (e.getValue().getPrixVente() != -1 && e.getValue().getQuantite() >= 0) {
+					efficacite += e.getValue().getPrixVente() * e.getValue().getQuantite();
 				}
 			}
 			for(Achat e : this.mainApp.getAchatData()) {
@@ -272,8 +288,8 @@ public class SimulationProductionController {
 		this.mainApp.setSimulation(false);
 		this.mainApp.getAchatData().removeAll(this.mainApp.getAchatData());
 		this.mainApp.getProduitManquantData().removeAll(this.mainApp.getProduitManquantData());
-		this.mainApp.getElementSimulationData().removeAll(this.mainApp.getElementSimulationData());
-		this.mainApp.getElementSimulationData().addAll(new ImportExportCsv().importElement("newElements.csv", ';'));
+		this.mainApp.getElementSimulationData().clear();
+		this.mainApp.getElementSimulationData().putAll(new ImportExportCsv().importElement("newElements.csv", ';'));
 		for(int i=0; i< this.mainApp.getChaineData().size(); i++) {
 			for(Node no : this.gridChaine.getChildren()) {
 	    		if(GridPane.getRowIndex(no) == i+1 && GridPane.getColumnIndex(no) == 0) {
@@ -309,10 +325,10 @@ public class SimulationProductionController {
 			} else if (option.get() == ButtonType.OK) {
 				this.messageExport.setTextFill(Color.web("#52BE80"));
 				this.messageExport.setText("Production effectuée");
-				(new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
-				this.mainApp.getElementData().removeAll(this.mainApp.getElementData());
-				this.mainApp.getElementData().addAll(this.mainApp.getElementSimulationData());
-				(new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
+				//(new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
+				this.mainApp.getElementData().clear();
+				this.mainApp.getElementData().putAll(this.mainApp.getElementSimulationData());
+				//(new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
 				Date d = new Date();
 			    DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(
 			        DateFormat.MEDIUM,

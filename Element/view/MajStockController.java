@@ -1,10 +1,18 @@
 package view;
 
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import element.Element;
 import element.MatierePremiere;
 import element.Produit;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -15,18 +23,19 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.util.Callback;
 
 public class MajStockController {
 	@FXML
-	private TableView<Element> elementTable;
+	private TableView<Map.Entry<String,Element>> elementTable;
 	@FXML
-	private TableColumn<Element, String> codeColumn;
+	private TableColumn<Map.Entry<String, Element>, String> codeColumn;
 	@FXML
-	private TableColumn<Element, String> nomColumn;
+	private TableColumn<Map.Entry<String, Element>, String> nomColumn;
 	@FXML
-	private TableColumn<Element, Double> quantiteColumn;
+	private TableColumn<Map.Entry<String, Element>, Double> quantiteColumn;
 	@FXML
-	private TableColumn<Element, String> mesureColumn;
+	private TableColumn<Map.Entry<String, Element>, String> mesureColumn;
 
 	@FXML
 	private Label codeLabel;
@@ -64,10 +73,38 @@ public class MajStockController {
 		this.produitRadio.setToggleGroup(group);
 		this.messageExport.setText("");
 		// Initialise les colonne du tableau d'elements
-		this.codeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-		this.nomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-		this.quantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
-		this.mesureColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
+		
+		this.codeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Element>, String>, ObservableValue<String>>() {            
+			@Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, Element>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue().getCode());
+            }
+        });
+		
+		this.nomColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Element>, String>, ObservableValue<String>>() {            
+			@Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, Element>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue().getNom());
+            }
+        });
+		
+		this.quantiteColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Element>, Double>, ObservableValue<Double>>() {            
+			@Override
+            public ObservableValue<Double> call(TableColumn.CellDataFeatures<Map.Entry<String, Element>, Double> p) {
+                // for second column we use value
+                return new SimpleDoubleProperty(p.getValue().getValue().getQuantite()).asObject();
+            }
+        });
+		
+		this.mesureColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Element>, String>, ObservableValue<String>>() {            
+			@Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, Element>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue().getNom());
+            }
+        });
 
 		// mettre les details à vide
 		showElementDetails(null);
@@ -85,7 +122,8 @@ public class MajStockController {
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-		this.elementTable.setItems(this.mainApp.getElementData());
+		ObservableList<Map.Entry<String, Element>> items = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+		this.elementTable.setItems(items);
 	}
 
 	/**
@@ -93,12 +131,12 @@ public class MajStockController {
 	 * 
 	 * @param person
 	 */
-	private void showElementDetails(Element element) {
-		if (element != null) {
+	private void showElementDetails(Entry<String, Element> newValue) {
+		if (newValue != null) {
 			// Remplir les labels avec les informations de l'élément passé en parametre
-			this.codeLabel.setText(element.getCode());
-			if (element.getClass().getSimpleName().equals("MatierePremiere")) {
-				MatierePremiere ma = (MatierePremiere) element;
+			this.codeLabel.setText(newValue.getValue().getCode());
+			if (newValue.getClass().getSimpleName().equals("MatierePremiere")) {
+				MatierePremiere ma = (MatierePremiere) newValue;
 				this.prixAchatLabel.setText(String.valueOf(ma.getPrixAchat()));
 				this.typeLabel.setText("Matière première");
 			} else {
@@ -106,10 +144,10 @@ public class MajStockController {
 				this.typeLabel.setText("Produit");
 			}
 
-			if (element.getPrixVente() == -1) {
+			if (newValue.getValue().getPrixVente() == -1) {
 				this.prixVenteLabel.setText("Aucun");
 			} else {
-				this.prixVenteLabel.setText(String.valueOf(element.getPrixVente()));
+				this.prixVenteLabel.setText(String.valueOf(newValue.getValue().getPrixVente()));
 			}
 			
 		} else {
@@ -183,9 +221,9 @@ public class MajStockController {
 			if(id >= 100) {
 				ma.setCode("E" + id);
 			}
-			boolean okClicked = mainApp.showElementEditDialog(ma);
+			boolean okClicked = mainApp.showElementEditDialog(new AbstractMap.SimpleEntry<String, Element>(ma.getCode(), ma));
 			if (okClicked) {
-				mainApp.getElementData().add(ma);
+				mainApp.getElementData().put(ma.getCode(), ma);
 			}
 		}
 		if (this.produitRadio.isSelected()) {
@@ -199,9 +237,9 @@ public class MajStockController {
 			if(id >= 100) {
 				ma.setCode("E" + id);
 			}
-			boolean okClicked = mainApp.showElementEditDialog(ma);
+			boolean okClicked = mainApp.showElementEditDialog(new AbstractMap.SimpleEntry<String, Element>(ma.getCode(), ma));
 			if (okClicked) {
-				mainApp.getElementData().add(ma);
+				mainApp.getElementData().put(ma.getCode(), ma);
 			}
 		}
 	}
@@ -211,7 +249,7 @@ public class MajStockController {
 	 */
 	@FXML
 	private void handleEditElement() {
-	    Element selectedElement = this.elementTable.getSelectionModel().getSelectedItem();
+		Entry<String, Element> selectedElement = this.elementTable.getSelectionModel().getSelectedItem();
 	    if (selectedElement != null) {
 	        boolean okClicked = this.mainApp.showElementEditDialog(selectedElement);
 	        if (okClicked) {
@@ -247,8 +285,8 @@ public class MajStockController {
             this.messageExport.setText("No selection!");
          } else if (option.get() == ButtonType.OK) {
             this.messageExport.setText("Modifications enregistrés");
-            (new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
-            (new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
+            //(new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
+            //(new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
             
          } else if (option.get() == ButtonType.CANCEL) {
             this.messageExport.setText("Modifications annulées");

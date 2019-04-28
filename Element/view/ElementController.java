@@ -63,20 +63,33 @@ public class ElementController {
 	 * @param mainApp
 	 * @throws IOException 
 	 */
+	/**
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp) {
-		this.elementtab.getOnSelectionChanged();
+		//this.elementtab.getOnSelectionChanged();
 		this.mainApp = mainApp;
 		try {
-			// Load menu overview.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
-			AnchorPane elements = (AnchorPane) loader.load();
+			/*
+			 * this.showProductionOverview(); // Load menu overview. FXMLLoader loader = new
+			 * FXMLLoader();
+			 * loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
+			 * AnchorPane elements = (AnchorPane) loader.load();
+			 * 
+			 * this.elementtab.setContent(elements); // connexion de ChaineController à la
+			 * mainPage ElementStocksController elemController = loader.getController();
+			 * elemController.setMainApp(this.mainApp);
+			 */
 
-			this.elementtab.setContent(elements);
-			// connexion de ChaineController à la mainPage
-			ElementStocksController elemController = loader.getController();
-			elemController.setMainApp(this.mainApp);
-			
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("SimulationProduction.fxml"));
+			AnchorPane production = (AnchorPane) loader.load();
+
+			this.productiontab.setContent(production);
+
+			// connexion de SimulationProductionController à la mainPage
+			SimulationProductionController productionController = loader.getController();
+			productionController.setMainApp(this.mainApp);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -128,18 +141,17 @@ public class ElementController {
 	/**
 	 * Insert la vue simulationProduction dans l'onget production
 	 */
-	public void showProductionOverview() {
+	public void showElementOverview() {
 		try {
-			// Load menu overview.
+			// Load menu overview. 
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("SimulationProduction.fxml"));
-			AnchorPane production = (AnchorPane) loader.load();
-
-			this.productiontab.setContent(production);
-
-			// connexion de SimulationProductionController à la mainPage
-			SimulationProductionController productionController = loader.getController();
-			productionController.setMainApp(this.mainApp);
+			loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
+			AnchorPane elements = (AnchorPane) loader.load();
+			
+			this.elementtab.setContent(elements); 
+			// connexion de ChaineController à la mainPage 
+			ElementStocksController elemController = loader.getController();
+			elemController.setMainApp(this.mainApp);
 
 		} catch (IOException e) {
 			e.printStackTrace();

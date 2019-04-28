@@ -14,6 +14,7 @@ import element.Produit;
 import element.ProduitManquant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -43,8 +44,8 @@ public class ImportExportCsv implements ImportExport{
 	 * @return
 	 */
 	@Override
-	public ObservableList<Element> importElement(String nomFichier, char separateur){
-		ObservableList<Element> elements = FXCollections.observableArrayList();
+	public ObservableMap<String, Element> importElement(String nomFichier, char separateur){
+		ObservableMap<String, Element> elements = FXCollections.observableHashMap();
 		CSVParser parser = new CSVParserBuilder().withSeparator(separateur)
 				                                 .withIgnoreQuotations(true)
                                                  .build();
@@ -73,7 +74,7 @@ public class ImportExportCsv implements ImportExport{
                 	e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], d);
                 	
                 }
-				elements.add(e);
+				elements.put(e.getCode(), e);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

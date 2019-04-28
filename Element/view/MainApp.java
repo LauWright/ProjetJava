@@ -1,13 +1,17 @@
 package view;
 
 import java.io.IOException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 
 import element.Achat;
 import element.Element;
+import element.MatierePremiere;
 import element.ProduitManquant;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -23,8 +27,8 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	private ChaineProduction newChaine;
 
-	private ObservableList<element.Element> stockElements = FXCollections.observableArrayList();
-	private ObservableList<element.Element> stockElementsSimulation = FXCollections.observableArrayList();
+	private ObservableMap<String, element.Element> stockElements = FXCollections.observableHashMap();
+	private ObservableMap<String, element.Element> stockElementsSimulation = FXCollections.observableHashMap();
 	private ObservableList<production.ChaineProduction> chaines = FXCollections.observableArrayList();
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
@@ -41,14 +45,14 @@ public class MainApp extends Application {
 	/**
 	 * Retourne la liste d'elements à charger à l'ouverture
 	 */
-	public ObservableList<element.Element> getElementData() {
+	public ObservableMap<String, element.Element> getElementData() {
 		return this.stockElements;
 	}
 	
 	/**
 	 * Retourne la liste d'elementssimulé
 	 */
-	public ObservableList<element.Element> getElementSimulationData() {
+	public ObservableMap<String, element.Element> getElementSimulationData() {
 		return this.stockElementsSimulation;
 	}
 
@@ -133,6 +137,7 @@ public class MainApp extends Application {
 			// connexion de ElementController à la mainPage
 			ElementController elemController = loader.getController();
 			elemController.setMainApp(this);
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -178,10 +183,10 @@ public class MainApp extends Application {
 	
 	/**
 	 * Ouvre la boite de dialogue pour editer un element
-	 * @param element
+	 * @param selectedElement
 	 * @return
 	 */
-	public boolean showElementEditDialog(Element element) {
+	public boolean showElementEditDialog(Entry<String, Element> selectedElement) {
 	    try {
 	        // Load the fxml file and create a new stage for the popup dialog.
 	        FXMLLoader loader = new FXMLLoader();
@@ -196,10 +201,10 @@ public class MainApp extends Application {
 	        Scene scene = new Scene(page);
 	        dialogStage.setScene(scene);
 
-	        // Set the person into the controller.
+	        // Set the element into the controller.
 	        ElementEditDialogController controller = loader.getController();
 	        controller.setDialogStage(dialogStage);
-	        controller.setElement(element);
+	        controller.setElement(selectedElement);
 
 	        // Show the dialog and wait until the user closes it
 	        dialogStage.showAndWait();

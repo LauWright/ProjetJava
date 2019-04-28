@@ -7,6 +7,7 @@ import element.Achat;
 import element.Element;
 import element.ProduitManquant;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 public interface ImportExport {
 	
@@ -17,7 +18,7 @@ public interface ImportExport {
 	 * @param separateur
 	 * @return
 	 */
-	public abstract ObservableList<Element> importElement(String nomFichier, char separateur);
+	public abstract ObservableMap<String, Element> importElement(String nomFichier, char separateur);
 	
 	/**
 	 * Importation des chaines de production

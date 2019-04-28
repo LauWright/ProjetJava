@@ -1,10 +1,15 @@
 package view;
 
+
+import java.util.Map;
+import java.util.Map.Entry;
+
 import element.Element;
 import element.MatierePremiere;
 import element.Produit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -82,12 +87,12 @@ public class ElementStocksController {
 			this.produitTable.getItems().removeAll(this.produitTable.getItems());
 			this.matierePremiereTable.getItems().removeAll(this.matierePremiereTable.getItems());
 			// Add liste des element à la table elementTable
-			ObservableList<Element> elements = this.mainApp.getElementData();
-			for (Element e : elements) {
-				if (e.getClass().getSimpleName().equals("Produit")) {
-					this.produits.add((Produit) e);
+			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+			for (Entry<String, Element> e : elements) {
+				if (e.getValue().getClass().getSimpleName().equals("Produit")) {
+					this.produits.add((Produit) e.getValue());
 				} else {
-					this.matieresPremieres.add((MatierePremiere) e);
+					this.matieresPremieres.add((MatierePremiere) e.getValue());
 				}
 			}
 
@@ -104,17 +109,17 @@ public class ElementStocksController {
 			this.produitTable.getItems().removeAll(this.produitTable.getItems());
 			this.matierePremiereTable.getItems().removeAll(this.matierePremiereTable.getItems());
 			// Add liste des element à la table elementTable
-						ObservableList<Element> elements = this.mainApp.getElementData();
-						for (Element e : elements) {
-							if (e.getClass().getSimpleName().equals("Produit")) {
-								this.produits.add((Produit) e);
-							} else {
-								this.matieresPremieres.add((MatierePremiere) e);
-							}
-						}
+			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+			for (Entry<String, Element> e : elements) {
+				if (e.getValue().getClass().getSimpleName().equals("Produit")) {
+					this.produits.add((Produit) e.getValue());
+				} else {
+					this.matieresPremieres.add((MatierePremiere) e.getValue());
+				}
+			}
 
-						this.produitTable.setItems(this.produits);
-						this.matierePremiereTable.setItems(this.matieresPremieres);
+			this.produitTable.setItems(this.produits);
+			this.matierePremiereTable.setItems(this.matieresPremieres);
 		}
 
 }
