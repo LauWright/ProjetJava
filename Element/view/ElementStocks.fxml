@@ -26,10 +26,11 @@
       <TableView fx:id="produitTable" layoutX="40.0" layoutY="351.0" prefHeight="305.0" prefWidth="940.0">
          <columns>
             <TableColumn fx:id="codePColumn" prefWidth="83.0" text="Code" />
-            <TableColumn fx:id="nomPColumn" prefWidth="515.0" text="Nom" />
-            <TableColumn fx:id="quantitePColumn" prefWidth="112.0" text="Quantite" />
-            <TableColumn fx:id="mesurePColumn" prefWidth="109.0" text="Mesure" />
-            <TableColumn fx:id="prixVentePColumn" prefWidth="120.0" text="Prix de vente" />
+            <TableColumn fx:id="nomPColumn" prefWidth="476.0" text="Nom" />
+            <TableColumn fx:id="quantitePColumn" prefWidth="91.0" text="Quantite" />
+            <TableColumn fx:id="mesurePColumn" prefWidth="82.0" text="Mesure" />
+            <TableColumn fx:id="prixVentePColumn" prefWidth="106.0" text="Prix de vente" />
+            <TableColumn fx:id="prixAchatPColumn" prefWidth="101.0" text="Prix d'achat" />
          </columns>
       </TableView>
       <Label layoutX="41.0" layoutY="322.0" text="Produits en stock">

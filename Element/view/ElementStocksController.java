@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import element.Element;
 import element.MatierePremiere;
 import element.Produit;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -40,7 +41,9 @@ public class ElementStocksController {
 		@FXML
 		private TableColumn<element.Produit, String> mesurePColumn;
 		@FXML
-		private TableColumn<element.Produit, Double> prixVentePColumn;
+		private TableColumn<element.Produit, String> prixVentePColumn;
+		@FXML
+		private TableColumn<element.Produit, String> prixAchatPColumn;
 		
 		private ObservableList<element.MatierePremiere> matieresPremieres = FXCollections.observableArrayList();
 		private ObservableList<element.Produit> produits = FXCollections.observableArrayList();
@@ -71,9 +74,11 @@ public class ElementStocksController {
 			this.nomPColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
 			this.quantitePColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
 			this.mesurePColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-			this.prixVentePColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixVenteProperty().asObject());
+			this.prixVentePColumn.setCellValueFactory(cellData -> { Produit p = cellData.getValue(); return p.getPrixVente() == -1 ? new SimpleStringProperty("Aucun") : new SimpleStringProperty(String.valueOf(p.getPrixVente()));});
+			this.prixAchatPColumn.setCellValueFactory(cellData -> { Produit p = cellData.getValue(); return p.getPrixAchat() == -1 ? new SimpleStringProperty("Aucun") : new SimpleStringProperty(String.valueOf(p.getPrixAchat()));});
 		}
 		
+	
 		/**
 		 * appelé par l'application main
 		 * 
