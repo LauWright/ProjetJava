@@ -130,6 +130,7 @@ public class MajStockController {
 		ObservableList<Map.Entry<String, Element>> items = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
 		
 		this.elementTable.setItems(items);
+		this.elementTable.getSortOrder().addAll(this.codeColumn);
 	}
 
 	/**

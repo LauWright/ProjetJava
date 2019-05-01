@@ -93,6 +93,7 @@ public class ChaineController {
         // Add observable list data to the table
     	ObservableList<Map.Entry<String, ChaineProduction>> items = FXCollections.observableArrayList(this.mainApp.getChaineData().entrySet());
         this.chaineTable.setItems(items);
+        this.chaineTable.getSortOrder().addAll(this.codeColumn);
     }
     
     private void showChaineDetails(Entry<String, ChaineProduction> newValue){

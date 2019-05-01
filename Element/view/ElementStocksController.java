@@ -94,7 +94,9 @@ public class ElementStocksController {
 			}
 
 			this.produitTable.setItems(this.produits);
+			this.produitTable.getSortOrder().addAll(this.codePColumn);
 			this.matierePremiereTable.setItems(this.matieresPremieres);
+			this.matierePremiereTable.getSortOrder().addAll(this.codeMAColumn);
 
 		}
 		

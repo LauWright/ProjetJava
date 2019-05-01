@@ -2,7 +2,9 @@ package view;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -92,22 +94,32 @@ public class SimulationProductionController {
 
 		ObservableList<Map.Entry<String, ChaineProduction>> chaines = FXCollections
 				.observableArrayList(this.mainApp.getChaineData().entrySet());
-		for (int i = 0; i < chaines.size(); i++) {
+		
+		List<ChaineProduction> listeChaines = new ArrayList<>();
+		for(Entry<String, ChaineProduction> c : chaines) {
+			listeChaines.add(c.getValue());
+		}
+		
+		Comparator<ChaineProduction> comparator = Comparator.comparing(ChaineProduction::getCode); 
+		listeChaines.sort(comparator);
+		for (int i = 0; i < listeChaines.size(); i++) {
 			CheckBox ch = new CheckBox();
-			ch.setText(chaines.get(i).getValue().getCode() + " " + chaines.get(i).getValue().getNom());
+			ch.setText(listeChaines.get(i).getCode() + " " + listeChaines.get(i).getNom());
 			this.gridChaine.add(ch, 0, i + 1);
 		}
 
-		for (int i = 0; i < chaines.size(); i++) {
+		for (int i = 0; i < listeChaines.size(); i++) {
 			TextField tf = new TextField();
 			tf.setText("0");
 			this.gridChaine.add(tf, 1, i + 1);
 		}
+		
+		
 		this.scrollChaine.setContent(gridChaine);
 		this.scrollChaine.setHbarPolicy(ScrollBarPolicy.NEVER);
 		this.scrollChaine.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		this.scrollChaine.setFitToHeight(true);
-		this.scrollChaine.setPannable(true);
+		this.scrollChaine.setPannable(true);		
 	}
 
 	/**
