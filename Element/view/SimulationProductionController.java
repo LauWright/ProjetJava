@@ -15,6 +15,7 @@ import java.util.Optional;
 import element.Achat;
 import element.Element;
 import element.MatierePremiere;
+import element.Produit;
 import element.ProduitManquant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -208,9 +209,10 @@ public class SimulationProductionController {
 												if (e.getClass().getSimpleName().equals("Produit")) {
 													s += "Production impossible, élément " + e.getCode()
 															+ " ne possède pas de prix d'achat et la quantité est insuffisante \n";
+													Produit p = (Produit) e;
 													this.mainApp.getProduitManquantData()
-															.add(new ProduitManquant(e.getCode(), e.getNom(),
-																	e.getQuantite(), e.getMesure(), e.getPrixVente(),
+															.add(new ProduitManquant(p.getCode(), p.getNom(),
+																	p.getQuantite(), p.getMesure(), p.getPrixVente(), p.getPrixAchat(), p.isAchetable(),
 																	0 - e.getQuantite(), c));
 													e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
 													reussi = false;

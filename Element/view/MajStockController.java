@@ -142,15 +142,16 @@ public class MajStockController {
 		if (newValue != null) {
 			// Remplir les labels avec les informations de l'élément passé en parametre
 			this.codeLabel.setText(newValue.getValue().getCode());
-			if (newValue.getValue().getClass().getSimpleName().equals("MatierePremiere")) {
-				MatierePremiere ma = (MatierePremiere) newValue.getValue();
-				this.prixAchatLabel.setText(String.valueOf(ma.getPrixAchat()));
-				this.typeLabel.setText("Matière première");
-			} else {
+			if (newValue.getValue().getPrixAchat() == -1) {
 				this.prixAchatLabel.setText("Aucun");
-				this.typeLabel.setText("Produit");
+			} else {
+				this.prixAchatLabel.setText(String.valueOf(newValue.getValue().getPrixAchat()));
 			}
-
+			if(newValue.getValue().getClass().getSimpleName().equals("Produit")) {	
+				this.typeLabel.setText("Produit");
+			}else {
+				this.typeLabel.setText("Matière première");	
+			}
 			if (newValue.getValue().getPrixVente() == -1) {
 				this.prixVenteLabel.setText("Aucun");
 			} else {
@@ -234,7 +235,7 @@ public class MajStockController {
 			}
 		}
 		if (this.produitRadio.isSelected()) {
-			Produit ma = new Produit("", "", 0, "", 0);
+			Produit ma = new Produit("", "", 0, "", 0, 0, false);
 			if(id < 10) {
 				ma.setCode("E00" + id);
 			}

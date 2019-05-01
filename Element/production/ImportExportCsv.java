@@ -59,20 +59,26 @@ public class ImportExportCsv implements ImportExport{
 			while ((line = reader.readNext()) != null)
 			{
 				// -1.0 signifie que l'élément n'a pas de prix de vente
-            	double d = -1.0;
+            	double dVente = -1.0;
             	if(!line[5].equals("NA")) {
-            		d= Double.valueOf(line[5]);
+            		dVente= Double.valueOf(line[5]);
             	}
                 
                 //création d'un element à ajouter à la liste des elements grace au CSV
                 //création de l'élément en fonction du type contenu dans le csv
                 Element e = null;
                 if (line[6].equals("MA")) {
-                	e = new MatierePremiere(line[0], line[1], Double.valueOf(line[2]), line[3], d, Double.valueOf(line[4]));
+                	e = new MatierePremiere(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, Double.valueOf(line[4]));
                 	
                 }
                 if (line[6].equals("P")) {
-                	e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], d);
+                	double dAchat = -1.0;
+                	boolean achetable = false;
+                	if(!line[4].equals("NA")) {
+                		dAchat= Double.valueOf(line[4]);
+                		achetable = true;
+                	}
+                	e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, dAchat, achetable);
                 	
                 }
 				elements.put(e.getCode(), e);

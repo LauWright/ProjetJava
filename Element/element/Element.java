@@ -13,7 +13,7 @@ public abstract class Element {
 	private DoubleProperty quantite;
 	private StringProperty mesure;
 	private DoubleProperty prixVente;
-	
+	private DoubleProperty prixAchat;
 	
 	/**
 	 * Constructeur d'un Element
@@ -23,12 +23,13 @@ public abstract class Element {
 	 * @param mesure mesure d'un element : String
 	 * @param prixVente prix de vente d'un element : double
 	 */
-	public Element(String code, String nom, double quantite, String mesure, double prixVente) {
+	public Element(String code, String nom, double quantite, String mesure, double prixVente, double prixAchat) {
 		this.code = new SimpleStringProperty(code);
 		this.nom = new SimpleStringProperty(nom);
 		this.quantite = new SimpleDoubleProperty(quantite);
 		this.mesure = new SimpleStringProperty(mesure);
 		this.prixVente = new SimpleDoubleProperty(prixVente);
+		this.prixAchat = new SimpleDoubleProperty(prixAchat);
 	}
 	
 	
@@ -129,6 +130,14 @@ public abstract class Element {
 	public StringProperty getMesureProperty() {
 		return this.mesure;
 	}
+	
+	/**
+	 * Recuperer la propriété prix de vente d'un element
+	 * @return prixVente d'un element : double
+	 */
+	public DoubleProperty getPrixVenteProperty() {
+		return this.prixVente;
+	}
 
 	/**
 	 * Recuperer prix de vente d'un element
@@ -139,11 +148,19 @@ public abstract class Element {
 	}
 	
 	/**
-	 * Recuperer la propriétéprix de vente d'un element
+	 * Recuperer la propriété prix d'achat d'un element
 	 * @return prixVente d'un element : double
 	 */
-	public DoubleProperty getPrixVenteProperty() {
-		return this.prixVente;
+	public DoubleProperty getPrixAchatProperty() {
+		return this.prixAchat;
+	}
+	
+	/**
+	 * Recuperer prix d'achat d'un element
+	 * @return prixVente d'un element : double
+	 */
+	public double getPrixAchat() {
+		return this.prixAchat.get();
 	}
 	
 
@@ -180,7 +197,11 @@ public abstract class Element {
 
 
 	public void setPrixVente(Double prixVente) {
-		this.prixVente.set(prixVente);;
+		this.prixVente.set(prixVente);
+	}
+	
+	public void setPrixAchat(Double prixAchat) {
+		this.prixAchat.set(prixAchat);
 	}
 
 	@Override
