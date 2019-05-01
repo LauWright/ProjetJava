@@ -28,8 +28,6 @@ public class ElementStocksController {
 		private TableColumn<element.MatierePremiere, String> mesureMAColumn;
 		@FXML
 		private TableColumn<element.MatierePremiere, Double> prixAchatMAColumn;
-		@FXML
-		private TableColumn<element.MatierePremiere, Double> prixVenteMAColumn;
 
 		@FXML
 		private TableView<element.Produit> produitTable;
@@ -67,8 +65,7 @@ public class ElementStocksController {
 			this.quantiteMAColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
 			this.mesureMAColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
 			this.prixAchatMAColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixAchatProperty().asObject());
-			this.prixVenteMAColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixVenteProperty().asObject());
-
+			
 			// Initialize le tableau des produits.
 			this.codePColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
 			this.nomPColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());

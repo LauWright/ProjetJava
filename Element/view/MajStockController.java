@@ -1,6 +1,10 @@
 package view;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -122,7 +126,9 @@ public class MajStockController {
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
+
 		ObservableList<Map.Entry<String, Element>> items = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+		
 		this.elementTable.setItems(items);
 	}
 
@@ -135,8 +141,8 @@ public class MajStockController {
 		if (newValue != null) {
 			// Remplir les labels avec les informations de l'élément passé en parametre
 			this.codeLabel.setText(newValue.getValue().getCode());
-			if (newValue.getClass().getSimpleName().equals("MatierePremiere")) {
-				MatierePremiere ma = (MatierePremiere) newValue;
+			if (newValue.getValue().getClass().getSimpleName().equals("MatierePremiere")) {
+				MatierePremiere ma = (MatierePremiere) newValue.getValue();
 				this.prixAchatLabel.setText(String.valueOf(ma.getPrixAchat()));
 				this.typeLabel.setText("Matière première");
 			} else {
