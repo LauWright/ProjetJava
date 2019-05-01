@@ -2,6 +2,10 @@ package view;
 
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import element.Achat;
@@ -30,8 +34,14 @@ public class MainApp extends Application {
 	private ObservableMap<String, element.Element> stockElements = FXCollections.observableHashMap();
 	private ObservableMap<String, element.Element> stockElementsSimulation = FXCollections.observableHashMap();
 	private ObservableMap<String, ChaineProduction> chaines = FXCollections.observableHashMap();
+	
+	
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
+	
+	private List<String> semaines = new ArrayList<>();
+	
+	
 	private boolean simulation = false;
 	/**
 	 * Constructeur
@@ -40,6 +50,13 @@ public class MainApp extends Application {
 		this.stockElements = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.stockElementsSimulation = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.chaines = new ImportExportCsv().importChaineProduction("chaines.csv", ';');
+		
+		Calendar calendar = Calendar.getInstance();
+		for(int i = 0; i<8; i++) {
+			int week = calendar.get(calendar.WEEK_OF_YEAR);
+			this.semaines.add("Semaine " + week);
+			calendar.add(Calendar.DATE, 7);	
+		}
 	}
 
 	/**
@@ -75,6 +92,13 @@ public class MainApp extends Application {
 	 */
 	public ObservableList<ProduitManquant> getProduitManquantData() {
 		return this.produitM;
+	}
+	
+	/**
+	 * Retourne la liste des semaines
+	 */
+	public List<String> getSemaines() {
+		return this.semaines;
 	}
 	
 	/**

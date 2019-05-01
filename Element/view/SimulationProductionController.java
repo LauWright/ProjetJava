@@ -21,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -37,32 +38,7 @@ import production.ImportExportCsv;
 public class SimulationProductionController {
 
 	@FXML
-	private TableView<Achat> achatsTable;
-	@FXML
-	private TableColumn<Achat, String> aChaineColumn;
-	@FXML
-	private TableColumn<Achat, String> aCodeColumn;
-	@FXML
-	private TableColumn<Achat, String> aNomColumn;
-	@FXML
-	private TableColumn<Achat, String> aMesureColumn;
-	@FXML
-	private TableColumn<Achat, Double> aPrixAchatColumn;
-	@FXML
-	private TableColumn<Achat, Double> QuantiteColumn;
-
-	@FXML
-	private TableView<ProduitManquant> produitsTable;
-	@FXML
-	private TableColumn<ProduitManquant, String> pChaineColumn;
-	@FXML
-	private TableColumn<ProduitManquant, String> pCodeColumn;
-	@FXML
-	private TableColumn<ProduitManquant, String> pNomColumn;
-	@FXML
-	private TableColumn<ProduitManquant, String> pMesureColumn;
-	@FXML
-	private TableColumn<ProduitManquant, Double> pQuantiteColumn;
+	private ChoiceBox choiceSemaine;
 
 	@FXML
 	private GridPane gridChaine;
@@ -88,18 +64,6 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	private void initialize() throws IOException {
-		this.aChaineColumn.setCellValueFactory(cellData -> cellData.getValue().getChaine().getCodeProperty());
-		this.aCodeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-		this.aNomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-		this.aMesureColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-		this.aPrixAchatColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixAchatProperty().asObject());
-		this.QuantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQteAProperty().asObject());
-
-		this.pChaineColumn.setCellValueFactory(cellData -> cellData.getValue().getChaine().getCodeProperty());
-		this.pCodeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-		this.pNomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-		this.pMesureColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-		this.pQuantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteMProperty().asObject());
 	}
 
 	/**
@@ -111,8 +75,12 @@ public class SimulationProductionController {
 	public void setMainApp(MainApp mainApp) throws IOException {
 		this.mainApp = mainApp;
 		this.tableChaine();
-		this.achatsTable.setItems(this.mainApp.getAchatData());
-		this.produitsTable.setItems(this.mainApp.getProduitManquantData());
+		
+		//Initialisation selecteur des semaines
+		for(String s : this.mainApp.getSemaines()) {
+			this.choiceSemaine.getItems().add(s);
+		}
+		this.choiceSemaine.getSelectionModel().selectFirst();
 	}
 
 	public void tableChaine() {
@@ -140,9 +108,25 @@ public class SimulationProductionController {
 		this.scrollChaine.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		this.scrollChaine.setFitToHeight(true);
 		this.scrollChaine.setPannable(true);
-
 	}
 
+	/**
+	 * Clicque sur le bouton nouvelle programmation
+	 */
+	@FXML
+	public void newProgrammation() {
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
+		alert.setContentText("Etes-vous sûr de vouloir démarrer \n" + "une nouvelle programmation?");
+		alert.setHeaderText("");
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+			///Réinitialiser les stocks prévisionnels
+			System.out.println("ok");
+		}
+	}
+	
+	
 	/**
 	 * Clicque sur le bouton simuler
 	 */
