@@ -2,6 +2,10 @@ package view;
 
 import java.io.IOException;
 
+import element.Achat;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -78,3 +82,6 @@ public class RecapSimulationController {
             
     }
 }
+
+	
+	

@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import production.ChaineProduction;
 import production.ImportExportCsv;
+import production.Programmation;
 import production.Semaine;
 
 public class MainApp extends Application {
@@ -39,9 +40,8 @@ public class MainApp extends Application {
 	
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
-	
-	private List<Semaine> semaines = new ArrayList<>();
-	
+	private List<Programmation> programmations = new ArrayList<>();
+	private int nbProgrammation;
 	
 	private boolean simulation = false;
 	/**
@@ -51,15 +51,8 @@ public class MainApp extends Application {
 		this.stockElements = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.stockElementsSimulation = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.chaines = new ImportExportCsv().importChaineProduction("chaines.csv", ';');
-		
-		Calendar calendar = Calendar.getInstance();
-		for(int i = 0; i<8; i++) {
-			int week = calendar.get(calendar.WEEK_OF_YEAR);
-			this.semaines.add(new Semaine(week));
-			calendar.add(Calendar.DATE, 7);	
-		}
-		this.semaines.get(0).setStockPreviEntree(this.stockElements);
-		this.semaines.get(0).setStockPreviSortie(this.stockElements);
+
+		this.nbProgrammation = 0;
 	}
 
 	/**
@@ -98,10 +91,24 @@ public class MainApp extends Application {
 	}
 	
 	/**
-	 * Retourne la liste des semaines
+	 * Retourne la liste des programmations
 	 */
-	public List<Semaine> getSemaines() {
-		return this.semaines;
+	public List<Programmation> getProgrammations() {
+		return this.programmations;
+	}
+	
+	/**
+	 * Retourne le nombre de programmation
+	 */
+	public int getnbProgrammation() {
+		return this.nbProgrammation;
+	}
+	
+	/**
+	 * Modifie le nombre de programmation
+	 */
+	public void setnbProgrammation(int nb) {
+		this.nbProgrammation = nb;
 	}
 	
 	/**

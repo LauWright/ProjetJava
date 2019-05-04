@@ -67,20 +67,8 @@ public class ElementController {
 	 * @param mainApp
 	 */
 	public void setMainApp(MainApp mainApp) {
-		//this.elementtab.getOnSelectionChanged();
 		this.mainApp = mainApp;
 		try {
-			/*
-			 * this.showProductionOverview(); // Load menu overview. FXMLLoader loader = new
-			 * FXMLLoader();
-			 * loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
-			 * AnchorPane elements = (AnchorPane) loader.load();
-			 * 
-			 * this.elementtab.setContent(elements); // connexion de ChaineController à la
-			 * mainPage ElementStocksController elemController = loader.getController();
-			 * elemController.setMainApp(this.mainApp);
-			 */
-
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("SimulationProduction.fxml"));
 			AnchorPane production = (AnchorPane) loader.load();

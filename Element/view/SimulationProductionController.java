@@ -43,6 +43,7 @@ import javafx.scene.paint.Color;
 import production.ChaineProduction;
 import production.Couple;
 import production.ImportExportCsv;
+import production.Programmation;
 import production.Semaine;
 
 public class SimulationProductionController {
@@ -59,9 +60,15 @@ public class SimulationProductionController {
 
 	@FXML
 	private GridPane buttonGrid;
-	
+
 	private int nbButtonRecap = 0;
+
+	private Programmation programmation;
+
+	private boolean newProg = false;
 	
+	private int index;
+
 	// reference l'application principale
 	private MainApp mainApp;
 
@@ -93,7 +100,7 @@ public class SimulationProductionController {
 		this.buttonRecap();
 
 		// Initialisation selecteur des semaines
-		for (Semaine s : this.mainApp.getSemaines()) {
+		for (Semaine s : this.programmation.getSemaines()) {
 			this.choiceSemaine.getItems().add("Semaine " + s.getIdSemaine());
 		}
 		this.choiceSemaine.getSelectionModel().selectFirst();
@@ -137,26 +144,26 @@ public class SimulationProductionController {
 		this.scrollChaine.setFitToHeight(true);
 		this.scrollChaine.setPannable(true);
 	}
-	
+
 	public void buttonRecap() {
-		for(int i = 0; i<8; i++) {
+		for (int i = 0; i < 8; i++) {
 			this.buttonGrid.getRowConstraints().get(0).setMinHeight(40);
 			ArrayList<Semaine> semaines = new ArrayList<>();
-			semaines.addAll(this.mainApp.getSemaines());
+			semaines.addAll(this.programmation.getSemaines());
 			Label sem = new Label("");
-			
-				
+
 			sem.setText("Semaine " + semaines.get(i).getIdSemaine());
-			
+
 			Button recap = new Button("Récapitulatif");
 			Button delete = new Button("Supprimer");
-			
+
 			sem.setVisible(false);
 			recap.setVisible(false);
 			recap.setOnAction(new EventHandler<ActionEvent>() {
-				 @Override public void handle(ActionEvent e) {
-				        getRecap(sem.getText());
-				    }
+				@Override
+				public void handle(ActionEvent e) {
+					getRecap(sem.getText());
+				}
 			});
 			delete.setVisible(false);
 			this.buttonGrid.add(sem, 0, i);
@@ -170,6 +177,10 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	public void newProgrammation() {
+		this.newProg = true;
+		if (this.programmation != null) {
+			this.mainApp.getProgrammations().add(this.programmation);
+		}
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
 		alert.setContentText("Etes-vous sûr de vouloir démarrer \n" + "une nouvelle programmation?");
 		alert.setHeaderText("");
@@ -177,8 +188,24 @@ public class SimulationProductionController {
 
 		if (alert.getResult() == ButtonType.YES) {
 			/// Réinitialiser les stocks prévisionnels
+			List<Semaine> semaines = new ArrayList<>();
+			Calendar calendar = Calendar.getInstance();
+			for (int i = 0; i < 8; i++) {
+				int week = calendar.get(calendar.WEEK_OF_YEAR);
+				semaines.add(new Semaine(week));
+				calendar.add(Calendar.DATE, 7);
+			}
+			semaines.get(0).setStockPreviEntree(this.mainApp.getElementData());
+			semaines.get(0).setStockPreviSortie(this.mainApp.getElementData());
+			this.programmation = new Programmation(this.mainApp.getnbProgrammation() + 1, semaines);
+			this.mainApp.setnbProgrammation(this.mainApp.getnbProgrammation() + 1);
 			System.out.println("ok");
+
+			for (Node n : this.buttonGrid.getChildren()) {
+				n.setVisible(false);
+			}
 		}
+
 	}
 
 	/**
@@ -186,153 +213,176 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	public void simuler() {
-		// verification que au moins une case est cochée
-		boolean coche = false;
-		for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
-			for (Node no : this.gridChaine.getChildren()) {
-				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
-					CheckBox ch = (CheckBox) no;
-					if (ch.isSelected()) {
-						coche = true;
-					}
-				}
-			}
-		}
-		if (coche == false) {
+		if (this.newProg == false) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("Aucune selection");
-			alert.setHeaderText("Aucune chaîne selectionée");
-			alert.setContentText("Veuillez selectionner une chaîne \n" + "et rentrer un niveau.");
+			alert.setTitle("Aucune programmation");
+			alert.setHeaderText("Aucune programmation");
+			alert.setContentText("Veuillez créer une nouvelle programmation\n");
 
 			alert.showAndWait();
 		} else {
-			Semaine semaine = null;
-			System.out.println(this.mainApp.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex()).getIdSemaine());
-			if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0) {
-				semaine = this.mainApp.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
-				semaine.setStockPreviEntree(this.mainApp.getElementData());
-			} else {
-				semaine = this.mainApp.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
-				if (this.mainApp.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1)
-						.getStockPreviEntree() != null) {
-					semaine.setStockPreviEntreeNewPrix(this.mainApp.getSemaines()
-							.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviEntree());
-					semaine.setStockPreviSortie(semaine.getStockPreviEntree());
-				} else {
-					semaine.setStockPreviEntree(this.mainApp.getElementData());
+			// verification que au moins une case est cochée
+			boolean coche = false;
+			for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+				for (Node no : this.gridChaine.getChildren()) {
+					if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
+						CheckBox ch = (CheckBox) no;
+						if (ch.isSelected()) {
+							coche = true;
+						}
+					}
 				}
 			}
+			if (coche == false) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Aucune selection");
+				alert.setHeaderText("Aucune chaîne selectionée");
+				alert.setContentText("Veuillez selectionner une chaîne \n" + "et rentrer un niveau.");
 
-			this.mainApp.setSimulation(true);
-			// Set<Integer> setKey = semaine.getChaineProductionNiveau().keySet();
-			for (Node n : this.gridChaine.getChildren()) {
-				boolean ok = false;
-				CheckBox ch;
-				for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
-					if (GridPane.getRowIndex(n) == i + 1 && GridPane.getColumnIndex(n) == 0) {
-						ch = (CheckBox) n;
-						if (ch.isSelected()) {
-							TextField tf = null;
-							for (Node no : this.gridChaine.getChildren()) {
-								if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
-									tf = (TextField) no;
-								}
-							}
-							ChaineProduction c = this.mainApp.getChaineData().get(ch.getText().split(" ")[0]);
-							int y = 0;
-							for (Integer key : semaine.getChaineProductionNiveau().keySet()) {
-								boolean place = false;
-								List<ChaineProduction> chainesN = semaine.getChaineProductionNiveau().get(key);
+				alert.showAndWait();
+			} else {
+				Semaine semaine = null;
+				if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0 && this.index < 0) {
+					semaine = this.programmation.getSemaines()
+							.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
+					semaine.setStockPreviEntree(this.mainApp.getElementData());
+				} else {
+					if(this.index + 1 == this.choiceSemaine.getSelectionModel().getSelectedIndex()) {
+						semaine = this.programmation.getSemaines()
+								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
+						if (this.programmation.getSemaines()
+								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1)
+								.getStockPreviEntree() != null) {
+							semaine.setStockPreviEntreeNewPrix(this.programmation.getSemaines()
+									.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1)
+									.getStockPreviEntree());
+							semaine.setStockPreviSortie(semaine.getStockPreviEntree());
+						} else {
+							semaine.setStockPreviEntree(this.mainApp.getElementData());
+						}
+					} else {
+						Alert alert = new Alert(AlertType.WARNING);
+						alert.initOwner(mainApp.getPrimaryStage());
+						alert.setTitle("Semaine incorrect");
+						alert.setHeaderText("Semaine incorrecte");
+						alert.setContentText("Veuillez choisir la semaine consécutif \n" + "à la précédente selectionné \n");
 
-								for (ChaineProduction cn : chainesN) {
-									if (cn.getCode().equals(c.getCode())) {
-										chainesN.remove(cn);
-										place = true;
-										y = key;
-										List<ChaineProduction> newChaines = semaine.getChaineProductionNiveau()
-												.get(key + Integer.parseInt(tf.getText()));
-										if (newChaines == null) {
-											ok = true;
-											newChaines = new ArrayList<ChaineProduction>();
-											newChaines.add(c);
-											semaine.getChaineProductionNiveau()
-													.put((Integer.parseInt(tf.getText()) + key), newChaines);
-
-										} else {
-											ok = true;
-											semaine.getChaineProductionNiveau()
-													.get(Integer.parseInt(tf.getText()) + key).add(c);
-
-										}
+						alert.showAndWait();
+						return;
+					}
+				}
+				this.index = this.choiceSemaine.getSelectionModel().getSelectedIndex();
+				this.mainApp.setSimulation(true);
+				for (Node n : this.gridChaine.getChildren()) {
+					boolean ok = false;
+					CheckBox ch;
+					for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+						if (GridPane.getRowIndex(n) == i + 1 && GridPane.getColumnIndex(n) == 0) {
+							ch = (CheckBox) n;
+							if (ch.isSelected()) {
+								TextField tf = null;
+								for (Node no : this.gridChaine.getChildren()) {
+									if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
+										tf = (TextField) no;
 									}
-									if (chainesN.isEmpty()) {
+								}
+								ChaineProduction c = this.mainApp.getChaineData().get(ch.getText().split(" ")[0]);
+								int y = 0;
+								for (Integer key : semaine.getChaineProductionNiveau().keySet()) {
+									boolean place = false;
+									List<ChaineProduction> chainesN = semaine.getChaineProductionNiveau().get(key);
+
+									for (ChaineProduction cn : chainesN) {
+										if (cn.getCode().equals(c.getCode())) {
+											chainesN.remove(cn);
+											place = true;
+											y = key;
+											List<ChaineProduction> newChaines = semaine.getChaineProductionNiveau()
+													.get(key + Integer.parseInt(tf.getText()));
+											if (newChaines == null) {
+												ok = true;
+												newChaines = new ArrayList<ChaineProduction>();
+												newChaines.add(c);
+												semaine.getChaineProductionNiveau()
+														.put((Integer.parseInt(tf.getText()) + key), newChaines);
+
+											} else {
+												ok = true;
+												semaine.getChaineProductionNiveau()
+														.get(Integer.parseInt(tf.getText()) + key).add(c);
+
+											}
+										}
+										if (chainesN.isEmpty()) {
+											break;
+										}
+										i++;
+									}
+									if (place) {
+										if (semaine.getChaineProductionNiveau().get(y).isEmpty()) {
+											semaine.getChaineProductionNiveau().remove(y);
+										}
 										break;
 									}
-									i++;
-								}
-								if (place) {
-									if (semaine.getChaineProductionNiveau().get(y).isEmpty()) {
-										semaine.getChaineProductionNiveau().remove(y);
+									if (semaine.getChaineProductionNiveau().keySet().isEmpty()) {
+										break;
 									}
-									break;
 								}
-								if (semaine.getChaineProductionNiveau().keySet().isEmpty()) {
-									break;
-								}
-							}
 
-							if (!ok) {
-								List<ChaineProduction> chaines = semaine.getChaineProductionNiveau()
-										.get(Integer.parseInt(tf.getText()));
-								if (chaines == null) {
-									chaines = new ArrayList<ChaineProduction>();
-									chaines.add(c);
-									semaine.getChaineProductionNiveau().put(Integer.parseInt(tf.getText()), chaines);
-								} else {
-									semaine.getChaineProductionNiveau().get(Integer.parseInt(tf.getText())).add(c);
+								if (!ok) {
+									List<ChaineProduction> chaines = semaine.getChaineProductionNiveau()
+											.get(Integer.parseInt(tf.getText()));
+									if (chaines == null) {
+										chaines = new ArrayList<ChaineProduction>();
+										chaines.add(c);
+										semaine.getChaineProductionNiveau().put(Integer.parseInt(tf.getText()),
+												chaines);
+									} else {
+										semaine.getChaineProductionNiveau().get(Integer.parseInt(tf.getText())).add(c);
+									}
 								}
-							}
-							List<Couple> entrees = c.getEntrees();
-							boolean reussi = true;
-							for (Couple couple : entrees) {
-								Element e = semaine.getStockPreviSortie().get(couple.getCode());
-								e.soustraire(couple.getQte() * Double.valueOf(tf.getText()));
-								if (e.examiner()) {
-									if (e.getClass().getSimpleName().equals("MatierePremiere")) {
-										MatierePremiere ma = (MatierePremiere) e;
-										if (ma.getPrixAchat() == -1) {
-											e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
-											reussi = false;
-										} else {
-											semaine.getAchats()
-													.add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
-															ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(),
-															0 - e.getQuantite(), c));
-											if (e.getQuantite() < 0) {
-												e.setQuantite(0);
+								List<Couple> entrees = c.getEntrees();
+								boolean reussi = true;
+								for (Couple couple : entrees) {
+									Element e = semaine.getStockPreviSortie().get(couple.getCode());
+									e.soustraire(couple.getQte() * Double.valueOf(tf.getText()));
+									if (e.examiner()) {
+										if (e.getClass().getSimpleName().equals("MatierePremiere")) {
+											MatierePremiere ma = (MatierePremiere) e;
+											if (ma.getPrixAchat() == -1) {
+												e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
+												reussi = false;
+											} else {
+												semaine.getAchats()
+														.add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
+																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(),
+																0 - e.getQuantite(), c));
+												if (e.getQuantite() < 0) {
+													e.setQuantite(0);
+												}
+
 											}
-
 										}
-									}
-									if (e.getClass().getSimpleName().equals("Produit")) {
-										Produit p = (Produit) e;
-										if (e.getPrixAchat() == -1) {
-											semaine.getProduitManquant()
-													.add(new ProduitManquant(p.getCode(), p.getNom(), p.getQuantite(),
-															p.getMesure(), p.getPrixVente(), p.getPrixAchat(),
-															p.isAchetable(), 0 - e.getQuantite(), c));
-											e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
-											reussi = false;
-										} else {
-											semaine.getAchats()
-													.add(new Achat(p.getCode(), p.getNom(), e.getQuantite(),
-															p.getMesure(), p.getPrixVente(), p.getPrixAchat(),
-															0 - e.getQuantite(), c));
-											if (e.getQuantite() < 0) {
-												e.setQuantite(0);
+										if (e.getClass().getSimpleName().equals("Produit")) {
+											Produit p = (Produit) e;
+											if (e.getPrixAchat() == -1) {
+												semaine.getProduitManquant().add(new ProduitManquant(p.getCode(),
+														p.getNom(), p.getQuantite(), p.getMesure(), p.getPrixVente(),
+														p.getPrixAchat(), p.isAchetable(), 0 - e.getQuantite(), c));
+												e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
+												reussi = false;
+											} else {
+												semaine.getAchats()
+														.add(new Achat(p.getCode(), p.getNom(), e.getQuantite(),
+																p.getMesure(), p.getPrixVente(), p.getPrixAchat(),
+																0 - e.getQuantite(), c));
+												if (e.getQuantite() < 0) {
+													e.setQuantite(0);
+												}
+												reussi = false;
 											}
-											reussi = false;
 										}
 									}
 								}
@@ -340,36 +390,38 @@ public class SimulationProductionController {
 						}
 					}
 				}
-			}
-			double efficacite = 0;
-			ObservableList<Map.Entry<String, Element>> elements = FXCollections
-					.observableArrayList(semaine.getStockPreviEntree().entrySet());
-			for (Entry<String, Element> e : elements) {
-				if (e.getValue().getPrixVente() != -1 && e.getValue().getQuantite() >= 0) {
-					efficacite += e.getValue().getPrixVente() * e.getValue().getQuantite();
+				double efficacite = 0;
+				ObservableList<Map.Entry<String, Element>> elements = FXCollections
+						.observableArrayList(semaine.getStockPreviEntree().entrySet());
+				for (Entry<String, Element> e : elements) {
+					if (e.getValue().getPrixVente() != -1 && e.getValue().getQuantite() >= 0) {
+						efficacite += e.getValue().getPrixVente() * e.getValue().getQuantite();
+					}
 				}
-			}
-			for (Achat e : semaine.getAchats()) {
-				if (e.getPrixVente() != -1 && e.getQuantite() >= 0) {
-					efficacite -= e.getPrixAchat() * e.getQteA();
+				for (Achat e : semaine.getAchats()) {
+					if (e.getPrixVente() != -1 && e.getQuantite() >= 0) {
+						efficacite -= e.getPrixAchat() * e.getQteA();
+					}
 				}
+				semaine.setResultat(efficacite);
+				String effic = "Efficacité " + efficacite;
+				boolean okClicked = this.mainApp.showRecapSimulationDialog(this.getRecapSimulation(semaine), effic,
+						semaine.getIdSemaine());
+				this.addButtonRecap(semaine.getIdSemaine());
 			}
-			semaine.setResultat(efficacite);
-			String effic = "Efficacité " + efficacite;
-			boolean okClicked = this.mainApp.showRecapSimulationDialog(this.getRecapSimulation(semaine), effic, semaine.getIdSemaine());
-			this.addButtonRecap(semaine.getIdSemaine());
 		}
 	}
-	
+
 	public void getRecap(String b) {
 		int i = Integer.parseInt(b.split(" ")[1]);
 		Semaine se = null;
-		for(Semaine s: this.mainApp.getSemaines()) {
-			if(s.getIdSemaine() == i) {
-				se =s;
+		for (Semaine s : this.programmation.getSemaines()) {
+			if (s.getIdSemaine() == i) {
+				se = s;
 			}
 		}
-		boolean okClicked = this.mainApp.showRecapSimulationDialog(this.getRecapSimulation(se), "Efficacité " + se.getResultat(), se.getIdSemaine());
+		boolean okClicked = this.mainApp.showRecapSimulationDialog(this.getRecapSimulation(se),
+				"Efficacité " + se.getResultat(), se.getIdSemaine());
 	}
 
 	/**
@@ -382,7 +434,6 @@ public class SimulationProductionController {
 		String result = "";
 
 		for (Integer key : semaine.getChaineProductionNiveau().keySet()) {
-			System.out.println("Clé : " + key + ", liste : " + semaine.getChaineProductionNiveau().get(key));
 			List<ChaineProduction> chaines = semaine.getChaineProductionNiveau().get(key);
 			int i = 0;
 			for (ChaineProduction c : chaines) {
@@ -418,7 +469,7 @@ public class SimulationProductionController {
 							result += a.getCode() + " " + this.mainApp.getElementData().get(a.getCode()).getNom()
 									+ " x " + a.getQuantiteM() + " --> produit créé à partir de la ou les chaines : ";
 							List<String> ss = this.getChaineAProduire(a.getCode());
-							for(String s : ss) {
+							for (String s : ss) {
 								result += s + " ";
 							}
 							result += "\n";
@@ -511,8 +562,8 @@ public class SimulationProductionController {
 	public void addButtonRecap(int semaineCode) {
 		Semaine s = null;
 		int i = 0;
-		for(Semaine se : this.mainApp.getSemaines()) {
-			if(se.getIdSemaine() == semaineCode) {
+		for (Semaine se : this.programmation.getSemaines()) {
+			if (se.getIdSemaine() == semaineCode) {
 				for (Node n : this.buttonGrid.getChildren()) {
 					if (GridPane.getRowIndex(n) == i && GridPane.getColumnIndex(n) == 0) {
 						n.setVisible(true);
@@ -529,7 +580,7 @@ public class SimulationProductionController {
 			i++;
 		}
 	}
-	
+
 	/**
 	 * Retourne un élément grâce à son code
 	 * 
