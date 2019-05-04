@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import production.ChaineProduction;
 import production.ImportExportCsv;
+import production.Semaine;
 
 public class MainApp extends Application {
 
@@ -39,7 +40,7 @@ public class MainApp extends Application {
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
 	
-	private List<String> semaines = new ArrayList<>();
+	private List<Semaine> semaines = new ArrayList<>();
 	
 	
 	private boolean simulation = false;
@@ -54,9 +55,11 @@ public class MainApp extends Application {
 		Calendar calendar = Calendar.getInstance();
 		for(int i = 0; i<8; i++) {
 			int week = calendar.get(calendar.WEEK_OF_YEAR);
-			this.semaines.add("Semaine " + week);
+			this.semaines.add(new Semaine(week));
 			calendar.add(Calendar.DATE, 7);	
 		}
+		this.semaines.get(0).setStockPreviEntree(this.stockElements);
+		this.semaines.get(0).setStockPreviSortie(this.stockElements);
 	}
 
 	/**
@@ -97,7 +100,7 @@ public class MainApp extends Application {
 	/**
 	 * Retourne la liste des semaines
 	 */
-	public List<String> getSemaines() {
+	public List<Semaine> getSemaines() {
 		return this.semaines;
 	}
 	
@@ -245,7 +248,7 @@ public class MainApp extends Application {
 	 * @param element
 	 * @return
 	 */
-	public boolean showRecapSimulationDialog(String s, String effic) {
+	public boolean showRecapSimulationDialog(String s, String effic, int sem) {
 	    try {
 	        // Load the fxml file and create a new stage for the popup dialog.
 	        FXMLLoader loader = new FXMLLoader();
@@ -263,7 +266,8 @@ public class MainApp extends Application {
 	        // Set the person into the controller.
 	        RecapSimulationController controller = loader.getController();
 	        controller.setDialogStage(dialogStage);
-	        controller.setText(s, effic);
+	        controller.setMainApp(this);
+	        controller.setText(s, effic, sem);
 
 	        // Show the dialog and wait until the user closes it
 	        dialogStage.showAndWait();

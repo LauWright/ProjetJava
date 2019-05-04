@@ -293,7 +293,7 @@ public class MajStockController {
             this.messageExport.setText("No selection!");
          } else if (option.get() == ButtonType.OK) {
             this.messageExport.setText("Modifications enregistrés");
-            //(new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
+            (new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());
             //(new ImportExportCsv()).writeCsvElement("oldElements.csv", this.mainApp.getElementData());
             
          } else if (option.get() == ButtonType.CANCEL) {
