@@ -14,5 +14,11 @@ public class Programmation {
 
 	public List<Semaine> getSemaines() {
 		return semaines;
-	}	
+	}
+
+	public int getId() {
+		return idProgrammation;
+	}
+	
+	
 }

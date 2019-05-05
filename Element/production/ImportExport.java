@@ -97,13 +97,20 @@ public interface ImportExport {
 	     * @param elements
 	     */
 	 public void writeCsvAchat(String nomFichier, List<Achat> mas);
-	
+	 
 	 /**
 	     * Ecriture du fichier des produits manquants avec en parametre le nom du fichier et la liste des produits à produire
 	     * @param nomFichier
 	     * @param elements
 	     */
 	 public void writeCsvProduitManquant(String nomFichier, List<ProduitManquant> pms);
+	 
+	 /**
+	     * Ecriture du fichier des programmations avec en parametre le nom du fichier et la liste des programmations
+	     * @param nomFichier
+	     * @param elements
+	     */
+	 public void writeCsvProgrammation(List<Programmation> programmation);
 	
 	
 }

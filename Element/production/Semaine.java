@@ -56,7 +56,7 @@ public class Semaine {
 		for(Map.Entry<String, element.Element> e: stockPreviEntree.entrySet()) {
 			if(e.getValue().getPrixAchat() != -1) {
 				Random r = new Random();
-				double randomValue = e.getValue().getPrixAchat()-(e.getValue().getPrixAchat()/2) + (e.getValue().getPrixAchat() - e.getValue().getPrixAchat()-(e.getValue().getPrixAchat()/2)) * r.nextDouble();
+				double randomValue = e.getValue().getPrixAchat() + r.nextInt(6 + 1);
 				e.getValue().setPrixAchat(randomValue);
 			}
 		}

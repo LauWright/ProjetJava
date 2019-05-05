@@ -67,7 +67,7 @@ public class SimulationProductionController {
 
 	private boolean newProg = false;
 	
-	private int index;
+	private int index = -1;
 
 	// reference l'application principale
 	private MainApp mainApp;
@@ -100,8 +100,11 @@ public class SimulationProductionController {
 		this.buttonRecap();
 
 		// Initialisation selecteur des semaines
-		for (Semaine s : this.programmation.getSemaines()) {
-			this.choiceSemaine.getItems().add("Semaine " + s.getIdSemaine());
+		Calendar calendar = Calendar.getInstance();
+		for (int i = 0; i < 8; i++) {
+			int week = calendar.get(calendar.WEEK_OF_YEAR);
+			this.choiceSemaine.getItems().add("Semaine " + week);
+			calendar.add(Calendar.DATE, 7);
 		}
 		this.choiceSemaine.getSelectionModel().selectFirst();
 	}
@@ -146,13 +149,14 @@ public class SimulationProductionController {
 	}
 
 	public void buttonRecap() {
+		Calendar calendar = Calendar.getInstance();
 		for (int i = 0; i < 8; i++) {
 			this.buttonGrid.getRowConstraints().get(0).setMinHeight(40);
-			ArrayList<Semaine> semaines = new ArrayList<>();
-			semaines.addAll(this.programmation.getSemaines());
-			Label sem = new Label("");
+			int week = calendar.get(calendar.WEEK_OF_YEAR);
+			calendar.add(Calendar.DATE, 7);
+			
 
-			sem.setText("Semaine " + semaines.get(i).getIdSemaine());
+			Label sem = new Label("Semaine " + week);
 
 			Button recap = new Button("Récapitulatif");
 			Button delete = new Button("Supprimer");
@@ -178,6 +182,8 @@ public class SimulationProductionController {
 	@FXML
 	public void newProgrammation() {
 		this.newProg = true;
+		this.index = -1;
+		this.choiceSemaine.getSelectionModel().selectFirst();
 		if (this.programmation != null) {
 			this.mainApp.getProgrammations().add(this.programmation);
 		}
@@ -244,24 +250,31 @@ public class SimulationProductionController {
 				alert.showAndWait();
 			} else {
 				Semaine semaine = null;
-				if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0 && this.index < 0) {
+				if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0 && this.index == -1) {
 					semaine = this.programmation.getSemaines()
 							.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
 					semaine.setStockPreviEntree(this.mainApp.getElementData());
+					semaine.setStockPreviSortie(this.mainApp.getElementData());
 				} else {
 					if(this.index + 1 == this.choiceSemaine.getSelectionModel().getSelectedIndex()) {
 						semaine = this.programmation.getSemaines()
 								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
-						if (this.programmation.getSemaines()
-								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1)
-								.getStockPreviEntree() != null) {
+						if (this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviEntree() != null) {
 							semaine.setStockPreviEntreeNewPrix(this.programmation.getSemaines()
 									.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1)
 									.getStockPreviEntree());
 							semaine.setStockPreviSortie(semaine.getStockPreviEntree());
 						} else {
 							semaine.setStockPreviEntree(this.mainApp.getElementData());
+							semaine.setStockPreviSortie(semaine.getStockPreviEntree());
 						}
+					} else if (this.index == this.choiceSemaine.getSelectionModel().getSelectedIndex()){
+						semaine = this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
+					} else if (this.index < 0 && this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getResultat() == 0) {
+						semaine = this.programmation.getSemaines()
+								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
+						semaine.setStockPreviEntree(this.mainApp.getElementData());
+						semaine.setStockPreviSortie(this.mainApp.getElementData());
 					} else {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.initOwner(mainApp.getPrimaryStage());
@@ -623,6 +636,47 @@ public class SimulationProductionController {
 					tf.setText("0");
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Appelé lors du clique sur le bouton réinitialiser programmations
+	 */
+	@FXML
+	public void reinitialiseProgramations() {
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
+		alert.setContentText("Etes-vous sûr de vouloir tout réinitialiser? \n" + "Cela supprimera les programmations enregistrées \n" + "jusqu'a maintenant");
+		alert.setHeaderText("");
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+			this.mainApp.getProgrammations().clear();
+			this.mainApp.setnbProgrammation(0); 
+			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
+			this.newProg = false;			
+		}
+	}
+	
+	/**
+	 * Export des programmations
+	 * @param programmations
+	 */
+	public void exporterProgrammations() {
+		if(newProg) {
+			this.mainApp.getProgrammations().add(this.programmation);
+			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
+			Alert alert = new Alert(AlertType.INFORMATION, "", ButtonType.OK);
+			alert.setContentText("Export réussi!");
+			alert.setHeaderText("");
+			alert.showAndWait();
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("Aucune programmation");
+			alert.setHeaderText("Aucune programmation");
+			alert.setContentText("Veuillez créer une nouvelle programmation\n");
+
+			alert.showAndWait();
 		}
 	}
 

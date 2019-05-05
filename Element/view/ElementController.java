@@ -37,6 +37,8 @@ public class ElementController {
 	private Tab productiontab = new Tab();
 	@FXML
 	private Tab elementtab = new Tab();
+	@FXML
+	private Tab historiquetab = new Tab();
 	
 
 	// reference l'application principale
@@ -140,6 +142,26 @@ public class ElementController {
 			// connexion de ChaineController à la mainPage 
 			ElementStocksController elemController = loader.getController();
 			elemController.setMainApp(this.mainApp);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Insert la vue Historique/Indicateur dans l'onget Historique/Indicateur
+	 */
+	public void showHistoriqueIndicateurOverview() {
+		try {
+			// Load menu overview. 
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("IndicateurHistorique.fxml"));
+			AnchorPane historique = (AnchorPane) loader.load();
+			
+			this.historiquetab.setContent(historique); 
+			// connexion de ChaineController à la mainPage 
+			IndicateurHistoriqueController histController = loader.getController();
+			histController.setMainApp(this.mainApp);
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -51,8 +51,10 @@ public class MainApp extends Application {
 		this.stockElements = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.stockElementsSimulation = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.chaines = new ImportExportCsv().importChaineProduction("chaines.csv", ';');
-
-		this.nbProgrammation = 0;
+		
+		//Programmations
+		this.programmations = new ImportExportCsv().importProgrammations(this.chaines);
+		this.nbProgrammation = this.programmations.size();
 	}
 
 	/**

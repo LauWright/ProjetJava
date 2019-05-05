@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import production.ChaineProduction;
 
-public class Achat extends MatierePremiere{
+public class Achat extends Element{
 	private DoubleProperty qteA;
 	private ChaineProduction chaine;
 
