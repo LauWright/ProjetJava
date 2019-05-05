@@ -1,0 +1,11 @@
+IdProg;IdSemaine;Chaine;Element;Nom;Quantite;Mesure;Vente;Achat;Quantité
+1;19;C001;E012;pate cacao;-9.0;kg;NA;18.0;9.0
+1;19;C001;E011;beurre cacao;-6.0;kg;NA;6.0;6.0
+1;19;C002;E012;pate cacao;-8.0;kg;NA;18.0;8.0
+1;19;C002;E011;beurre cacao;-4.0;kg;NA;6.0;4.0
+2;18;C001;E012;pate cacao;-9.0;kg;NA;18.0;9.0
+2;18;C001;E011;beurre cacao;-6.0;kg;NA;6.0;6.0
+2;18;C002;E012;pate cacao;-8.0;kg;NA;18.0;8.0
+2;18;C002;E011;beurre cacao;-4.0;kg;NA;6.0;4.0
+2;19;C001;E012;pate cacao;-9.0;kg;NA;21.0;9.0
+2;19;C001;E011;beurre cacao;-6.0;kg;NA;12.0;6.0
