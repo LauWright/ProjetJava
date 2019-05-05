@@ -2,8 +2,13 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import element.Element;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -11,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import production.ChaineProduction;
 import production.Couple;
 
@@ -26,11 +32,11 @@ public class NewChaineDialogController {
 	private TextField sortiesField;
 
 	@FXML
-	private TableView<Element> elementTable;
+	private TableView<Map.Entry<String,Element>> elementTable;
 	@FXML
-	private TableColumn<Element, String> codeColumn;
+	private TableColumn<Map.Entry<String, Element>, String> codeColumn;
 	@FXML
-	private TableColumn<Element, String> nomColumn;
+	private TableColumn<Map.Entry<String, Element>, String> nomColumn;
 	private MainApp mainApp;
 	private Stage dialogStage;
 	private ChaineProduction chaine;
@@ -41,8 +47,22 @@ public class NewChaineDialogController {
 	 */
 	@FXML
 	private void initialize() {
-		this.codeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-		this.nomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
+		
+		this.codeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Element>, String>, ObservableValue<String>>() {            
+			@Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, Element>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue().getCode());
+            }
+        });
+		
+		this.nomColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Element>, String>, ObservableValue<String>>() {            
+			@Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, Element>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue().getNom());
+            }
+        });
 	}
 
 	/**
@@ -61,7 +81,8 @@ public class NewChaineDialogController {
 	public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
         //ajout des elements au tableau
-        this.elementTable.setItems(this.mainApp.getElementData());
+        ObservableList<Map.Entry<String, Element>> items = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+		this.elementTable.setItems(items);
     }
 
 	/**

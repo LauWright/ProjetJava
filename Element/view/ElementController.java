@@ -37,6 +37,8 @@ public class ElementController {
 	private Tab productiontab = new Tab();
 	@FXML
 	private Tab elementtab = new Tab();
+	@FXML
+	private Tab historiquetab = new Tab();
 	
 
 	// reference l'application principale
@@ -63,20 +65,21 @@ public class ElementController {
 	 * @param mainApp
 	 * @throws IOException 
 	 */
+	/**
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp) {
-		this.elementtab.getOnSelectionChanged();
 		this.mainApp = mainApp;
 		try {
-			// Load menu overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
-			AnchorPane elements = (AnchorPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("SimulationProduction.fxml"));
+			AnchorPane production = (AnchorPane) loader.load();
 
-			this.elementtab.setContent(elements);
-			// connexion de ChaineController à la mainPage
-			ElementStocksController elemController = loader.getController();
-			elemController.setMainApp(this.mainApp);
-			
+			this.productiontab.setContent(production);
+
+			// connexion de SimulationProductionController à la mainPage
+			SimulationProductionController productionController = loader.getController();
+			productionController.setMainApp(this.mainApp);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -128,18 +131,37 @@ public class ElementController {
 	/**
 	 * Insert la vue simulationProduction dans l'onget production
 	 */
-	public void showProductionOverview() {
+	public void showElementOverview() {
 		try {
-			// Load menu overview.
+			// Load menu overview. 
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("SimulationProduction.fxml"));
-			AnchorPane production = (AnchorPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("ElementStocks.fxml"));
+			AnchorPane elements = (AnchorPane) loader.load();
+			
+			this.elementtab.setContent(elements); 
+			// connexion de ChaineController à la mainPage 
+			ElementStocksController elemController = loader.getController();
+			elemController.setMainApp(this.mainApp);
 
-			this.productiontab.setContent(production);
-
-			// connexion de SimulationProductionController à la mainPage
-			SimulationProductionController productionController = loader.getController();
-			productionController.setMainApp(this.mainApp);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Insert la vue Historique/Indicateur dans l'onget Historique/Indicateur
+	 */
+	public void showHistoriqueIndicateurOverview() {
+		try {
+			// Load menu overview. 
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("IndicateurHistorique.fxml"));
+			AnchorPane historique = (AnchorPane) loader.load();
+			
+			this.historiquetab.setContent(historique); 
+			// connexion de ChaineController à la mainPage 
+			IndicateurHistoriqueController histController = loader.getController();
+			histController.setMainApp(this.mainApp);
 
 		} catch (IOException e) {
 			e.printStackTrace();

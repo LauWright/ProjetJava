@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Map.Entry;
+
 import element.Element;
 import element.MatierePremiere;
 import javafx.fxml.FXML;
@@ -23,7 +25,7 @@ public class ElementEditDialogController {
     private TextField prixVenteField;
     
     private Stage dialogStage;
-    private Element element;
+    private Entry<String, Element> element;
     private boolean okClicked = false;
     
     /**
@@ -46,27 +48,27 @@ public class ElementEditDialogController {
     *
     * @param person
     */
-   public void setElement(Element element) {
-       this.element = element;
-       if(element.getClass().getSimpleName().equals("MatierePremiere")) {
-    	   MatierePremiere ma = (MatierePremiere) element;
+   public void setElement(Entry<String, Element> ma2) {
+       this.element = ma2;
+       if(ma2.getClass().getSimpleName().equals("MatierePremiere")) {
+    	   MatierePremiere ma = (MatierePremiere) ma2;
     	   this.prixAchatField.setText(String.valueOf(ma.getPrixAchat()));
        } else {
     	   this.prixAchatField.setText("Aucun");
     	   this.prixAchatField.setDisable(true);
        }
-       this.codeField.setText(this.element.getCode());
+       this.codeField.setText(this.element.getValue().getCode());
        this.codeField.setDisable(true);
-       this.nomField.setText(this.element.getNom());
-       if (!this.element.getCode().equals("") && !this.element.getNom().equals("")) {
+       this.nomField.setText(this.element.getValue().getNom());
+       if (!this.element.getValue().getCode().equals("") && !this.element.getValue().getNom().equals("")) {
     	   this.nomField.setDisable(true);
        }
-       this.quantiteField.setText(String.valueOf(this.element.getQuantite()));
-       this.mesureField.setText(this.element.getMesure());
-       if(this.element.getPrixVente() == -1) {
+       this.quantiteField.setText(String.valueOf(this.element.getValue().getQuantite()));
+       this.mesureField.setText(this.element.getValue().getMesure());
+       if(this.element.getValue().getPrixVente() == -1) {
     	   this.prixVenteField.setText("Aucun"); 
        } else {
-    	   this.prixVenteField.setText(String.valueOf(this.element.getPrixVente()));
+    	   this.prixVenteField.setText(String.valueOf(this.element.getValue().getPrixVente()));
        }
    }
    
@@ -86,14 +88,14 @@ public class ElementEditDialogController {
    @FXML
    private void handleOk() {
        if (isInputValid()) {
-    	   this.element.setCode(this.codeField.getText());
-    	   this.element.setNom(this.nomField.getText());
-           this.element.setQuantite(Double.parseDouble(this.quantiteField.getText()));
-           this.element.setMesure(this.mesureField.getText());
+    	   this.element.getValue().setCode(this.codeField.getText());
+    	   this.element.getValue().setNom(this.nomField.getText());
+           this.element.getValue().setQuantite(Double.parseDouble(this.quantiteField.getText()));
+           this.element.getValue().setMesure(this.mesureField.getText());
            if(this.prixVenteField.getText().equals("Aucun")) {
-        	   this.element.setPrixVente(Double .valueOf(-1));
+        	   this.element.getValue().setPrixVente(Double .valueOf(-1));
            } else {
-        	   this.element.setPrixVente(Double .valueOf(this.prixVenteField.getText()));
+        	   this.element.getValue().setPrixVente(Double .valueOf(this.prixVenteField.getText()));
            }
            
            if(this.element.getClass().getSimpleName().equals("MatierePremiere")) {

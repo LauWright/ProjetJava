@@ -1,10 +1,16 @@
 package view;
 
+
+import java.util.Map;
+import java.util.Map.Entry;
+
 import element.Element;
 import element.MatierePremiere;
 import element.Produit;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,8 +29,6 @@ public class ElementStocksController {
 		private TableColumn<element.MatierePremiere, String> mesureMAColumn;
 		@FXML
 		private TableColumn<element.MatierePremiere, Double> prixAchatMAColumn;
-		@FXML
-		private TableColumn<element.MatierePremiere, Double> prixVenteMAColumn;
 
 		@FXML
 		private TableView<element.Produit> produitTable;
@@ -37,7 +41,9 @@ public class ElementStocksController {
 		@FXML
 		private TableColumn<element.Produit, String> mesurePColumn;
 		@FXML
-		private TableColumn<element.Produit, Double> prixVentePColumn;
+		private TableColumn<element.Produit, String> prixVentePColumn;
+		@FXML
+		private TableColumn<element.Produit, String> prixAchatPColumn;
 		
 		private ObservableList<element.MatierePremiere> matieresPremieres = FXCollections.observableArrayList();
 		private ObservableList<element.Produit> produits = FXCollections.observableArrayList();
@@ -62,16 +68,17 @@ public class ElementStocksController {
 			this.quantiteMAColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
 			this.mesureMAColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
 			this.prixAchatMAColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixAchatProperty().asObject());
-			this.prixVenteMAColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixVenteProperty().asObject());
-
+			
 			// Initialize le tableau des produits.
 			this.codePColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
 			this.nomPColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
 			this.quantitePColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
 			this.mesurePColumn.setCellValueFactory(cellData -> cellData.getValue().getMesureProperty());
-			this.prixVentePColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixVenteProperty().asObject());
+			this.prixVentePColumn.setCellValueFactory(cellData -> { Produit p = cellData.getValue(); return p.getPrixVente() == -1 ? new SimpleStringProperty("Aucun") : new SimpleStringProperty(String.valueOf(p.getPrixVente()));});
+			this.prixAchatPColumn.setCellValueFactory(cellData -> { Produit p = cellData.getValue(); return p.getPrixAchat() == -1 ? new SimpleStringProperty("Aucun") : new SimpleStringProperty(String.valueOf(p.getPrixAchat()));});
 		}
 		
+	
 		/**
 		 * appelé par l'application main
 		 * 
@@ -82,17 +89,19 @@ public class ElementStocksController {
 			this.produitTable.getItems().removeAll(this.produitTable.getItems());
 			this.matierePremiereTable.getItems().removeAll(this.matierePremiereTable.getItems());
 			// Add liste des element à la table elementTable
-			ObservableList<Element> elements = this.mainApp.getElementData();
-			for (Element e : elements) {
-				if (e.getClass().getSimpleName().equals("Produit")) {
-					this.produits.add((Produit) e);
+			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+			for (Entry<String, Element> e : elements) {
+				if (e.getValue().getClass().getSimpleName().equals("Produit")) {
+					this.produits.add((Produit) e.getValue());
 				} else {
-					this.matieresPremieres.add((MatierePremiere) e);
+					this.matieresPremieres.add((MatierePremiere) e.getValue());
 				}
 			}
 
 			this.produitTable.setItems(this.produits);
+			this.produitTable.getSortOrder().addAll(this.codePColumn);
 			this.matierePremiereTable.setItems(this.matieresPremieres);
+			this.matierePremiereTable.getSortOrder().addAll(this.codeMAColumn);
 
 		}
 		
@@ -104,17 +113,17 @@ public class ElementStocksController {
 			this.produitTable.getItems().removeAll(this.produitTable.getItems());
 			this.matierePremiereTable.getItems().removeAll(this.matierePremiereTable.getItems());
 			// Add liste des element à la table elementTable
-						ObservableList<Element> elements = this.mainApp.getElementData();
-						for (Element e : elements) {
-							if (e.getClass().getSimpleName().equals("Produit")) {
-								this.produits.add((Produit) e);
-							} else {
-								this.matieresPremieres.add((MatierePremiere) e);
-							}
-						}
+			ObservableList<Map.Entry<String, Element>> elements = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+			for (Entry<String, Element> e : elements) {
+				if (e.getValue().getClass().getSimpleName().equals("Produit")) {
+					this.produits.add((Produit) e.getValue());
+				} else {
+					this.matieresPremieres.add((MatierePremiere) e.getValue());
+				}
+			}
 
-						this.produitTable.setItems(this.produits);
-						this.matierePremiereTable.setItems(this.matieresPremieres);
+			this.produitTable.setItems(this.produits);
+			this.matierePremiereTable.setItems(this.matieresPremieres);
 		}
 
 }

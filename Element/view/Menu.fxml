@@ -19,7 +19,17 @@
                <children>
                   <TabPane prefHeight="544.0" prefWidth="804.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
-                      <Tab fx:id="elementtab" text="Etat du stock">
+                        <Tab fx:id="productiontab" text="Production">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                        <Tab fx:id="historiquetab" onSelectionChanged="#showHistoriqueIndicateurOverview" text="Indicateur/Historique">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                      <Tab fx:id="elementtab" onSelectionChanged="#showElementOverview" text="Etat du stock">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="913.0" />
                         </content>
@@ -32,15 +42,6 @@
                         <Tab fx:id="chainetab" onSelectionChanged="#showChaineOverview" text="Gérer les chaines">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
-                        </Tab>
-                        <Tab fx:id="productiontab" onSelectionChanged="#showProductionOverview" text="Production">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="568.0" layoutY="405.0" text="Label" />
-                                    <Label layoutX="550.0" layoutY="354.0" text="ftycyjjc" />
-                                 </children></AnchorPane>
                           </content>
                         </Tab>
                     </tabs>

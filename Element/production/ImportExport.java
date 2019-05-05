@@ -2,11 +2,13 @@ package production;
 
 import java.io.FileWriter;
 import java.util.List;
+import java.util.Map;
 
 import element.Achat;
 import element.Element;
 import element.ProduitManquant;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 public interface ImportExport {
 	
@@ -17,7 +19,7 @@ public interface ImportExport {
 	 * @param separateur
 	 * @return
 	 */
-	public abstract ObservableList<Element> importElement(String nomFichier, char separateur);
+	public abstract ObservableMap<String, Element> importElement(String nomFichier, char separateur);
 	
 	/**
 	 * Importation des chaines de production
@@ -25,7 +27,7 @@ public interface ImportExport {
 	 * @param separateur
 	 * @return
 	 */
-	public abstract ObservableList<ChaineProduction> importChaineProduction(String nomFichier, char separateur);
+	public abstract ObservableMap<String, ChaineProduction> importChaineProduction(String nomFichier, char separateur);
 	
 	/**
 	 * Créer une liste de d'entrées ou de sorties pour une chaine de production
@@ -41,7 +43,7 @@ public interface ImportExport {
      * @param nomFichier
      * @param elements
      */
-	 public void writeCsvElement(String nomFichier, List<Element> elements);
+	 public void writeCsvElement(String nomFichier, Map<String, Element> elements);
 	 
 	 /**
 	     * Ajouter un élément au fichier élément
@@ -53,7 +55,7 @@ public interface ImportExport {
 	  * Aouter une chaine de production au fichier
 	  * @param chaines
 	  */
-	 public void ajouterCsvChaineProduction(List<ChaineProduction> chaines);
+	 public void ajouterCsvChaineProduction(Map<String, ChaineProduction> chaines);
 	 
 	 /**
 	     * Ajouter une entree pour une chaine
@@ -87,7 +89,7 @@ public interface ImportExport {
 	     * Ecrire le fichier de chaines de production
 	     * @param chaines
 	     */
-	 public void writeCsvChaineProduction(List<ChaineProduction> chaines);
+	 public void writeCsvChaineProduction(Map<String, ChaineProduction> chaines);
 	 
 	 /**
 	     * Ecriture du fichier des achats avec en parametre le nom du fichier et la liste des Matieres premieres à acheter
@@ -95,13 +97,20 @@ public interface ImportExport {
 	     * @param elements
 	     */
 	 public void writeCsvAchat(String nomFichier, List<Achat> mas);
-	
+	 
 	 /**
 	     * Ecriture du fichier des produits manquants avec en parametre le nom du fichier et la liste des produits à produire
 	     * @param nomFichier
 	     * @param elements
 	     */
 	 public void writeCsvProduitManquant(String nomFichier, List<ProduitManquant> pms);
+	 
+	 /**
+	     * Ecriture du fichier des programmations avec en parametre le nom du fichier et la liste des programmations
+	     * @param nomFichier
+	     * @param elements
+	     */
+	 public void writeCsvProgrammation(List<Programmation> programmation);
 	
 	
 }

@@ -2,11 +2,19 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
+import element.Element;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.util.Callback;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -18,11 +26,11 @@ import production.ImportExportCsv;
 public class ChaineController {
 	
 	@FXML
-    private TableView<production.ChaineProduction> chaineTable;
+    private TableView<Map.Entry<String, ChaineProduction>> chaineTable;
     @FXML
-    private TableColumn<production.ChaineProduction, String> codeColumn;
+    private TableColumn<Map.Entry<String, ChaineProduction>, String> codeColumn;
     @FXML
-    private TableColumn<production.ChaineProduction, String> nomColumn;
+    private TableColumn<Map.Entry<String, ChaineProduction>, String> nomColumn;
     
     @FXML
     private Label code;
@@ -50,8 +58,22 @@ public class ChaineController {
     private void initialize() {
     	this.messageExport.setText("");
         // Initialise le table des chaines
-        this.codeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-        this.nomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
+    	
+        this.codeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, ChaineProduction>, String>, ObservableValue<String>>() {            
+			@Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, ChaineProduction>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue().getCode());
+            }
+        });
+        
+        this.nomColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, ChaineProduction>, String>, ObservableValue<String>>() {            
+			@Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, ChaineProduction>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue().getNom());
+            }
+        });
         
         showChaineDetails(null);
         
@@ -69,22 +91,24 @@ public class ChaineController {
     public void setMainApp(MainApp mainApp) {
     	this.mainApp = mainApp;
         // Add observable list data to the table
-        this.chaineTable.setItems(this.mainApp.getChaineData());
+    	ObservableList<Map.Entry<String, ChaineProduction>> items = FXCollections.observableArrayList(this.mainApp.getChaineData().entrySet());
+        this.chaineTable.setItems(items);
+        this.chaineTable.getSortOrder().addAll(this.codeColumn);
     }
     
-    private void showChaineDetails(ChaineProduction chaine){
-    	if(chaine != null) {
+    private void showChaineDetails(Entry<String, ChaineProduction> newValue){
+    	if(newValue != null) {
     		//remplissage des labels avec les détails de la chaine selectionné dans le tableau
-    		this.code.setText(chaine.getCode());
+    		this.code.setText(newValue.getValue().getCode());
     		//gestion des entrees
-    		List<Couple> entreesChaine = chaine.getEntrees();
+    		List<Couple> entreesChaine = newValue.getValue().getEntrees();
     		String e = "";
     		for(Couple c : entreesChaine) {
     			e += c.toString()+"\n";
     		}
     		this.entrees.setText(e);
     		//gestion des sorties
-    		List<Couple> sortiesChaine = chaine.getSorties();
+    		List<Couple> sortiesChaine = newValue.getValue().getSorties();
     		String s = "";
     		for(Couple c : sortiesChaine) {
     			s += c.toString() +"\n";
@@ -119,7 +143,7 @@ public class ChaineController {
 		}
         boolean okClicked = this.mainApp.showNewChaineDialog(tempChaine);
         if (okClicked) {
-            this.mainApp.getChaineData().add(tempChaine);
+            this.mainApp.getChaineData().put(tempChaine.getCode(), tempChaine);
         }
     }
     
