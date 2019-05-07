@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" automaticImage="JPEG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true" 
+  router="FAN">  
+  <class id="1" language="java" name="production.ChaineProduction" project="ProjetJava" 
+    file="/ProjetJava/Element/production/ChaineProduction.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="322" width="370" x="1022" y="2576"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="production.ImportExportCsv" project="ProjetJava" 
+    file="/ProjetJava/Element/production/ImportExportCsv.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="610" width="539" x="-23" y="27"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="production.Programmation" project="ProjetJava" 
+    file="/ProjetJava/Element/production/Programmation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="228" x="736" y="677"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="element.Element" project="ProjetJava" 
+    file="/ProjetJava/Element/element/Element.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="609" width="318" x="964" y="1491"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="element.Achat" project="ProjetJava" file="/ProjetJava/Element/element/Achat.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="178" width="452" x="51" y="2140"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="element.ProduitManquant" project="ProjetJava" 
+    file="/ProjetJava/Element/element/ProduitManquant.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="160" width="565" x="785" y="2376"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="7" language="java" name="production.ImportExport" project="ProjetJava" 
+    file="/ProjetJava/Element/production/ImportExport.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="322" width="484" x="-23" y="677"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="8" language="java" name="element.Produit" project="ProjetJava" 
+    file="/ProjetJava/Element/element/Produit.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="196" width="360" x="564" y="2140"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <component id="9" language="java" name="Element" project="ProjetJava" file="/ProjetJava/Element" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="43" width="137" x="692" y="27"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </component>  
+  <class id="10" language="java" name="production.Semaine" project="ProjetJava" 
+    file="/ProjetJava/Element/production/Semaine.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="412" width="440" x="524" y="1039"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="production.Couple" project="ProjetJava" 
+    file="/ProjetJava/Element/production/Couple.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="214" width="218" x="1022" y="2938"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="element.MatierePremiere" project="ProjetJava" 
+    file="/ProjetJava/Element/element/MatierePremiere.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="124" width="365" x="964" y="2140"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="view.MainApp" project="ProjetJava" file="/ProjetJava/Element/view/MainApp.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="484" width="383" x="1006" y="27"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="14">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="15" name="programmations"/>      
+      <multiplicity id="16" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="17">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="18" name="sorties"/>      
+      <multiplicity id="19" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="20">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="21" name="stockPreviSortie"/>      
+      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="23">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="24" name="entrees"/>      
+      <multiplicity id="25" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="26">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <generalization id="27">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="28">    
+    <bendpoint x="491" y="677"/>    
+    <bendpoint x="491" y="1039"/>    
+    <bendpoint x="491" y="1491"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="29" name="achats"/>      
+      <multiplicity id="30" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <bendpoint x="1359" y="677"/>    
+    <bendpoint x="1359" y="1039"/>    
+    <bendpoint x="1359" y="1491"/>    
+    <bendpoint x="1359" y="2140"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="32" name="produitM"/>      
+      <multiplicity id="33" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="34">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="35" name="semaines"/>      
+      <multiplicity id="36" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <association id="38">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="39" name="stockPreviEntree"/>      
+      <multiplicity id="40" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="41">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="42">    
+    <bendpoint x="1015" y="677"/>    
+    <bendpoint x="1015" y="1039"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="43" name="stockElements"/>      
+      <multiplicity id="44" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <bendpoint x="994" y="677"/>    
+    <bendpoint x="994" y="1039"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="46" name="stockElementsSimulation"/>      
+      <multiplicity id="47" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <bendpoint x="512" y="1491"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="49" name="achats"/>      
+      <multiplicity id="50" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <bendpoint x="1380" y="677"/>    
+    <bendpoint x="1380" y="1039"/>    
+    <bendpoint x="1380" y="1491"/>    
+    <bendpoint x="1380" y="2140"/>    
+    <bendpoint x="1380" y="2376"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="52" name="chaines"/>      
+      <multiplicity id="53" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <bendpoint x="1401" y="677"/>    
+    <bendpoint x="1401" y="1039"/>    
+    <bendpoint x="1401" y="1491"/>    
+    <bendpoint x="1401" y="2140"/>    
+    <bendpoint x="1401" y="2376"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="55" name="newChaine"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <bendpoint x="546" y="2376"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="58" name="chaine"/>      
+      <multiplicity id="59" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="61" name="chaine"/>      
+      <multiplicity id="62" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="63">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="64">    
+    <bendpoint x="533" y="1491"/>    
+    <bendpoint x="533" y="2140"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="65" name="produitManquant"/>      
+      <multiplicity id="66" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
