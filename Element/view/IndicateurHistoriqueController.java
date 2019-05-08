@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +20,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -95,13 +98,7 @@ public class IndicateurHistoriqueController {
 		}
 		
 		public void tableSemaine(int id) {
-			Label semaineLabel = new Label("Semaine");
-				
-			int resTotal=0;
-			
-			int dep = 0;
-			
-			int vente = 0;
+			Label semaineLabel = new Label("Semaine de la programmation "+id);
 			
 			this.gridSem.getChildren().clear();
 			
@@ -109,39 +106,29 @@ public class IndicateurHistoriqueController {
 			
 			
 			Programmation p = this.mainApp.getProgrammations().get(id-1);
-			
+
+			//A voir donction get ACHAT
 			
 			int i = 1;
 			for (Semaine s : p.getSemaines()) {
 				
-				for(Entry<String, Element> elem : s.getStockPreviEntree().entrySet()) {
-					dep+=elem.getValue().getPrixAchat();
-				}
 				
-				for(Entry<String, Element> elem : s.getStockPreviEntree().entrySet()) {
-					vente+=elem.getValue().getPrixVente();
-				}
-				
-				resTotal += s.getResultat();
-				
-				
-				for(Achat a : s.getAchats()) {
-					
-					dep+=a.getPrixAchat();
-					
-				}
-				
-				
-				Label semLab = new Label("Semaine "+s.getIdSemaine());
-				this.gridSem.add(semLab, 0, i);
+				CheckBox ch = new CheckBox();
+				ch.setText("Semaine "+s.getIdSemaine());
+				this.gridSem.add(ch, 0, i);
 				i++;
+			
 			} 
 			
-
+			Button b = new Button ("Valider"); 
+			b.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					creationIndicateurs(id);
+				}
+			});
+			this.gridSem.add(b, 0, i);
 			
-			this.res.setText(resTotal+"");
-			this.dep.setText(dep+"");
-			this.ven.setText(vente+"");
 		}
 		
 		@FXML
@@ -166,6 +153,122 @@ public class IndicateurHistoriqueController {
 				}
 			}*/
 			//methode tab chaine créer des checkbox dynamiquement
+			
+		}
+		
+		public void creationIndicateurs(int id) {
+			
+			List<Integer> list = new ArrayList<>();
+			int i=0;
+			//System.out.println(this.gridSem.getChildren().size()+"");
+			for (Node no : this.gridSem.getChildren()) {
+				if (i>0 && i<(this.gridSem.getChildren().size()-1)) {
+					boolean coche = false;
+
+					CheckBox ch = (CheckBox) no;
+					if (ch.isSelected()) {
+						coche = true;
+						list.add(getIdSem(ch.getText()));
+					}
+					
+					
+				}
+				i++;
+			}
+			
+			int resTotal=0;
+			
+			int dep = 0;
+			
+			int vente = 0;
+			
+			double test=0;
+			
+			
+			Programmation p = this.mainApp.getProgrammations().get(id-1);
+
+			//A voir fonction get ACHAT
+			
+			for (Semaine s : p.getSemaines()) {
+				boolean itsOk = false;
+				int o=0;
+				while (o<list.size() && !itsOk){
+					itsOk = list.get(o) == s.getIdSemaine();
+					o++;
+				}
+				
+				if (itsOk) {
+					/**
+					 * Prix total des éléments en entrée
+					 */
+					for(Entry<String, Element> elem : s.getStockPreviEntree().entrySet()) {
+						dep+=elem.getValue().getPrixAchat();
+					}
+					
+					/**
+					 * Prix total de vente des éléments en entrée
+					 */
+					for(Entry<String, Element> elem : s.getStockPreviSortie().entrySet()) {
+						vente+=elem.getValue().getPrixVente();
+					}
+					
+					/**
+					 * Total des résultats sur toutes les semaines
+					 */
+					resTotal += s.getResultat();
+					
+					/**
+					 * Prix total des achats
+					 */
+					for(Achat a : s.getAchats()) {
+						
+						dep+=a.getPrixAchat();
+						
+					}
+					
+					
+					for(Entry<String, Element> elem : s.getStockPreviEntree().entrySet()) {
+						//test+=elem.getValue().getQuantite();
+					}
+					
+					
+					
+					for (Produit prodM : s.getProduitManquant()) {
+						test+=prodM.getPrixAchat();
+					}
+					
+					for(Achat a : s.getAchats()){
+						//test+=a.getPrixAchat();
+						System.out.println("TEST");
+					}
+				}
+			}
+			
+
+			System.out.println(test+" test");
+			this.res.setText(resTotal+"");
+			this.dep.setText(dep+"");
+			this.ven.setText(vente+"");
+			
+		}
+		
+		/**
+		 * Récupération de l'id de semaine pour une chaine de caractère de ce type "Semaine id"
+		 * @param String sem semaine en libelle
+		 * @return int id de la semaine
+		 */
+		public int getIdSem(String sem) {
+			boolean ok =false;
+			String idSem = "";
+			for (int i= 0; i<sem.length() ; i++) {
+				if (ok) {
+					idSem+=sem.charAt(i);
+				}else {
+					ok = (' ' == sem.charAt(i));
+				}
+			}
+			
+			return Integer.parseInt(idSem);
 			
 		}
 		
