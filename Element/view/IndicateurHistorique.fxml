@@ -20,7 +20,7 @@
     </GridPane>
     <Label layoutX="407.0" layoutY="107.0" text="Résultat" />
     <Label layoutX="407.0" layoutY="154.0" text="Total dépense" />
-    <Label layoutX="407.0" layoutY="203.0" text="Total vente" />
+    <Label layoutX="407.0" layoutY="199.0" text="Total vente" />
     <Label fx:id="res" layoutX="572.0" layoutY="107.0" text="Label" />
     <Label fx:id="dep" layoutX="572.0" layoutY="150.0" text="Label" />
     <Label fx:id="ven" layoutX="572.0" layoutY="199.0" text="Label" />

@@ -135,7 +135,7 @@ public class IndicateurHistoriqueController {
 				Label semLab = new Label("Semaine "+s.getIdSemaine());
 				this.gridSem.add(semLab, 0, i);
 				i++;
-			}
+			} 
 			
 
 			
