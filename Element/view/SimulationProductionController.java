@@ -383,7 +383,7 @@ public class SimulationProductionController {
 											if (e.getPrixAchat() == -1) {
 												semaine.getProduitManquant().add(new ProduitManquant(p.getCode(),
 														p.getNom(), p.getQuantite(), p.getMesure(), p.getPrixVente(),
-														p.getPrixAchat(), p.isAchetable(), 0 - e.getQuantite(), c));
+														p.getPrixAchat(), p.isAchetable(), p.getCoutFabrication(), 0 - e.getQuantite(), c));
 												e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
 												reussi = false;
 											} else {

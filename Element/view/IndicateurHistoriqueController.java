@@ -75,10 +75,6 @@ public class IndicateurHistoriqueController {
 		public void setMainApp(MainApp mainApp) {
 			this.mainApp = mainApp;
 			
-			
-			
-
-			
 			for(Programmation p : this.mainApp.getProgrammations()) {
 				Button b = new Button ("Programmation "+p.getId()); 
 				b.setOnAction(new EventHandler<ActionEvent>() {
@@ -97,6 +93,10 @@ public class IndicateurHistoriqueController {
 			
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 */
 		public void tableSemaine(int id) {
 			Label semaineLabel = new Label("Semaine de la programmation "+id);
 			
@@ -112,11 +112,12 @@ public class IndicateurHistoriqueController {
 			int i = 1;
 			for (Semaine s : p.getSemaines()) {
 				
-				
-				CheckBox ch = new CheckBox();
-				ch.setText("Semaine "+s.getIdSemaine());
-				this.gridSem.add(ch, 0, i);
-				i++;
+				if(s.getResultat() > 0) {
+					CheckBox ch = new CheckBox();
+					ch.setText("Semaine "+s.getIdSemaine());
+					this.gridSem.add(ch, 0, i);
+					i++;
+				}
 			
 			} 
 			
@@ -156,6 +157,10 @@ public class IndicateurHistoriqueController {
 			
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 */
 		public void creationIndicateurs(int id) {
 			
 			List<Integer> list = new ArrayList<>();

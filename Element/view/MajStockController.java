@@ -235,7 +235,7 @@ public class MajStockController {
 			}
 		}
 		if (this.produitRadio.isSelected()) {
-			Produit ma = new Produit("", "", 0, "", 0, 0, false);
+			Produit ma = new Produit("", "", 0, "", 0, 0, false, 0);
 			if(id < 10) {
 				ma.setCode("E00" + id);
 			}

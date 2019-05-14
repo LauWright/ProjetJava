@@ -1,10 +1,13 @@
 package element;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class Produit extends Element{
 	private BooleanProperty estAchetable;
+	private DoubleProperty coutFabrication;
 	
 	/**
 	 * Constructeur d'un produit
@@ -14,9 +17,10 @@ public class Produit extends Element{
 	 * @param m mesure d'un produit : String
 	 * @param p prix de vente d'un produit : Int
 	 */
-	public Produit(String code, String nom, double quantite, String mesure, double prixV, double prixA, boolean estA) {
+	public Produit(String code, String nom, double quantite, String mesure, double prixV, double prixA, boolean estA, double coutFabrication) {
 		super(code, nom, quantite, mesure, prixV, prixA);
 		this.estAchetable = new SimpleBooleanProperty(estA);
+		this.coutFabrication = new SimpleDoubleProperty(coutFabrication);
 	}
 	
 	/**
@@ -26,8 +30,18 @@ public class Produit extends Element{
 	public Produit(Produit p) {
 		super(p.getCode(), p.getNom(), p.getQuantite(), p.getMesure(), p.getPrixVente(), p.getPrixAchat());
 		this.estAchetable = p.estAchetable;
+		this.coutFabrication = p.coutFabrication;
 	}
 	
+	
+	/**
+	 * Retourn le cout de fabrication
+	 * @return
+	 */
+	public double getCoutFabrication() {
+		return this.coutFabrication.get();
+	}
+
 	/**
 	 * Savoir si un produit est achetable ou non
 	 * @return prixVente d'un element : double

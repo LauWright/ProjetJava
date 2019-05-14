@@ -18,8 +18,8 @@ public class ProduitManquant extends Produit{
 	 * @param p prix de vente d'un produit : Int
 	 * @param qM quantité manquante d'un produit
 	 */
-	public ProduitManquant(String c, String n, double q, String m, double p, double pa, boolean achetable, double qM, ChaineProduction chaine) {
-		super(c, n, q, m, p, pa, achetable);
+	public ProduitManquant(String c, String n, double q, String m, double p, double pa, boolean achetable, double coutFabrication, double qM, ChaineProduction chaine) {
+		super(c, n, q, m, p, pa, achetable, coutFabrication);
 		this.qteP = new SimpleDoubleProperty(qM);
 		this.chaine = chaine;
 	}

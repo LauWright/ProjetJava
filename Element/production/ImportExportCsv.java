@@ -31,7 +31,7 @@ public class ImportExportCsv implements ImportExport {
 	private static final String NEW_LINE_SEPARATOR = "\n";
 
 	// CSV file header
-	private static final String FILE_HEADER_ELEMENT = "Code;Nom;Quantite;unite;achat;vente;type";
+	private static final String FILE_HEADER_ELEMENT = "Code;Nom;Quantite;unite;achat;vente;coutFabrication;type";
 	private static final String FILE_HEADER_ACHAT = "Chaine;Element;Nom;Mesure;Achat;Quantité";
 	private static final String FILE_HEADER_PRODUITM = "Chaine;Element;Nom;Mesure;Quantité";
 
@@ -54,6 +54,7 @@ public class ImportExportCsv implements ImportExport {
 	 */
 	@Override
 	public ObservableMap<String, Element> importElement(String nomFichier, char separateur) {
+		ObservableMap<String, ChaineProduction> chaines = importChaineProduction("chaines.csv", ';');
 		ObservableMap<String, Element> elements = FXCollections.observableHashMap();
 		CSVParser parser = new CSVParserBuilder().withSeparator(separateur).withIgnoreQuotations(true).build();
 		CSVReader reader = null;
@@ -70,20 +71,17 @@ public class ImportExportCsv implements ImportExport {
 				// création d'un element à ajouter à la liste des elements grace au CSV
 				// création de l'élément en fonction du type contenu dans le csv
 				Element e = null;
-				if (line[6].equals("MA")) {
-					e = new MatierePremiere(line[0], line[1], Double.valueOf(line[2]), line[3], dVente,
-							Double.valueOf(line[4]));
-
+				if (line[7].equals("MA")) {
+					e = new MatierePremiere(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, Double.valueOf(line[4]));
 				}
-				if (line[6].equals("P")) {
+				if (line[7].equals("P")) {
 					double dAchat = -1.0;
 					boolean achetable = false;
 					if (!line[4].equals("NA")) {
 						dAchat = Double.valueOf(line[4]);
 						achetable = true;
-					}
-					e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, dAchat, achetable);
-
+					}					
+					e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, dAchat, achetable, Double.valueOf(line[6]));
 				}
 				elements.put(e.getCode(), e);
 			}
@@ -228,7 +226,9 @@ public class ImportExportCsv implements ImportExport {
 								if (!line1[7].equals("NA")) {
 									v = Double.valueOf(line1[7]);
 								}
-								Element e = new Produit(line1[2], line1[3], Double.valueOf(line1[4]), line1[5], v, d, a);
+								System.out.println(line1[2]);
+								Produit tmp = new Produit((Produit)importElement("newElements.csv", ';').get(line1[2]));
+								Element e = new Produit(line1[2], line1[3], Double.valueOf(line1[4]), line1[5], v, d, a,  tmp.getCoutFabrication());
 								s.getStockPreviSortie().put(line1[2], e);
 							}
 							if (line1[8].equals("MA")) {
@@ -272,8 +272,8 @@ public class ImportExportCsv implements ImportExport {
 								if (!line2[7].equals("NA")) {
 									v = Double.valueOf(line2[7]);
 								}
-								Element e = new Produit(line2[2], line2[3], Double.valueOf(line2[4]), line2[5], v, d,
-										a);
+								Produit tmp = new Produit((Produit)importElement("newElements.csv", ';').get(line2[2]));
+								Element e = new Produit(line2[2], line2[3], Double.valueOf(line2[4]), line2[5], v, d, a, tmp.getCoutFabrication());
 								s.getStockPreviEntree().put(line2[2], e);
 							}
 							if (line2[8].equals("MA")) {
@@ -369,9 +369,9 @@ public class ImportExportCsv implements ImportExport {
 							}
 
 							ChaineProduction c = ListeChaine.get(line5[2]);
-
+							Produit tmp = new Produit((Produit)importElement("newElements.csv", ';').get(line5[3]));
 							ProduitManquant pm = new ProduitManquant(line5[3], line5[4], Double.valueOf(line5[5]),
-									line5[6], d, a, aa, Double.valueOf(line5[9]), c);
+									line5[6], d, a, aa, tmp.getCoutFabrication(), Double.valueOf(line5[9]), c);
 							s.getProduitManquant().add(pm);
 						}
 					}
