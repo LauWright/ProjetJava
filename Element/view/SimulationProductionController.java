@@ -21,6 +21,7 @@ import element.Produit;
 import element.ProduitManquant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -148,10 +149,13 @@ public class SimulationProductionController {
 		this.scrollChaine.setPannable(true);
 	}
 
+	/**
+	 * Affiche le recapitulatif d'une simulation pour une semaine donnée
+	 */
 	public void buttonRecap() {
 		Calendar calendar = Calendar.getInstance();
 		for (int i = 0; i < 8; i++) {
-			this.buttonGrid.getRowConstraints().get(0).setMinHeight(40);
+			this.buttonGrid.getRowConstraints().get(0).setMinHeight(50);
 			int week = calendar.get(calendar.WEEK_OF_YEAR);
 			calendar.add(Calendar.DATE, 7);
 			
@@ -173,6 +177,7 @@ public class SimulationProductionController {
 			this.buttonGrid.add(sem, 0, i);
 			this.buttonGrid.add(recap, 1, i);
 			this.buttonGrid.add(delete, 2, i);
+			
 		}
 	}
 
@@ -201,9 +206,16 @@ public class SimulationProductionController {
 				semaines.add(new Semaine(week));
 				calendar.add(Calendar.DATE, 7);
 			}
-			semaines.get(0).setStockPreviEntree(this.mainApp.getElementData());
-			semaines.get(0).setStockPreviSortie(this.mainApp.getElementData());
 			this.programmation = new Programmation(this.mainApp.getnbProgrammation() + 1, semaines);
+			this.programmation.getSemaines().get(0).setStockPreviEntree(new ImportExportCsv().importElement("newElements.csv", ';'));
+			this.programmation.getSemaines().get(0).setStockPreviSortie(new ImportExportCsv().importElement("newElements.csv", ';'));
+			for(int i=1; i<this.programmation.getSemaines().size(); i++) {
+				this.programmation.getSemaines().get(i).setStockPreviEntreeNewPrix(new ImportExportCsv().importElement("newElements.csv", ';'));
+				this.programmation.getSemaines().get(i).setStockPreviSortie(new ImportExportCsv().importElement("newElements.csv", ';'));
+				this.programmation.getSemaines().get(i).setPrixStock(this.programmation.getSemaines().get(i).getStockPreviEntree());
+			}
+			
+			
 			this.mainApp.setnbProgrammation(this.mainApp.getnbProgrammation() + 1);
 			System.out.println("ok");
 
@@ -253,28 +265,22 @@ public class SimulationProductionController {
 				if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0 && this.index == -1) {
 					semaine = this.programmation.getSemaines()
 							.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
-					semaine.setStockPreviEntree(this.mainApp.getElementData());
-					semaine.setStockPreviSortie(this.mainApp.getElementData());
 				} else {
-					if(this.index + 1 == this.choiceSemaine.getSelectionModel().getSelectedIndex()) {
+					if(this.index + 1 == this.choiceSemaine.getSelectionModel().getSelectedIndex()) {		
 						semaine = this.programmation.getSemaines()
 								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
 						if (this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviEntree() != null) {
-							semaine.setStockPreviEntreeNewPrix(this.programmation.getSemaines()
-									.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1)
-									.getStockPreviEntree());
+							ObservableMap<String, Element> stockse = this.programmation.getSemaines()
+									.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviEntree();
+							semaine.setQuantiteStock(stockse);
 							semaine.setStockPreviSortie(semaine.getStockPreviEntree());
 						} else {
-							semaine.setStockPreviEntree(this.mainApp.getElementData());
+							ObservableMap<String, Element> stockse = this.mainApp.getElementData();
+							semaine.setStockPreviEntree(stockse);
 							semaine.setStockPreviSortie(semaine.getStockPreviEntree());
 						}
 					} else if (this.index == this.choiceSemaine.getSelectionModel().getSelectedIndex()){
 						semaine = this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
-					} else if (this.index < 0 && this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getResultat() == 0) {
-						semaine = this.programmation.getSemaines()
-								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
-						semaine.setStockPreviEntree(this.mainApp.getElementData());
-						semaine.setStockPreviSortie(this.mainApp.getElementData());
 					} else {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.initOwner(mainApp.getPrimaryStage());
@@ -368,10 +374,10 @@ public class SimulationProductionController {
 												e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
 												reussi = false;
 											} else {
-												semaine.getAchats()
-														.add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
-																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(),
-																0 - e.getQuantite(), c));
+												Semaine sem = this.programmation.getPrixMoinsCher(ma.getCode());
+												System.out.println("Semaine " + sem.getIdSemaine() +" produit moins cher " + ma.getCode() + " prix " + sem.getStockPreviEntree().get(ma.getCode()).getPrixAchat());
+												semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
+																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
 												if (e.getQuantite() < 0) {
 													e.setQuantite(0);
 												}
@@ -424,7 +430,7 @@ public class SimulationProductionController {
 			}
 		}
 	}
-
+	
 	public void getRecap(String b) {
 		int i = Integer.parseInt(b.split(" ")[1]);
 		Semaine se = null;
@@ -665,6 +671,7 @@ public class SimulationProductionController {
 		if(newProg) {
 			this.mainApp.getProgrammations().add(this.programmation);
 			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
+			this.newProgrammation();
 			Alert alert = new Alert(AlertType.INFORMATION, "", ButtonType.OK);
 			alert.setContentText("Export réussi!");
 			alert.setHeaderText("");

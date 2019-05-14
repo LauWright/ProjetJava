@@ -33,6 +33,8 @@ public class Semaine {
 		this.chaineProductionNiveau = new HashMap<>();
 		this.achats = FXCollections.observableArrayList();
 		this.produitManquant = FXCollections.observableArrayList();	
+		this.stockPreviEntree = FXCollections.emptyObservableMap();
+		this.stockPreviSortie = FXCollections.emptyObservableMap();
 	}
 
 	
@@ -56,11 +58,30 @@ public class Semaine {
 		for(Map.Entry<String, element.Element> e: stockPreviEntree.entrySet()) {
 			if(e.getValue().getPrixAchat() != -1) {
 				Random r = new Random();
-				double randomValue = e.getValue().getPrixAchat() + r.nextInt(6 + 1);
+				double randomValue = 0;
+				randomValue = e.getValue().getPrixAchat() + r.nextInt(6 + 1);
+				randomValue = e.getValue().getPrixAchat() - r.nextInt(6 + 1);
+				if(randomValue <= 0) {
+					randomValue = 1;
+				}
 				e.getValue().setPrixAchat(randomValue);
 			}
 		}
 		this.stockPreviEntree = stockPreviEntree;
+	}
+	
+	public void setQuantiteStock(ObservableMap<String, element.Element> stockPreviEntree) {
+		for (Map.Entry<String, element.Element> e: stockPreviEntree.entrySet()) {
+			this.stockPreviEntree.get(e.getKey()).setQuantite(e.getValue().getQuantite());
+		}
+	}
+
+	public void setPrixStock(ObservableMap<String, element.Element> stockPreviEntree) {
+		for(Map.Entry<String, element.Element> e: stockPreviEntree.entrySet()) {
+			if(e.getValue().getPrixAchat() != -1) {
+				this.stockPreviEntree.get(e.getKey()).setPrixAchat(e.getValue().getPrixAchat());
+			}			
+		}	
 	}
 
 	public ObservableMap<String, element.Element> getStockPreviSortie() {

@@ -20,5 +20,17 @@ public class Programmation {
 		return idProgrammation;
 	}
 	
+	public Semaine getPrixMoinsCher(String codeElement) {
+
+		Semaine res = this.semaines.get(0);;
+		for(Semaine s : this.semaines) {
+			if(s.getStockPreviEntree().get(codeElement).getPrixAchat() != -1) {
+				if(s.getStockPreviEntree().get(codeElement).getPrixAchat() < res.getStockPreviEntree().get(codeElement).getPrixAchat()) {
+					res = s;
+				}
+			}
+		}
+		return res;
+	}
 	
 }
