@@ -40,13 +40,13 @@ E038;Crepes fourrees choc;0.0;carton;NA;9.0;7;P
 E039;Crepes fourres abricot;0.0;carton;NA;8.0;5.2;P
 E040;Brownies marque A;0.0;carton;NA;10.0;NA;4.8;P
 E041;Brownies marque B;0.0;carton;NA;8.0;NA;6;P
-E042;Cookies Choc marque A;0.0;carton;NA;9.0;NA;P_
-E043;Cookies Choc marque B;0.0;carton;NA;8.0;NA;P_
-E044;Cookies Choc/Noix marque A;0.0;carton;NA;9.0;P_
-E045;Cookies Choc/Noix marque B;0.0;carton;NA;8.0;P_
-E046;Pate Madeleines Q1;0.0;litre;NA;-1.0;P_
-E047;Pate Madeleines Q2;0.0;litre;NA;-1.0;P_
-E048;Madeleines marque A;0.0;carton;NA;8.0;P_
-E049;Madeleines marque B;0.0;carton;NA;7.0;P_
-E050;Madeleines Choc;0.0;carton;NA;8.0;P_
-E051;Poudre a lever;28.0;kg;NA;-1.0;2;P
+E042;Cookies Choc marque A;0.0;carton;NA;9.0;NA;2;P
+E043;Cookies Choc marque B;0.0;carton;NA;8.0;NA;2;P
+E044;Cookies Choc/Noix marque A;0.0;carton;NA;9.0;2.5;P
+E045;Cookies Choc/Noix marque B;0.0;carton;NA;8.0;2.5;P
+E046;Pate Madeleines Q1;0.0;litre;NA;-1.0;1.5;P
+E047;Pate Madeleines Q2;0.0;litre;NA;-1.0;1.4;P
+E048;Madeleines marque A;0.0;carton;NA;8.0;1.8;P
+E049;Madeleines marque B;0.0;carton;NA;7.0;1.4;P
+E050;Madeleines Choc;0.0;carton;NA;8.0;2.4;P
+E051;Poudre a lever;28.0;kg;NA;-1.0;2;
