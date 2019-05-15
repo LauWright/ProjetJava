@@ -361,7 +361,6 @@ public class SimulationProductionController {
 										semaine.getChaineProductionNiveau().get(Integer.parseInt(tf.getText())).add(c);
 									}
 								}
-																
 								List<Couple> entrees = c.getEntrees();
 								boolean reussi = true;
 								for (Couple couple : entrees) {
@@ -389,12 +388,18 @@ public class SimulationProductionController {
 													}else {
 														semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
 																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
-													} 
+													}
+												}else {
+													semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
+															ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
+													List<Couple> sorties = c.getSorties();
+													for (Couple couples : sorties) {
+														semaine.getStockPreviSortie().get(couples.getCode()).ajouter(couples.getQte());
+													}
 												}
 												if (e.getQuantite() < 0) {
 													e.setQuantite(0);
 												}
-
 											}
 										}
 										if (e.getClass().getSimpleName().equals("Produit")) {
@@ -410,13 +415,23 @@ public class SimulationProductionController {
 														.add(new Achat(p.getCode(), p.getNom(), e.getQuantite(),
 																p.getMesure(), p.getPrixVente(), p.getPrixAchat(),
 																0 - e.getQuantite(), c));
+												List<Couple> sorties = c.getSorties();
+												for (Couple couples : sorties) {
+													semaine.getStockPreviSortie().get(couples.getCode()).ajouter(couples.getQte());
+												}
 												if (e.getQuantite() < 0) {
 													e.setQuantite(0);
 												}
 												reussi = false;
 											}
 										}
+									} else {
+										List<Couple> sorties = c.getSorties();
+										for (Couple couples : sorties) {
+											semaine.getStockPreviSortie().get(couples.getCode()).ajouter(couples.getQte());
+										}
 									}
+									
 								}
 							}
 						}
@@ -424,7 +439,7 @@ public class SimulationProductionController {
 				}
 				double efficacite = 0;
 				ObservableList<Map.Entry<String, Element>> elements = FXCollections
-						.observableArrayList(semaine.getStockPreviEntree().entrySet());
+						.observableArrayList(semaine.getStockPreviSortie().entrySet());
 				for (Entry<String, Element> e : elements) {
 					if (e.getValue().getPrixVente() != -1 && e.getValue().getQuantite() >= 0) {
 						efficacite += e.getValue().getPrixVente() * e.getValue().getQuantite();
