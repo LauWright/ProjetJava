@@ -93,9 +93,8 @@ public class SimulationProductionController {
 	 * appelé par l'application main
 	 * 
 	 * @param mainApp
-	 * @throws IOException
 	 */
-	public void setMainApp(MainApp mainApp) throws IOException {
+	public void setMainApp(MainApp mainApp){
 		this.mainApp = mainApp;
 		this.tableChaine();
 		this.buttonRecap();
@@ -182,7 +181,7 @@ public class SimulationProductionController {
 	}
 
 	/**
-	 * Clicque sur le bouton nouvelle programmation
+	 * Clicque sur le bouton nouvelle programmation, crée une nouvelle programmation sur 8 semaines
 	 */
 	@FXML
 	public void newProgrammation() {
@@ -375,9 +374,20 @@ public class SimulationProductionController {
 												reussi = false;
 											} else {
 												Semaine sem = this.programmation.getPrixMoinsCher(ma.getCode());
-												System.out.println("Semaine " + sem.getIdSemaine() +" produit moins cher " + ma.getCode() + " prix " + sem.getStockPreviEntree().get(ma.getCode()).getPrixAchat());
-												semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
+												if(sem.getIdSemaine() != semaine.getIdSemaine()) {
+													Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+													alert.setContentText("L'élément " + e.getCode() + " " + e.getNom() + " est moins cher en \n semaine " + sem.getIdSemaine() + "\n Voulez-vous réaliser ces achats et \n cette chaine la semaine " + sem.getIdSemaine() + " ?");
+													alert.setHeaderText(c.getCode() + " " + c.getNom());
+													alert.showAndWait();
+
+													if (alert.getResult() == ButtonType.YES) {
+														semaine.getChaineProductionNiveau().get(Integer.parseInt(tf.getText())).remove(c);
+														break;
+													}else {
+														semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
 																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
+													}
+												}
 												if (e.getQuantite() < 0) {
 													e.setQuantite(0);
 												}
@@ -535,6 +545,25 @@ public class SimulationProductionController {
 		return s;
 	}
 
+	/**
+	 * Indique à un utilisateur qu'un achat est moins cher une semaine si ce n'est pas la meme semaine
+	 * @param codeE
+	 * @param s
+	 */
+	public void gestionDesAchats(String codeE, String nomE, Semaine s, String codeC, String nomC, int idSemaineCourante) {
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
+		alert.setContentText("L'élément " + codeE + " " + nomE + " \n est moins cher en semaine " + s.getIdSemaine() + "\n Voulez-vous quand meme réaliser ces achats \n et cette chaine la semaine du " + idSemaineCourante);
+		alert.setHeaderText(codeC + " " + nomC);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+			this.mainApp.getProgrammations().clear();
+			this.mainApp.setnbProgrammation(0); 
+			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
+			this.newProg = false;			
+		}
+	}
+	
 	/**
 	 * Indique si une chaine est productible ou non
 	 * 
