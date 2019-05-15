@@ -361,6 +361,7 @@ public class SimulationProductionController {
 										semaine.getChaineProductionNiveau().get(Integer.parseInt(tf.getText())).add(c);
 									}
 								}
+																
 								List<Couple> entrees = c.getEntrees();
 								boolean reussi = true;
 								for (Couple couple : entrees) {
@@ -376,8 +377,10 @@ public class SimulationProductionController {
 												Semaine sem = this.programmation.getPrixMoinsCher(ma.getCode());
 												if(sem.getIdSemaine() != semaine.getIdSemaine()) {
 													Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-													alert.setContentText("L'élément " + e.getCode() + " " + e.getNom() + " est moins cher en \n semaine " + sem.getIdSemaine() + "\n Voulez-vous réaliser ces achats et \n cette chaine la semaine " + sem.getIdSemaine() + " ?");
+													alert.setTitle("Confirmation simulation achats");
+													alert.setContentText("L'élément " + e.getCode() + " " + e.getNom() + " est moins cher en semaine " + sem.getIdSemaine() + ". \n \n Voulez-vous réaliser ces achats et cette chaine la semaine " + sem.getIdSemaine() + " ?");
 													alert.setHeaderText(c.getCode() + " " + c.getNom());
+													alert.getDialogPane().setPrefSize(500, 250);
 													alert.showAndWait();
 
 													if (alert.getResult() == ButtonType.YES) {
@@ -386,7 +389,7 @@ public class SimulationProductionController {
 													}else {
 														semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
 																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
-													}
+													} 
 												}
 												if (e.getQuantite() < 0) {
 													e.setQuantite(0);
