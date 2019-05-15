@@ -52,6 +52,9 @@ public class IndicateurHistoriqueController {
 		private Label dep;
 		@FXML
 		private Label ven;
+		
+		@FXML
+		private Label labelSemaine;
 		/**
 		 * Constructeur
 		 */
@@ -89,8 +92,7 @@ public class IndicateurHistoriqueController {
 			this.res.setText("0");
 			this.dep.setText("0");
 			this.ven.setText("0");
-			
-			
+
 		}
 		
 		/**
@@ -98,27 +100,34 @@ public class IndicateurHistoriqueController {
 		 * @param id
 		 */
 		public void tableSemaine(int id) {
-			Label semaineLabel = new Label("Semaine de la programmation "+id);
+			
 			
 			this.gridSem.getChildren().clear();
 			
-			this.gridSem.add(semaineLabel, 0, 0);
-			
+			this.labelSemaine.setText("Semaine de la programmation " + id);
 			
 			Programmation p = this.mainApp.getProgrammations().get(id-1);
 
-			//A voir donction get ACHAT
+			//A voir fonction get ACHAT
 			
-			int i = 1;
+			int i = 0;
 			for (Semaine s : p.getSemaines()) {
-				
 				if(s.getResultat() > 0) {
 					CheckBox ch = new CheckBox();
 					ch.setText("Semaine "+s.getIdSemaine());
+					
+					Button b = new Button();
+					b.setText("Stock prévisionnel");
+					b.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent e) {
+							stockPrevi(s);
+						}
+					});
 					this.gridSem.add(ch, 0, i);
+					this.gridSem.add(b, 1, i);
 					i++;
 				}
-			
 			} 
 			
 			Button b = new Button ("Valider"); 
@@ -158,7 +167,7 @@ public class IndicateurHistoriqueController {
 		}
 		
 		/**
-		 * 
+		 * Création des indicateurs
 		 * @param id
 		 */
 		public void creationIndicateurs(int id) {
@@ -167,18 +176,17 @@ public class IndicateurHistoriqueController {
 			int i=0;
 			//System.out.println(this.gridSem.getChildren().size()+"");
 			for (Node no : this.gridSem.getChildren()) {
-				if (i>0 && i<(this.gridSem.getChildren().size()-1)) {
+				System.out.println(no.getClass().getSimpleName());
+				if (GridPane.getRowIndex(no) == i  && GridPane.getColumnIndex(no) == 0 && no.getClass().getSimpleName().equals("CheckBox")) {
 					boolean coche = false;
-
 					CheckBox ch = (CheckBox) no;
 					if (ch.isSelected()) {
 						coche = true;
 						list.add(getIdSem(ch.getText()));
 					}
-					
-					
+					i++;
 				}
-				i++;
+				
 			}
 			
 			int resTotal=0;
@@ -275,6 +283,10 @@ public class IndicateurHistoriqueController {
 			
 			return Integer.parseInt(idSem);
 			
+		}
+		
+		public void stockPrevi(Semaine s) {
+			boolean okClicked = this.mainApp.showStockPreviDialog(s);
 		}
 		
 		

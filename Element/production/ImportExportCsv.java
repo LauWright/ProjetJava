@@ -72,7 +72,8 @@ public class ImportExportCsv implements ImportExport {
 				// création de l'élément en fonction du type contenu dans le csv
 				Element e = null;
 				if (line[7].equals("MA")) {
-					e = new MatierePremiere(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, Double.valueOf(line[4]));
+					e = new MatierePremiere(line[0], line[1], Double.valueOf(line[2]), line[3], dVente,
+							Double.valueOf(line[4]));
 				}
 				if (line[7].equals("P")) {
 					double dAchat = -1.0;
@@ -80,8 +81,9 @@ public class ImportExportCsv implements ImportExport {
 					if (!line[4].equals("NA")) {
 						dAchat = Double.valueOf(line[4]);
 						achetable = true;
-					}					
-					e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, dAchat, achetable, Double.valueOf(line[6]));
+					}
+					e = new Produit(line[0], line[1], Double.valueOf(line[2]), line[3], dVente, dAchat, achetable,
+							Double.valueOf(line[6]));
 				}
 				elements.put(e.getCode(), e);
 			}
@@ -209,11 +211,12 @@ public class ImportExportCsv implements ImportExport {
 					s.setStockPreviSortie(FXCollections.observableHashMap());
 				}
 			}
-			CSVReader reader1 = new CSVReaderBuilder(new FileReader("SemaineStockSortie.csv")).withSkipLines(1).withCSVParser(parser).build();
+			CSVReader reader1 = new CSVReaderBuilder(new FileReader("SemaineStockSortie.csv")).withSkipLines(1)
+					.withCSVParser(parser).build();
 			String[] line1;
-			for (Programmation p : programmations) {
-				for (Semaine s : p.getSemaines()) {
-					while ((line1 = reader1.readNext()) != null) {
+			while ((line1 = reader1.readNext()) != null) {
+				for (Programmation p : programmations) {
+					for (Semaine s : p.getSemaines()) {
 						if (Integer.parseInt(line1[0]) == p.getId() && Integer.parseInt(line1[1]) == s.getIdSemaine()) {
 							if (line1[8].equals("P")) {
 								double d = -1;
@@ -226,9 +229,10 @@ public class ImportExportCsv implements ImportExport {
 								if (!line1[7].equals("NA")) {
 									v = Double.valueOf(line1[7]);
 								}
-								System.out.println(line1[2]);
-								Produit tmp = new Produit((Produit)importElement("newElements.csv", ';').get(line1[2]));
-								Element e = new Produit(line1[2], line1[3], Double.valueOf(line1[4]), line1[5], v, d, a,  tmp.getCoutFabrication());
+								Produit tmp = new Produit(
+										(Produit) importElement("newElements.csv", ';').get(line1[2]));
+								Element e = new Produit(line1[2], line1[3], Double.valueOf(line1[4]), line1[5], v, d, a,
+										tmp.getCoutFabrication());
 								s.getStockPreviSortie().put(line1[2], e);
 							}
 							if (line1[8].equals("MA")) {
@@ -240,7 +244,8 @@ public class ImportExportCsv implements ImportExport {
 								if (!line1[7].equals("NA")) {
 									v = Double.valueOf(line1[7]);
 								}
-								Element e = new MatierePremiere(line1[2], line1[3], Double.valueOf(line1[4]), line1[5], v, d);
+								Element e = new MatierePremiere(line1[2], line1[3], Double.valueOf(line1[4]), line1[5],
+										v, d);
 								s.getStockPreviSortie().put(line1[2], e);
 							}
 						}
@@ -272,8 +277,10 @@ public class ImportExportCsv implements ImportExport {
 								if (!line2[7].equals("NA")) {
 									v = Double.valueOf(line2[7]);
 								}
-								Produit tmp = new Produit((Produit)importElement("newElements.csv", ';').get(line2[2]));
-								Element e = new Produit(line2[2], line2[3], Double.valueOf(line2[4]), line2[5], v, d, a, tmp.getCoutFabrication());
+								Produit tmp = new Produit(
+										(Produit) importElement("newElements.csv", ';').get(line2[2]));
+								Element e = new Produit(line2[2], line2[3], Double.valueOf(line2[4]), line2[5], v, d, a,
+										tmp.getCoutFabrication());
 								s.getStockPreviEntree().put(line2[2], e);
 							}
 							if (line2[8].equals("MA")) {
@@ -298,9 +305,10 @@ public class ImportExportCsv implements ImportExport {
 			CSVReader reader3 = new CSVReaderBuilder(new FileReader("SemaineNiveauChaines.csv")).withSkipLines(1)
 					.withCSVParser(parser).build();
 			String[] line3;
-			for (Programmation p : programmations) {
-				for (Semaine s : p.getSemaines()) {
-					while ((line3 = reader3.readNext()) != null) {
+			while ((line3 = reader3.readNext()) != null) {
+				for (Programmation p : programmations) {
+					for (Semaine s : p.getSemaines()) {
+
 						if (Integer.parseInt(line3[0]) == p.getId() && Integer.parseInt(line3[1]) == s.getIdSemaine()) {
 							// Récupère les entrées de la chaine de production à créer
 							List<Couple> entrees = new ArrayList<>();
@@ -326,9 +334,9 @@ public class ImportExportCsv implements ImportExport {
 			CSVReader reader4 = new CSVReaderBuilder(new FileReader("SemaineAchats.csv")).withSkipLines(1)
 					.withCSVParser(parser).build();
 			String[] line4;
-			for (Programmation p : programmations) {
-				for (Semaine s : p.getSemaines()) {
-					while ((line4 = reader4.readNext()) != null) {
+			while ((line4 = reader4.readNext()) != null) {
+				for (Programmation p : programmations) {
+					for (Semaine s : p.getSemaines()) {
 						if (Integer.parseInt(line4[0]) == p.getId() && Integer.parseInt(line4[1]) == s.getIdSemaine()) {
 							double d = -1;
 							if (!line4[7].equals("NA")) {
@@ -350,12 +358,12 @@ public class ImportExportCsv implements ImportExport {
 			}
 			reader4.close();
 
-			CSVReader reader5 = new CSVReaderBuilder(new FileReader("SemaineAchats.csv")).withSkipLines(1)
+			CSVReader reader5 = new CSVReaderBuilder(new FileReader("SemaineProduitM.csv")).withSkipLines(1)
 					.withCSVParser(parser).build();
 			String[] line5;
-			for (Programmation p : programmations) {
-				for (Semaine s : p.getSemaines()) {
-					while ((line5 = reader4.readNext()) != null) {
+			while ((line5 = reader5.readNext()) != null) {
+				for (Programmation p : programmations) {
+					for (Semaine s : p.getSemaines()) {
 						if (Integer.parseInt(line5[0]) == p.getId() && Integer.parseInt(line5[1]) == s.getIdSemaine()) {
 							double d = -1;
 							if (!line5[7].equals("NA")) {
@@ -369,7 +377,7 @@ public class ImportExportCsv implements ImportExport {
 							}
 
 							ChaineProduction c = ListeChaine.get(line5[2]);
-							Produit tmp = new Produit((Produit)importElement("newElements.csv", ';').get(line5[3]));
+							Produit tmp = new Produit((Produit) importElement("newElements.csv", ';').get(line5[3]));
 							ProduitManquant pm = new ProduitManquant(line5[3], line5[4], Double.valueOf(line5[5]),
 									line5[6], d, a, aa, tmp.getCoutFabrication(), Double.valueOf(line5[9]), c);
 							s.getProduitManquant().add(pm);
@@ -389,12 +397,13 @@ public class ImportExportCsv implements ImportExport {
 
 	/**
 	 * Créer une liste de demandes
+	 * 
 	 * @param nomFichier
 	 * @param separateur
 	 * @return une liste de demandes
 	 */
 	@Override
-	public List<Demande> importDemande(String nomFichier, char separateur){
+	public List<Demande> importDemande(String nomFichier, char separateur) {
 		ObservableList<Demande> demandes = FXCollections.observableArrayList();
 		CSVParser parser = new CSVParserBuilder().withSeparator(separateur).withIgnoreQuotations(true).build();
 		CSVReader reader = null;
@@ -402,7 +411,7 @@ public class ImportExportCsv implements ImportExport {
 			reader = new CSVReaderBuilder(new FileReader(nomFichier)).withSkipLines(1).withCSVParser(parser).build();
 			String[] line;
 			while ((line = reader.readNext()) != null) {
-				demandes.add(new Demande(Integer.parseInt(line[0]),line[1],Double.parseDouble(line[2])));
+				demandes.add(new Demande(Integer.parseInt(line[0]), line[1], Double.parseDouble(line[2])));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
