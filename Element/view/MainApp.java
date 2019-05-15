@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import production.ChaineProduction;
+import production.Demande;
 import production.ImportExportCsv;
 import production.Programmation;
 import production.Semaine;
@@ -37,7 +38,7 @@ public class MainApp extends Application {
 	private ObservableMap<String, element.Element> stockElementsSimulation = FXCollections.observableHashMap();
 	private ObservableMap<String, ChaineProduction> chaines = FXCollections.observableHashMap();
 	
-	
+	private List<Demande> demandes = FXCollections.observableArrayList();
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
 	private List<Programmation> programmations = new ArrayList<>();
@@ -51,6 +52,9 @@ public class MainApp extends Application {
 		this.stockElements = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.stockElementsSimulation = new ImportExportCsv().importElement("newElements.csv", ';');
 		this.chaines = new ImportExportCsv().importChaineProduction("chaines.csv", ';');
+		
+		//import des demandes
+		this.demandes = new ImportExportCsv().importDemande("demandeurs.csv", ';');
 		
 		//Programmations
 		this.programmations = new ImportExportCsv().importProgrammations(this.chaines);
@@ -90,6 +94,13 @@ public class MainApp extends Application {
 	 */
 	public ObservableList<ProduitManquant> getProduitManquantData() {
 		return this.produitM;
+	}
+	
+	/**
+	 * Retourne la liste des produits mnquants
+	 */
+	public List<Demande> getDemandes() {
+		return this.demandes;
 	}
 	
 	/**

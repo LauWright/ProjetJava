@@ -387,6 +387,34 @@ public class ImportExportCsv implements ImportExport {
 		return programmations;
 	}
 
+	/**
+	 * Créer une liste de demandes
+	 * @param nomFichier
+	 * @param separateur
+	 * @return une liste de demandes
+	 */
+	@Override
+	public List<Demande> importDemande(String nomFichier, char separateur){
+		ObservableList<Demande> demandes = FXCollections.observableArrayList();
+		CSVParser parser = new CSVParserBuilder().withSeparator(separateur).withIgnoreQuotations(true).build();
+		CSVReader reader = null;
+		try {
+			reader = new CSVReaderBuilder(new FileReader(nomFichier)).withSkipLines(1).withCSVParser(parser).build();
+			String[] line;
+			while ((line = reader.readNext()) != null) {
+				demandes.add(new Demande(Integer.parseInt(line[0]),line[1],Double.parseDouble(line[2])));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return demandes;
+	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////EXPORT/////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,8 @@ import javafx.collections.ObservableMap;
 
 public interface ImportExport {
 	
-	//IMPORT
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////IMPORT///////////////////////////////////////////////////////////////////
 	/**
 	 * Importation des éléments
 	 * @param nomFichier
@@ -37,7 +38,16 @@ public interface ImportExport {
 	 */
 	public abstract List<Couple> importCouple(String nomFichier, char separateur, String codeChaine);
 	
-	//EXPORT
+	/**
+	 * Créer une liste de demandes
+	 * @param nomFichier
+	 * @param separateur
+	 * @return une liste de demandes
+	 */
+	public abstract List<Demande> importDemande(String nomFichier, char separateur);
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////EXPORT///////////////////////////////////////////////////////////////////
 	/**
      * Réécriture du fichier élément avec en parametre le nom du fichier dans lequel on vet réécrire la liste d'éléments
      * @param nomFichier
