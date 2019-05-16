@@ -54,6 +54,10 @@ public class Semaine {
 		this.stockPreviEntree = stockPreviEntree;
 	}
 	
+	/**
+	 * Modifier le prix du stock pour simuler le changement de prix entre les semaines
+	 * @param stockPreviEntree
+	 */
 	public void setStockPreviEntreeNewPrix(ObservableMap<String, element.Element> stockPreviEntree) {
 		for(Map.Entry<String, element.Element> e: stockPreviEntree.entrySet()) {
 			if(e.getValue().getPrixAchat() != -1) {
@@ -70,9 +74,23 @@ public class Semaine {
 		this.stockPreviEntree = stockPreviEntree;
 	}
 	
+	/**
+	 * Modifier la quantite du stock en entre
+	 * @param stockPreviEntree
+	 */
 	public void setQuantiteStock(ObservableMap<String, element.Element> stockPreviEntree) {
 		for (Map.Entry<String, element.Element> e: stockPreviEntree.entrySet()) {
 			this.stockPreviEntree.get(e.getKey()).setQuantite(e.getValue().getQuantite());
+		}
+	}
+	
+	/**
+	 * Modifier la quantite du stock en sortie
+	 * @param stockPreviEntree
+	 */
+	public void setQuantiteStockSortie(ObservableMap<String, element.Element> stockPreviEntree) {
+		for (Map.Entry<String, element.Element> e: stockPreviEntree.entrySet()) {
+			this.stockPreviSortie.get(e.getKey()).setQuantite(e.getValue().getQuantite());
 		}
 	}
 
