@@ -234,7 +234,7 @@ public class SimulationProductionController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune programmation");
-			alert.setHeaderText("Aucune programmation");
+			alert.setHeaderText("Attention aucune programmation créée");
 			alert.setContentText("Veuillez créer une nouvelle programmation\n");
 
 			alert.showAndWait();
@@ -255,7 +255,7 @@ public class SimulationProductionController {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.initOwner(mainApp.getPrimaryStage());
 				alert.setTitle("Aucune selection");
-				alert.setHeaderText("Aucune chaîne selectionée");
+				alert.setHeaderText("Attention aucune chaîne selectionée");
 				alert.setContentText("Veuillez selectionner une chaîne \n" + "et rentrer un niveau.");
 
 				alert.showAndWait();
@@ -284,7 +284,7 @@ public class SimulationProductionController {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.initOwner(mainApp.getPrimaryStage());
 						alert.setTitle("Semaine incorrect");
-						alert.setHeaderText("Semaine incorrecte");
+						alert.setHeaderText("Attention semaine incorrecte");
 						alert.setContentText("Veuillez choisir la semaine consécutif \n" + "à la précédente selectionné \n");
 
 						alert.showAndWait();
@@ -727,7 +727,7 @@ public class SimulationProductionController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune programmation");
-			alert.setHeaderText("Aucune programmation");
+			alert.setHeaderText("Attention aucune programmation créée");
 			alert.setContentText("Veuillez créer une nouvelle programmation\n");
 
 			alert.showAndWait();
