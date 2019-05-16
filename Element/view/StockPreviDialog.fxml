@@ -15,12 +15,12 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="elementTable" layoutX="62.0" layoutY="85.0" prefHeight="441.0" prefWidth="627.0">
+      <TableView fx:id="elementTable" layoutX="62.0" layoutY="85.0" prefHeight="441.0" prefWidth="637.0">
         <columns>
           <TableColumn fx:id="codeColumn" prefWidth="109.0" text="Code" />
           <TableColumn fx:id="nomColumn" prefWidth="211.0" text="nom" />
             <TableColumn fx:id="quantiteColumn" prefWidth="151.0" text="quantite" />
-            <TableColumn fx:id="variationColumn" minWidth="0.0" prefWidth="155.0" text="variation" />
+          <TableColumn fx:id="variationColumn" prefWidth="167.0" text="Variation" />
         </columns>
       </TableView>
    </children>

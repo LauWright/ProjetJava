@@ -268,15 +268,15 @@ public class SimulationProductionController {
 					if(this.index + 1 == this.choiceSemaine.getSelectionModel().getSelectedIndex()) {		
 						semaine = this.programmation.getSemaines()
 								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
-						if (this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviEntree() != null) {
+						if (this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviSortie() != null) {
 							ObservableMap<String, Element> stockse = this.programmation.getSemaines()
-									.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviEntree();
+									.get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getStockPreviSortie();
 							semaine.setQuantiteStock(stockse);
-							semaine.setStockPreviSortie(semaine.getStockPreviEntree());
+							semaine.setQuantiteStockSortie(stockse);
 						} else {
 							ObservableMap<String, Element> stockse = this.mainApp.getElementData();
 							semaine.setStockPreviEntree(stockse);
-							semaine.setStockPreviSortie(semaine.getStockPreviEntree());
+							semaine.setQuantiteStockSortie(stockse);
 						}
 					} else if (this.index == this.choiceSemaine.getSelectionModel().getSelectedIndex()){
 						semaine = this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex());

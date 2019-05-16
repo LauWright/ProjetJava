@@ -1,39 +1,38 @@
 package view;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import element.Element;
-import element.MatierePremiere;
-import element.Produit;
+import element.ElementVariation;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import production.Semaine;
 
 public class StockPreviDialogController {
 	
 	@FXML
-	private TableView<Element> elementTable;
+	private TableView<ElementVariation> elementTable;
 	@FXML
-	private TableColumn<Element, String> codeColumn;
+	private TableColumn<ElementVariation, String> codeColumn;
 	@FXML
-	private TableColumn<Element, String> nomColumn;
+	private TableColumn<ElementVariation, String> nomColumn;
 	@FXML
-	private TableColumn<Element, Double> quantiteColumn;
+	private TableColumn<ElementVariation, Double> quantiteColumn;
 	@FXML
-	private TableColumn<Element, Double> variationColumn;
+	private TableColumn<ElementVariation, Double> variationColumn;
 	
 	private Stage dialogStage;
 	
-	private ObservableList<Element> elements = FXCollections.observableArrayList();
+	private ObservableList<ElementVariation> elements = FXCollections.observableArrayList();
 	private Semaine semaine;
 	// reference l'application principale
 	private MainApp mainApp;
@@ -50,13 +49,11 @@ public class StockPreviDialogController {
 	@FXML
 	private void initialize() {
 		// Initialise le tableau des matieres premieres.
-		this.codeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
-		this.nomColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
-		this.quantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantiteProperty().asObject());
-		this.variationColumn.setCellValueFactory(cellData -> cellData.getValue().getPrixAchatProperty().asObject());
+		this.codeColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeElement());
+		this.nomColumn.setCellValueFactory(cellData -> cellData.getValue().getNom());
+		this.quantiteColumn.setCellValueFactory(cellData -> cellData.getValue().getQuantite().asObject());
 
-		//this.prixVentePColumn.setCellValueFactory(cellData -> { Produit p = cellData.getValue(); return p.getPrixVente() == -1 ? new SimpleStringProperty("Aucun") : new SimpleStringProperty(String.valueOf(p.getPrixVente()));});
-		//this.prixAchatPColumn.setCellValueFactory(cellData -> { Produit p = cellData.getValue(); return p.getPrixAchat() == -1 ? new SimpleStringProperty("Aucun") : new SimpleStringProperty(String.valueOf(p.getPrixAchat()));});
+		this.variationColumn.setCellValueFactory(cellData -> cellData.getValue().getVariation().asObject());
 	}
 	
 
@@ -76,9 +73,7 @@ public class StockPreviDialogController {
 	public void setMainApp(MainApp mainApp, Semaine s) {
 		this.mainApp = mainApp;
 		this.semaine = s;
-		for(Entry<String, Element> e : s.getStockPreviSortie().entrySet()) {
-			System.out.println(s.getIdSemaine() + " " + e.getKey() + " " + e.getValue().getQuantite());
-		}
+		System.out.println(s.getIdSemaine());
 		
 		
 		this.elementTable.getItems().removeAll(this.elementTable.getItems());
@@ -86,13 +81,15 @@ public class StockPreviDialogController {
 		// Add liste des element à la table elementTable
 		ObservableList<Map.Entry<String, Element>> elems = FXCollections.observableArrayList(s.getStockPreviSortie().entrySet());
 		for (Entry<String, Element> e : elems) {
-			
-				this.elements.add((Element) e.getValue());
+			System.out.println(s.getStockPreviSortie().get(e.getKey()).getQuantite() + " " + s.getStockPreviEntree().get(e.getKey()).getQuantite());
+			double d = s.getStockPreviSortie().get(e.getKey()).getQuantite() - s.getStockPreviEntree().get(e.getKey()).getQuantite();
+			ElementVariation elemv = new ElementVariation(e.getKey(), e.getValue().getNom(), e.getValue().getQuantite(), d);
+			this.elements.add(elemv);
 			
 		}
 		this.elementTable.setItems(elements);
-		this.elementTable.getSortOrder().addAll(this.codeColumn);
-
+		this.elementTable.getSortOrder().addAll(this.codeColumn);	
+		
 	}
 	
 	 /**
