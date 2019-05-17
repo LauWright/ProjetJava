@@ -28,9 +28,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import production.ChaineProduction;
+import production.Couple;
 import production.Programmation;
 import production.Semaine;
 
@@ -45,13 +47,10 @@ public class IndicateurHistoriqueController {
 		@FXML
 		private GridPane gridProg;
 		@FXML
+		private GridPane gridRes;
+		@FXML
 		private ChoiceBox choiceProg;
-		@FXML
-		private Label res;
-		@FXML
-		private Label dep;
-		@FXML
-		private Label ven;
+
 		
 		@FXML
 		private Label labelSemaine;
@@ -89,9 +88,6 @@ public class IndicateurHistoriqueController {
 				this.gridProg.add(b, 0, p.getId());
 			}
 			
-			this.res.setText("0");
-			this.dep.setText("0");
-			this.ven.setText("0");
 
 		}
 		
@@ -172,9 +168,19 @@ public class IndicateurHistoriqueController {
 		 */
 		public void creationIndicateurs(int id) {
 			
+			this.gridRes.getChildren().clear();
+			
+			int j=0;
+			
 			List<Integer> list = new ArrayList<>();
+			
 			int i=0;
-			//System.out.println(this.gridSem.getChildren().size()+"");
+			
+			
+			/**
+			 * On récupère les id de semaine sélectionnés
+			 */
+			
 			for (Node no : this.gridSem.getChildren()) {
 				System.out.println(no.getClass().getSimpleName());
 				if (GridPane.getRowIndex(no) == i  && GridPane.getColumnIndex(no) == 0 && no.getClass().getSimpleName().equals("CheckBox")) {
@@ -189,41 +195,62 @@ public class IndicateurHistoriqueController {
 				
 			}
 			
-			int resTotal=0;
+			/**
+			 * Initialisation des indicateurs
+			 */
 			
-			int dep = 0;
+			double resTotal=0;
 			
-			int vente = 0;
+			double dep = 0;
 			
-			double test=0;
+			double vente = 0;
 			
-			
+			/**
+			 * On récupère la programmation choisie
+			 */
 			Programmation p = this.mainApp.getProgrammations().get(id-1);
 
-			//A voir fonction get ACHAT
 			
+			/**
+			 * On parcours les semaines de la programmation			
+			 */
 			for (Semaine s : p.getSemaines()) {
+				
+				if(j!=0)
+					j++;
+				
+				
 				boolean itsOk = false;
+				/**
+				 * On regarde si la semaine a été sélectionné
+				 */
 				int o=0;
 				while (o<list.size() && !itsOk){
 					itsOk = list.get(o) == s.getIdSemaine();
 					o++;
 				}
 				
+				/**
+				 * Si la semaine a été sélectionné
+				 */
 				if (itsOk) {
-					/**
-					 * Prix total des éléments en entrée
-					 */
-					for(Entry<String, Element> elem : s.getStockPreviEntree().entrySet()) {
-						dep+=elem.getValue().getPrixAchat();
-					}
 					
 					/**
-					 * Prix total de vente des éléments en entrée
+					 * On affiche le numéro de semaine
 					 */
-					for(Entry<String, Element> elem : s.getStockPreviSortie().entrySet()) {
-						vente+=elem.getValue().getPrixVente();
-					}
+					Label semLab = new Label("Semaine : "+s.getIdSemaine());
+					this.gridRes.add(semLab, 0, j);
+					
+					
+					/**
+					 * On instancie la somme des achats de la semaine et la somme des ventes
+					 */
+					double achatSemaine = 0;
+					double venteSemaine=0;
+					double resSemaine = 0;
+					double nbProd = 0;
+					double benefSemaine = 0;
+					double rentaSemaine = 0;
 					
 					/**
 					 * Total des résultats sur toutes les semaines
@@ -231,37 +258,332 @@ public class IndicateurHistoriqueController {
 					resTotal += s.getResultat();
 					
 					/**
-					 * Prix total des achats
+					 * Résultat de la semaine et affichage
 					 */
-					for(Achat a : s.getAchats()) {
+					resSemaine += s.getResultat();
+					
+					j++;
+					Label resSemLab = new Label("Résultat");
+					this.gridRes.add(resSemLab, 0, j);
+					
+					resSemaine = (double)Math.round(resSemaine * 1000) / 1000;
+					
+					Label resSem = new Label();
+					resSem.setText(resSemaine+"");
+					this.gridRes.add(resSem, 1, j);
+
+					Element unElement = null;
+					
+					Set cles = s.getChaineProductionNiveau().keySet();
+					
+					Iterator it = cles.iterator();
+					
+					/**
+					 * On parcours les chaines de production de la semaine
+					 */
+					while (it.hasNext()){
+					   Object cle = it.next(); // tu peux typer plus finement ici
+					   
+					   List<ChaineProduction> valeur =(List<ChaineProduction>) s.getChaineProductionNiveau().get(cle); // tu peux typer plus finement ici
+					   
+					   /**
+					    * On récupère le nombre de fois que la production a été faite
+					    */
+					   nbProd = (int) cle;
+					   
+					   /**
+					    * Pour récupérer les achats de cette production
+					    */
+					   double achatProd = 0;
+					   
+					   /**
+					    * Pour chaque chaine on récupère les entrées et on calcul les dépenses pour la fabriquer
+					    */
+					   for(ChaineProduction cp : valeur) {
+						   
+						   for(Couple cpl : cp.getEntrees()) {
+
+							   unElement = this.recupElem(cpl.getCode());
+							   
+							   if (unElement.getClass().getSimpleName().equals("Produit")) {
+									
+								   	Produit prod = (Produit) unElement;
+									
+								   	achatProd += prod.getCoutFabrication();
+									
+								}else {
+									
+									achatProd += unElement.getPrixAchat();
+									
+								}
+							   
+						   }
+						   
+					   }
+					   
+					   /**
+						 * On multiplie le coût d'achat de la production par le nombre de productions faites
+						 */
+					   	achatProd = achatProd*nbProd;
+					   
+						achatSemaine += achatProd;
+					   
+					}
+					
+					
+					
+					/**
+					 * On ajoute les achats de la semaine à l'achat total
+					 */
+					dep+=achatSemaine;
+					
+					/**
+					 * Affichage de la somme d'achat de la semaine
+					 */
+					j++;
+					Label achLab = new Label("Achats");
+					this.gridRes.add(achLab, 0, j);
+					
+					achatSemaine = (double)Math.round(achatSemaine * 1000) / 1000;
+					
+					Label achCou = new Label();
+					achCou.setText(achatSemaine+"");
+					this.gridRes.add(achCou, 1, j);
+					
+					
+					
+					Set clesVente = s.getChaineProductionNiveau().keySet();
+					
+					Iterator itVente = clesVente.iterator();
+					
+					/**
+					 * On parcours les sorties pour avoir le prix de vente
+					 */
+					while (itVente.hasNext()){
 						
-						dep+=a.getPrixAchat();
+					   Object cle = itVente.next(); // tu peux typer plus finement ici
+					   
+					   List<ChaineProduction> valeur =(List<ChaineProduction>) s.getChaineProductionNiveau().get(cle); // tu peux typer plus finement ici
+					   
+					   /**
+					    * On récupère le nombre de fois que la production a été faite
+					    */
+					   nbProd = (int) cle;
+					   
+					   /**
+					    * Pour récupérer les achats de cette production
+					    */
+					   double venteProd = 0;
+					   
+					   /**
+					    * Pour chaque chaine de production on additionne le prix de vente
+					    */
+					   for(ChaineProduction cp : valeur) {
+						   
+						   for(Couple cpl : cp.getSorties()) {
+
+							   	unElement = this.recupElem(cpl.getCode());
+							   	
+								Produit prod = (Produit) unElement;
+								
+								venteProd += prod.getPrixVente();
+							   
+						   }
+					   
+						   venteProd = venteProd*nbProd;
+						   
+					   }
+					   
+					   venteSemaine += venteProd;
+					   
+					}
+					
+					/**
+					 * S'il n'y a pas de prix de vente on considère que c'est au moins le coût de production
+					 */
+					if (venteSemaine<=0) {
+					
 						
+						venteSemaine = achatSemaine;
+					
 					}
 					
+					/**
+					 * On ajoute au prix total
+					 */
+					vente+=venteSemaine;
 					
-					for(Entry<String, Element> elem : s.getStockPreviEntree().entrySet()) {
-						//test+=elem.getValue().getQuantite();
-					}
+					/**
+					 * On affiche le prix de vente de la semaine
+					 */
+					j++;
+					Label vntLab = new Label("Vente");
+					this.gridRes.add(vntLab, 0, j);
 					
+					venteSemaine = (double)Math.round(venteSemaine * 1000) / 1000;
 					
+					Label vntCou = new Label();
+					vntCou.setText(venteSemaine+"");
+					this.gridRes.add(vntCou, 1, j);
 					
-					for (Produit prodM : s.getProduitManquant()) {
-						test+=prodM.getPrixAchat();
-					}
+					/**
+					 * Bénéfice de la semaine
+					 */
+					benefSemaine = venteSemaine - achatSemaine;
 					
-					for(Achat a : s.getAchats()){
-						//test+=a.getPrixAchat();
-						System.out.println("TEST");
-					}
+					/**
+					 * On affiche le bénéfice de la semaine
+					 */
+					j++;
+					Label benefLab = new Label("Bénéfice ");
+					this.gridRes.add(benefLab, 0, j);
+					
+					benefSemaine = (double)Math.round(benefSemaine * 1000) / 1000;
+					
+					Label benefCou = new Label();
+					benefCou.setText(benefSemaine+"");
+					this.gridRes.add(benefCou, 1, j);
+					
+					/**
+					 * Rentabilité semaine
+					 */
+					rentaSemaine = 100*venteSemaine/achatSemaine;
+					/**
+					 * On affiche la rentabilité de la semaine
+					 */
+					j++;
+					Label rentaLab = new Label("Rentabilité ");
+					this.gridRes.add(rentaLab, 0, j);
+					
+					rentaSemaine = (double)Math.round(rentaSemaine * 1000) / 1000;
+					
+					Label rentaCou = new Label();
+					rentaCou.setText(rentaSemaine+"%");
+					this.gridRes.add(rentaCou, 1, j);
+					
+					Separator separator1 = new Separator();
+					j++;
+					this.gridRes.add(separator1, 0, j);
+					
 				}
+				
 			}
 			
+			
+			/**
+			 * Affichage du total des semaines
+			 */
+			j++;
+			Label totalRecap = new Label("Total des semaines");
+			this.gridRes.add(totalRecap, 0, j);
+			
+			/**
+			 * Affichage du résultat total
+			 */
+			j++;
+			Label resLab = new Label("Resultat");
+			this.gridRes.add(resLab, 0, j);
+			
+			resTotal = (double)Math.round(resTotal * 1000) / 1000;
+			
+			Label leresTotal = new Label();
+			leresTotal.setText(resTotal+"");
+			this.gridRes.add(leresTotal, 1, j);
+			
+			/**
+			 * Affichage des dépenses totales
+			 */
+			j++;
+			Label depLab = new Label("Achats");
+			this.gridRes.add(depLab, 0, j);
+			
+			dep = (double)Math.round(dep * 1000) / 1000;
+			
+			Label ledep = new Label();
+			ledep.setText(dep+"");
+			this.gridRes.add(ledep, 1, j);
+			
+			
+			j++;
+			Label venteTotal = new Label("Revient");
+			this.gridRes.add(venteTotal, 0, j);
+			
+			vente = (double)Math.round(vente * 1000) / 1000;
+			
+			Label leven = new Label();
+			leven.setText(vente+"");
+			
+			this.gridRes.add(leven, 1, j);
+					
+			/**
+			 * Bénéfice de la programmation
+			 */
+			double benefProgra = vente - dep;
+			
+			/**
+			 * On affiche le bénéfice de la semaine
+			 */
+			j++;
+			Label benefPLab = new Label("Bénéfice ");
+			this.gridRes.add(benefPLab, 0, j);
+			
+			benefProgra = (double)Math.round(benefProgra * 1000) / 1000;
+			
+			Label benefPCou = new Label();
+			benefPCou.setText(benefProgra+"");
+			this.gridRes.add(benefPCou, 1, j);
+			
+			/**
+			 * Rentabilité semaine
+			 */
+			double rentaProga = 100*vente/dep;
+			/**
+			 * On affiche la rentabilité de la semaine
+			 */
+			j++;
+			Label rentaLab = new Label("Rentabilité ");
+			this.gridRes.add(rentaLab, 0, j);
+			
+			rentaProga = (double)Math.round(rentaProga * 1000) / 1000;
+			
+			Label rentaPCou = new Label();
+			rentaPCou.setText(rentaProga+"%");
+			this.gridRes.add(rentaPCou, 1, j);
+			
 
-			System.out.println(test+" test");
-			this.res.setText(resTotal+"");
-			this.dep.setText(dep+"");
-			this.ven.setText(vente+"");
+			
+		}
+		
+		/**
+		 * Récupérer un élément à partir d'un code
+		 * @param code
+		 * @return Element
+		 */
+		public Element recupElem(String code) {
+			
+			boolean ok = false;
+			
+			Element unElement = null;
+			
+			Set clesElements = this.mainApp.getElementData().keySet();
+			
+			Iterator itElements = clesElements.iterator();
+			
+			while (itElements.hasNext() && !ok){
+				
+				String clefsElements = (String) itElements.next();
+				
+				unElement = (Element) this.mainApp.getElementData().get(clefsElements);
+				
+				if(unElement.getCode().equals(code)) {
+					
+					ok = true;
+					
+				}
+				
+			}
+			
+			return unElement;
 			
 		}
 		
