@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import element.Achat;
 import element.Element;
+import element.ElementPrix;
 import element.MatierePremiere;
 import element.ProduitManquant;
 import javafx.application.Application;
@@ -38,7 +39,7 @@ public class MainApp extends Application {
 	private ObservableMap<String, element.Element> stockElementsSimulation = FXCollections.observableHashMap();
 	private ObservableMap<String, ChaineProduction> chaines = FXCollections.observableHashMap();
 	
-	private List<Demande> demandes = FXCollections.observableArrayList();
+	private ObservableList<Demande> demandes = FXCollections.observableArrayList();
 	private ObservableList<Achat> achats = FXCollections.observableArrayList();
 	private ObservableList<ProduitManquant> produitM= FXCollections.observableArrayList();
 	private List<Programmation> programmations = new ArrayList<>();
@@ -99,7 +100,7 @@ public class MainApp extends Application {
 	/**
 	 * Retourne la liste des produits mnquants
 	 */
-	public List<Demande> getDemandes() {
+	public ObservableList<Demande> getDemandes() {
 		return this.demandes;
 	}
 	
@@ -300,7 +301,7 @@ public class MainApp extends Application {
 	}
 	
 	/**
-	 * Ouvre la boite de dialogue pour editer un element
+	 * Ouvre la boite de dialogue pour consulter le stock previsionnel
 	 * @param element
 	 * @return
 	 */
@@ -335,6 +336,40 @@ public class MainApp extends Application {
 	}
 	
 
+	/**
+	 * Ouvre la boite de dialogue pour gerer les achats sur les differentes semaines
+	 * @param element
+	 * @return
+	 */
+	public boolean showGestionAchatsDialog(Semaine s, List<ElementPrix> elemP) {
+	    try {
+	        // Load the fxml file and create a new stage for the popup dialog.
+	        FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(MainApp.class.getResource("GestionAchatsDialog.fxml"));
+	        AnchorPane page = (AnchorPane) loader.load();
+
+	        // Create the dialog Stage.
+	        Stage dialogStage = new Stage();
+	        dialogStage.setTitle("Gestion des achats");
+	        dialogStage.initModality(Modality.WINDOW_MODAL);
+	        dialogStage.initOwner(primaryStage);
+	        Scene scene = new Scene(page);
+	        dialogStage.setScene(scene);
+
+	        // Set the person into the controller.
+	        GestionAchatsController controller = loader.getController();
+	        controller.setDialogStage(dialogStage);
+	        controller.setMainApp(this, s, elemP);
+
+	        // Show the dialog and wait until the user closes it
+	        dialogStage.showAndWait();
+
+	        return true;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 	public static void main(String[] args) {
 		launch(args);
 	}

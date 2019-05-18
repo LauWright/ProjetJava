@@ -16,6 +16,7 @@ import java.util.Set;
 
 import element.Achat;
 import element.Element;
+import element.ElementPrix;
 import element.MatierePremiere;
 import element.Produit;
 import element.ProduitManquant;
@@ -230,11 +231,12 @@ public class SimulationProductionController {
 	 */
 	@FXML
 	public void simuler() {
+		List<ElementPrix> listeElemPrix = new ArrayList<>();
 		if (this.newProg == false) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune programmation");
-			alert.setHeaderText("Aucune programmation");
+			alert.setHeaderText("Attention aucune programmation créée");
 			alert.setContentText("Veuillez créer une nouvelle programmation\n");
 
 			alert.showAndWait();
@@ -255,7 +257,7 @@ public class SimulationProductionController {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.initOwner(mainApp.getPrimaryStage());
 				alert.setTitle("Aucune selection");
-				alert.setHeaderText("Aucune chaîne selectionée");
+				alert.setHeaderText("Attention aucune chaîne selectionée");
 				alert.setContentText("Veuillez selectionner une chaîne \n" + "et rentrer un niveau.");
 
 				alert.showAndWait();
@@ -284,7 +286,7 @@ public class SimulationProductionController {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.initOwner(mainApp.getPrimaryStage());
 						alert.setTitle("Semaine incorrect");
-						alert.setHeaderText("Semaine incorrecte");
+						alert.setHeaderText("Attention semaine incorrecte");
 						alert.setContentText("Veuillez choisir la semaine consécutif \n" + "à la précédente selectionné \n");
 
 						alert.showAndWait();
@@ -375,7 +377,8 @@ public class SimulationProductionController {
 											} else {
 												Semaine sem = this.programmation.getPrixMoinsCher(ma.getCode());
 												if(sem.getIdSemaine() != semaine.getIdSemaine()) {
-													Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+													listeElemPrix.add(new ElementPrix(c.getCode(), e.getCode(), e.getNom(), sem.getIdSemaine()));
+													/*Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
 													alert.setTitle("Confirmation simulation achats");
 													alert.setContentText("L'élément " + e.getCode() + " " + e.getNom() + " est moins cher en semaine " + sem.getIdSemaine() + ". \n \n Voulez-vous réaliser ces achats et cette chaine la semaine " + sem.getIdSemaine() + " ?");
 													alert.setHeaderText(c.getCode() + " " + c.getNom());
@@ -388,7 +391,7 @@ public class SimulationProductionController {
 													}else {
 														semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
 																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
-													}
+													}*/
 												}else {
 													semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
 															ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
@@ -452,9 +455,12 @@ public class SimulationProductionController {
 				}
 				semaine.setResultat(efficacite);
 				String effic = "Efficacité " + efficacite;
-				boolean okClicked = this.mainApp.showRecapSimulationDialog(this.getRecapSimulation(semaine), effic,
-						semaine.getIdSemaine());
-				this.addButtonRecap(semaine.getIdSemaine());
+				boolean okAchats = this.mainApp.showGestionAchatsDialog(semaine, listeElemPrix);
+				if(okAchats) {
+					boolean okClicked = this.mainApp.showRecapSimulationDialog(this.getRecapSimulation(semaine), effic,
+							semaine.getIdSemaine());
+					this.addButtonRecap(semaine.getIdSemaine());
+				}
 			}
 		}
 	}
@@ -727,7 +733,7 @@ public class SimulationProductionController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune programmation");
-			alert.setHeaderText("Aucune programmation");
+			alert.setHeaderText("Attention aucune programmation créée");
 			alert.setContentText("Veuillez créer une nouvelle programmation\n");
 
 			alert.showAndWait();

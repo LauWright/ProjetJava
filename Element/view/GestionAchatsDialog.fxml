@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GestionAchatsController">
+   <children>
+      <Label layoutX="23.0" layoutY="21.0" text="Gestion des achats">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="31.0" layoutY="39.0" prefHeight="41.0" prefWidth="738.0" text="Veuillez selectionner les chaines pour lesquelles vous souhaitez effectuer les achats les semaines conseillées" />
+    <AnchorPane layoutX="123.0" layoutY="166.0" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+      <ScrollPane layoutX="28.0" layoutY="81.0" prefHeight="425.0" prefWidth="716.0">
+         <content>
+            <GridPane fx:id="achatGrid" prefHeight="30.0" prefWidth="643.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <Button layoutX="680.0" layoutY="514.0" mnemonicParsing="false" onAction="#gestionAchat" text="Valider" />
+   </children>
+</AnchorPane>

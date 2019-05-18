@@ -36,6 +36,7 @@ public class StockPreviDialogController {
 	private Semaine semaine;
 	// reference l'application principale
 	private MainApp mainApp;
+	
 	/**
 	 * Constructeur
 	 */
@@ -73,15 +74,11 @@ public class StockPreviDialogController {
 	public void setMainApp(MainApp mainApp, Semaine s) {
 		this.mainApp = mainApp;
 		this.semaine = s;
-		System.out.println(s.getIdSemaine());
-		
-		
 		this.elementTable.getItems().removeAll(this.elementTable.getItems());
 		
 		// Add liste des element à la table elementTable
 		ObservableList<Map.Entry<String, Element>> elems = FXCollections.observableArrayList(s.getStockPreviSortie().entrySet());
 		for (Entry<String, Element> e : elems) {
-			System.out.println(s.getStockPreviSortie().get(e.getKey()).getQuantite() + " " + s.getStockPreviEntree().get(e.getKey()).getQuantite());
 			double d = s.getStockPreviSortie().get(e.getKey()).getQuantite() - s.getStockPreviEntree().get(e.getKey()).getQuantite();
 			ElementVariation elemv = new ElementVariation(e.getKey(), e.getValue().getNom(), e.getValue().getQuantite(), d);
 			this.elements.add(elemv);
@@ -99,7 +96,7 @@ public class StockPreviDialogController {
     @FXML
     private void handleFermer() throws IOException {
     	
-    	dialogStage.close();
+    	this.dialogStage.close();
             
     }
 
