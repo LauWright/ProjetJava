@@ -203,8 +203,8 @@ public class SimulationProductionController {
 		if (this.programmation != null) {
 			this.mainApp.getProgrammations().add(this.programmation);
 		}
-		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
-		alert.setContentText("Etes-vous sûr de vouloir démarrer une nouvelle programmation ?");
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+		alert.setContentText("Voulez-vous démarrer une nouvelle programmation ?");
 		alert.setHeaderText("");
 		alert.showAndWait();
 		
@@ -730,7 +730,7 @@ public class SimulationProductionController {
 	@FXML
 	public void reinitialiseProgramations() {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
-		alert.setContentText("Etes-vous sûr de vouloir tout réinitialiser ? \n" + "Cela supprimera toute les programmations enregistrées \n" + "jusqu'a maintenant");
+		alert.setContentText("Etes-vous sûr de vouloir tout réinitialiser ? \n" + "Cela supprimera les programmations enregistrées \n" + "jusqu'a maintenant");
 		alert.setHeaderText("");
 		alert.showAndWait();
 

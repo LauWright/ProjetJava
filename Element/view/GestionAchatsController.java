@@ -77,7 +77,7 @@ public class GestionAchatsController {
 		for(ElementPrix e : elemP) {
 			if(codeChaine.equals(e.getcodeChaine())) {
 				
-				Label se = new Label( e.getCodeElement() + " " + e.getNom() + " moins cher en semaine " + e.getIdSemaine());
+				Label se = new Label( "# " + e.getCodeElement() + " " + e.getNom() + " à un bas prix en semaine n° " + e.getIdSemaine());
 				
 				this.achatGrid.add(se, 0, i);
 				i++;
@@ -107,7 +107,7 @@ public class GestionAchatsController {
 				this.achatGrid.add(blanc, 0, i);
 				i++;
 				
-				Label se = new Label(e.getCodeElement() + " " + e.getNom() + " moins cher en semaine " + e.getIdSemaine());
+				Label se = new Label("# " + e.getCodeElement() + " " + e.getNom() + " à un bas prix en semaine n° " + e.getIdSemaine());
 				
 				this.achatGrid.add(se, 0, i);
 				i++;
