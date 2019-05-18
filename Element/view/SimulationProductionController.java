@@ -713,7 +713,7 @@ public class SimulationProductionController {
 	@FXML
 	public void reinitialiseProgramations() {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
-		alert.setContentText("Etes-vous sûr de vouloir tout réinitialiser? \n" + "Cela supprimera les programmations enregistrées \n" + "jusqu'a maintenant");
+		alert.setContentText("Etes-vous sûr de vouloir tout réinitialiser ? \n" + "Cela supprimera toute les programmations enregistrées \n" + "jusqu'a maintenant");
 		alert.setHeaderText("");
 		alert.showAndWait();
 

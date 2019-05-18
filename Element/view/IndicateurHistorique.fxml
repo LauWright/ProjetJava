@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -27,6 +28,9 @@
       <rowConstraints>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
+         <padding>
+            <Insets bottom="2.0" />
+         </padding>
     </GridPane>
     <GridPane fx:id="gridSem" layoutX="242.0" layoutY="137.0" onDragDetected="#test" prefHeight="346.0" prefWidth="308.0">
       <columnConstraints>
@@ -45,7 +49,10 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
-    <Label fx:id="labelSemaine" layoutX="241.0" layoutY="109.0" />
+    <Label fx:id="labelSemaine" layoutX="241.0" layoutY="109.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
     <ScrollPane layoutX="584.0" layoutY="85.0" prefHeight="528.0" prefWidth="376.0">
       <content>
         <GridPane fx:id="gridRes" prefHeight="38.0" prefWidth="376.0">

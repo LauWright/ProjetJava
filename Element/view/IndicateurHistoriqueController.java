@@ -116,7 +116,7 @@ public class IndicateurHistoriqueController {
 
 		this.gridSem.getChildren().clear();
 
-		this.labelSemaine.setText("Semaine de la programmation " + id);
+		this.labelSemaine.setText("Semaines de la programmation n°" + id);
 
 		Programmation p = this.mainApp.getProgrammations().get(id - 1);
 

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ElementController">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ElementController">
    <children>
       <SplitPane dividerPositions="0.06641604010025062" layoutX="1.0" layoutY="8.0" orientation="VERTICAL" prefHeight="800.0" prefWidth="1000.0">
         <items>
@@ -24,12 +27,12 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
-                        <Tab fx:id="historiquetab" onSelectionChanged="#showHistoriqueIndicateurOverview" text="Indicateur/Historique">
+                        <Tab fx:id="historiquetab" onSelectionChanged="#showHistoriqueIndicateurOverview" text="Indicateur - Historique">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
-                      <Tab fx:id="elementtab" onSelectionChanged="#showElementOverview" text="Etat du stock">
+                      <Tab fx:id="elementtab" onSelectionChanged="#showElementOverview" text="État du stock">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="913.0" />
                         </content>
@@ -44,7 +47,7 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
-                        <Tab fx:id="demandestab" onSelectionChanged="#showDemandeOverview" text="Demandes client">
+                        <Tab fx:id="demandestab" onSelectionChanged="#showDemandeOverview" text="Demandes clients">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
