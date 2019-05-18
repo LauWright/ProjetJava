@@ -59,6 +59,11 @@ public class SimulationProductionController {
 	private ScrollPane scrollChaine;
 	@FXML
 	private Label messageExport;
+	@FXML
+	private Button btnSimuler;
+	
+	@FXML
+	private Button btnExporter;
 
 	@FXML
 	private GridPane buttonGrid;
@@ -99,6 +104,9 @@ public class SimulationProductionController {
 		this.mainApp = mainApp;
 		this.tableChaine();
 		this.buttonRecap();
+		this.btnExporter.setDisable(true);
+		this.btnSimuler.setDisable(true);
+	
 
 		// Initialisation selecteur des semaines
 		Calendar calendar = Calendar.getInstance();
@@ -187,6 +195,7 @@ public class SimulationProductionController {
 	@FXML
 	public void newProgrammation() {
 		this.newProg = true;
+		
 		this.index = -1;
 		this.choiceSemaine.getSelectionModel().selectFirst();
 		if (this.programmation != null) {
@@ -198,6 +207,8 @@ public class SimulationProductionController {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
+			this.btnExporter.setDisable(false);
+			this.btnSimuler.setDisable(false);
 			/// Réinitialiser les stocks prévisionnels
 			List<Semaine> semaines = new ArrayList<>();
 			Calendar calendar = Calendar.getInstance();
@@ -378,20 +389,6 @@ public class SimulationProductionController {
 												Semaine sem = this.programmation.getPrixMoinsCher(ma.getCode());
 												if(sem.getIdSemaine() != semaine.getIdSemaine()) {
 													listeElemPrix.add(new ElementPrix(c.getCode(), e.getCode(), e.getNom(), sem.getIdSemaine()));
-													/*Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-													alert.setTitle("Confirmation simulation achats");
-													alert.setContentText("L'élément " + e.getCode() + " " + e.getNom() + " est moins cher en semaine " + sem.getIdSemaine() + ". \n \n Voulez-vous réaliser ces achats et cette chaine la semaine " + sem.getIdSemaine() + " ?");
-													alert.setHeaderText(c.getCode() + " " + c.getNom());
-													alert.getDialogPane().setPrefSize(500, 250);
-													alert.showAndWait();
-
-													if (alert.getResult() == ButtonType.YES) {
-														semaine.getChaineProductionNiveau().get(Integer.parseInt(tf.getText())).remove(c);
-														break;
-													}else {
-														semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
-																ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
-													}*/
 												}else {
 													semaine.getAchats().add(new Achat(ma.getCode(), ma.getNom(), e.getQuantite(),
 															ma.getMesure(), ma.getPrixVente(), ma.getPrixAchat(), 0 - e.getQuantite(), c));
@@ -455,7 +452,12 @@ public class SimulationProductionController {
 				}
 				semaine.setResultat(efficacite);
 				String effic = "Efficacité " + efficacite;
-				boolean okAchats = this.mainApp.showGestionAchatsDialog(semaine, listeElemPrix);
+				boolean okAchats = false;
+				if(!listeElemPrix.isEmpty()) {
+					okAchats = this.mainApp.showGestionAchatsDialog(semaine, listeElemPrix);
+				}else {
+					okAchats = true;
+				}
 				if(okAchats) {
 					boolean okClicked = this.mainApp.showRecapSimulationDialog(this.getRecapSimulation(semaine), effic,
 							semaine.getIdSemaine());
@@ -722,6 +724,8 @@ public class SimulationProductionController {
 	 */
 	public void exporterProgrammations() {
 		if(newProg) {
+			this.btnExporter.setDisable(true);
+			this.btnSimuler.setDisable(true);
 			this.mainApp.getProgrammations().add(this.programmation);
 			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
 			this.newProgrammation();

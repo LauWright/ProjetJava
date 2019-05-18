@@ -370,6 +370,42 @@ public class MainApp extends Application {
 	        return false;
 	    }
 	}
+	
+	/**
+	 * Ouvre la boite de dialogue pour voir les détails des demandes
+	 * @param element
+	 * @return
+	 */
+	public boolean showDetailsDemandesDialog(String recap, String sp) {
+	    try {
+	        // Load the fxml file and create a new stage for the popup dialog.
+	        FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(MainApp.class.getResource("DetailsDemandesDialog.fxml"));
+	        AnchorPane page = (AnchorPane) loader.load();
+
+	        // Create the dialog Stage.
+	        Stage dialogStage = new Stage();
+	        dialogStage.setTitle("Détails des demandes");
+	        dialogStage.initModality(Modality.WINDOW_MODAL);
+	        dialogStage.initOwner(primaryStage);
+	        Scene scene = new Scene(page);
+	        dialogStage.setScene(scene);
+
+	        // Set the person into the controller.
+	        DetailsDemandesController controller = loader.getController();
+	        controller.setDialogStage(dialogStage);
+	        controller.setMainApp(this);
+	        controller.setText(recap, sp);
+	        // Show the dialog and wait until the user closes it
+	        dialogStage.showAndWait();
+
+	        return true;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
