@@ -62,6 +62,7 @@ public class ElementStocksController {
 		 */
 		@FXML
 		private void initialize() {
+			
 			// Initialize le tableau des matieres premieres.
 			this.codeMAColumn.setCellValueFactory(cellData -> cellData.getValue().getCodeProperty());
 			this.nomMAColumn.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
