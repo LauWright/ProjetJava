@@ -300,6 +300,12 @@ public class SimulationProductionController {
 						}
 					} else if (this.index == this.choiceSemaine.getSelectionModel().getSelectedIndex()){
 						semaine = this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
+					} else if (this.index < 0 && this.programmation.getSemaines().get(this.choiceSemaine.getSelectionModel().getSelectedIndex() - 1).getResultat() == 0) {
+						semaine = this.programmation.getSemaines()
+								.get(this.choiceSemaine.getSelectionModel().getSelectedIndex());
+						ObservableMap<String, Element> stockse = this.mainApp.getElementData();
+						semaine.setStockPreviEntree(stockse);
+						semaine.setQuantiteStockSortie(stockse);
 					} else {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.initOwner(mainApp.getPrimaryStage());
