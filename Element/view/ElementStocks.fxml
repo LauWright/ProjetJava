@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -7,11 +11,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ElementStocksController">
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ElementStocksController">
    <children>
       <Label layoutX="40.0" layoutY="9.0" text="Matières premières en stock">
          <font>
-            <Font size="17.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
       <TableView fx:id="matierePremiereTable" layoutX="40.0" layoutY="35.0" prefHeight="277.0" prefWidth="938.0">
@@ -35,7 +39,7 @@
       </TableView>
       <Label layoutX="41.0" layoutY="322.0" text="Produits en stock">
          <font>
-            <Font size="17.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
       <Button layoutX="878.0" layoutY="662.0" mnemonicParsing="false" onAction="#majTable" text="Mettre à jour" />

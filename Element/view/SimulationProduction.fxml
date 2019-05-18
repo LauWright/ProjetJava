@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -10,10 +14,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SimulationProductionController">
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SimulationProductionController">
    <children>
       <Button fx:id="btnSimuler" layoutX="490.0" layoutY="621.0" mnemonicParsing="false" onAction="#simuler" text="Simuler" />
-      <Label layoutX="515.0" layoutY="17.0" text="Chaines de production">
+      <Label layoutX="490.0" layoutY="14.0" text="Chaînes de production">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

@@ -106,7 +106,9 @@ public class SimulationProductionController {
 		this.buttonRecap();
 		this.btnExporter.setDisable(true);
 		this.btnSimuler.setDisable(true);
-	
+		// ici //
+	    this.choiceSemaine.setDisable(true); 
+	    this.scrollChaine.setDisable(true);
 
 		// Initialisation selecteur des semaines
 		Calendar calendar = Calendar.getInstance();
@@ -202,13 +204,18 @@ public class SimulationProductionController {
 			this.mainApp.getProgrammations().add(this.programmation);
 		}
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
-		alert.setContentText("Etes-vous sûr de vouloir démarrer \n" + "une nouvelle programmation?");
+		alert.setContentText("Etes-vous sûr de vouloir démarrer  " + "une nouvelle programmation?");
 		alert.setHeaderText("");
 		alert.showAndWait();
+		
 
 		if (alert.getResult() == ButtonType.YES) {
 			this.btnExporter.setDisable(false);
 			this.btnSimuler.setDisable(false);
+			// ici //
+			this.choiceSemaine.setDisable(false); 
+			this.scrollChaine.setDisable(false);
+			
 			/// Réinitialiser les stocks prévisionnels
 			List<Semaine> semaines = new ArrayList<>();
 			Calendar calendar = Calendar.getInstance();
