@@ -175,6 +175,11 @@ public class ImportExportCsv implements ImportExport {
 		return couples;
 	}
 
+	/**
+	 * Import des programmations
+	 * @param ListeChaine
+	 * @return
+	 */
 	public List<Programmation> importProgrammations(ObservableMap<String, ChaineProduction> ListeChaine) {
 		List<Programmation> programmations = new ArrayList<>();
 		CSVParser parser = new CSVParserBuilder().withSeparator(';').withIgnoreQuotations(true).build();
@@ -403,7 +408,7 @@ public class ImportExportCsv implements ImportExport {
 	 * @return une liste de demandes
 	 */
 	@Override
-	public List<Demande> importDemande(String nomFichier, char separateur) {
+	public ObservableList<Demande> importDemande(String nomFichier, char separateur) {
 		ObservableList<Demande> demandes = FXCollections.observableArrayList();
 		CSVParser parser = new CSVParserBuilder().withSeparator(separateur).withIgnoreQuotations(true).build();
 		CSVReader reader = null;
@@ -411,7 +416,7 @@ public class ImportExportCsv implements ImportExport {
 			reader = new CSVReaderBuilder(new FileReader(nomFichier)).withSkipLines(1).withCSVParser(parser).build();
 			String[] line;
 			while ((line = reader.readNext()) != null) {
-				demandes.add(new Demande(Integer.parseInt(line[0]), line[1], Double.parseDouble(line[2])));
+				demandes.add(new Demande(Integer.parseInt(line[0]), line[1], line[2], Double.parseDouble(line[3])));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

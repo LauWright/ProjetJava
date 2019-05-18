@@ -39,6 +39,8 @@ public class ElementController {
 	private Tab elementtab = new Tab();
 	@FXML
 	private Tab historiquetab = new Tab();
+	@FXML
+	private Tab demandestab = new Tab();
 	
 
 	// reference l'application principale
@@ -139,7 +141,7 @@ public class ElementController {
 			AnchorPane elements = (AnchorPane) loader.load();
 			
 			this.elementtab.setContent(elements); 
-			// connexion de ChaineController à la mainPage 
+			// connexion de Elemment à la mainPage 
 			ElementStocksController elemController = loader.getController();
 			elemController.setMainApp(this.mainApp);
 
@@ -159,7 +161,7 @@ public class ElementController {
 			AnchorPane historique = (AnchorPane) loader.load();
 			
 			this.historiquetab.setContent(historique); 
-			// connexion de ChaineController à la mainPage 
+			// connexion de historique à la mainPage 
 			IndicateurHistoriqueController histController = loader.getController();
 			histController.setMainApp(this.mainApp);
 
@@ -169,4 +171,24 @@ public class ElementController {
 	}
 	
 
+
+	/**
+	 * Insert la vue demande dans l'onget demandes
+	 */
+	public void showDemandeOverview() {
+		try {
+			// Load menu overview. 
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("GestionDemande.fxml"));
+			AnchorPane demande = (AnchorPane) loader.load();
+			
+			this.demandestab.setContent(demande); 
+			// connexion de demande à la mainPage 
+			GestionDemandeController demandeController = loader.getController();
+			demandeController.setMainApp(this.mainApp);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
