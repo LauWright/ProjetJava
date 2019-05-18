@@ -465,7 +465,7 @@ public class IndicateurHistoriqueController {
 					j++;
 					this.gridRes.add(separator1, 0, j);
 					
-				}
+				} 
 				
 			}
 			
