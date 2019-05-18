@@ -14,7 +14,7 @@
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="view.IndicateurHistoriqueController">
   <children>
     <Label layoutX="26.0" layoutY="58.0" text="Choisissez une programmation" />
-    <GridPane fx:id="gridProg" layoutX="26.0" layoutY="77.0" prefWidth="179.0">
+    <GridPane fx:id="gridProg" layoutX="26.0" layoutY="85.0" prefWidth="179.0">
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
