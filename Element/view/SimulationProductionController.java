@@ -204,7 +204,7 @@ public class SimulationProductionController {
 			this.mainApp.getProgrammations().add(this.programmation);
 		}
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
-		alert.setContentText("Etes-vous sûr de vouloir démarrer  " + "une nouvelle programmation?");
+		alert.setContentText("Etes-vous sûr de vouloir démarrer une nouvelle programmation ?");
 		alert.setHeaderText("");
 		alert.showAndWait();
 		
@@ -505,14 +505,16 @@ public class SimulationProductionController {
 			List<ChaineProduction> chaines = semaine.getChaineProductionNiveau().get(key);
 			int i = 0;
 			for (ChaineProduction c : chaines) {
-				result += c.getCode() + " " + c.getNom() + " x " + key + ": ";
+				result += c.getCode() + " " + c.getNom() + " de niveau " + key + " : ";
 				result += this.estProductible(semaine, c.getCode());
+				result += "Entrée : \n";
 				for (Couple entree : c.getEntrees()) {
 					result += "- " + entree.getQte() * key + " x " + entree.getCode() + " "
 							+ this.mainApp.getElementData().get(entree.getCode()).getNom();
 					result += "\n";
 				}
 				result += "\n";
+				result += "Sortie : \n";
 				for (Couple sortie : c.getSorties()) {
 					result += "+ " + sortie.getQte() * key + " x " + sortie.getCode() + " "
 							+ this.mainApp.getElementData().get(sortie.getCode()).getNom();
@@ -524,8 +526,8 @@ public class SimulationProductionController {
 					result += "Achats :\n";
 					for (Achat a : semaine.getAchats()) {
 						if (a.getChaine().getCode().equals(c.getCode())) {
-							result += a.getCode() + " " + this.mainApp.getElementData().get(a.getCode()).getNom()
-									+ " x " + a.getQteA() + "\n";
+							result += " * " + a.getQteA() + " x " + a.getCode() + " " + this.mainApp.getElementData().get(a.getCode()).getNom()
+									+  "\n";
 						}
 					}
 					result += "\n";
@@ -534,8 +536,8 @@ public class SimulationProductionController {
 					result += "Produits manquants :\n";
 					for (ProduitManquant a : semaine.getProduitManquant()) {
 						if (a.getChaine().getCode().equals(c.getCode())) {
-							result += a.getCode() + " " + this.mainApp.getElementData().get(a.getCode()).getNom()
-									+ " x " + a.getQuantiteM() + " --> produit créé à partir de la ou les chaines : ";
+							result += " * " + a.getQuantiteM() + " x " + a.getCode() + " " + this.mainApp.getElementData().get(a.getCode()).getNom()
+									+ " --> produit créé à partir de la ou les chaines : ";
 							List<String> ss = this.getChaineAProduire(a.getCode());
 							for (String s : ss) {
 								result += s + " ";
@@ -611,16 +613,25 @@ public class SimulationProductionController {
 	 * @return
 	 */
 	public String estProductible(Semaine sem, String codeChaine) {
-		String s = " Production possible \n";
+		
+		
+		String s = "\n **********************************"
+				 + "\n  Production possible" 
+				 + "\n ********************************** \n";
 		for (Achat a : sem.getAchats()) {
 			if (a.getChaine().getCode().equals(codeChaine)) {
-				s = " Production possible mais achat à effectuer \n";
+				
+				s = "\n *********************************************** "
+				  + "\n Production possible mais achat à effectuer "
+				  + "\n *********************************************** \n";
 			}
 		}
 
 		for (ProduitManquant p : sem.getProduitManquant()) {
 			if (p.getChaine().getCode().equals(codeChaine)) {
-				s = " Production impossible, élément à produire préalablement \n";
+				s = "\n ************************************************************** "
+			      + "\n Production impossible, élément à produire préalablement "
+			      + "\n ************************************************************** \n";
 			}
 		}
 		return s;
