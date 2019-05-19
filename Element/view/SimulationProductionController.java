@@ -848,6 +848,10 @@ public class SimulationProductionController {
 			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
 			this.newProg = false;
 		}
+		this.btnExporter.setDisable(true);
+		this.btnSimuler.setDisable(true);
+		this.choiceSemaine.setDisable(true);
+		this.scrollChaine.setDisable(true);
 	}
 
 	/**
