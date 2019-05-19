@@ -110,7 +110,7 @@ public class ElementStocksController {
 		 * Mise à jours des tables de stocks
 		 */
 		
-		public void majTable() {
+		/*public void majTable() {
 			this.produitTable.getItems().removeAll(this.produitTable.getItems());
 			this.matierePremiereTable.getItems().removeAll(this.matierePremiereTable.getItems());
 			// Add liste des element à la table elementTable
@@ -125,6 +125,6 @@ public class ElementStocksController {
 
 			this.produitTable.setItems(this.produits);
 			this.matierePremiereTable.setItems(this.matieresPremieres);
-		}
+		}*/
 
 }
