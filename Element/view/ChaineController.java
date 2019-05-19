@@ -173,7 +173,7 @@ public class ChaineController {
                 this.messageExport.setText("No selection!");
              } else if (option.get() == ButtonType.OK) {
                 this.messageExport.setText("Chaine(s) supprimée(s)");
-                this.mainApp.getChaineData().remove(this.chaineTable.getItems().remove(selectedIndex).getKey());
+                this.mainApp.getChaineData().remove(this.chaineTable.getItems().get(selectedIndex).getKey());
                 this.chaineTable.refresh();
              } else if (option.get() == ButtonType.CANCEL) {
                 this.messageExport.setText("Suppression annulé");

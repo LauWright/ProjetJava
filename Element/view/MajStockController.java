@@ -186,7 +186,13 @@ public class MajStockController {
 				this.messageExport.setText("No selection!");
 			} else if (option.get() == ButtonType.OK) {
 				this.messageExport.setText("Elément(s) supprimé(s)");
-				this.elementTable.getItems().remove(selectedIndex);
+                this.mainApp.getElementData().remove(this.elementTable.getItems().get(selectedIndex).getKey());
+                
+                ObservableList<Map.Entry<String, Element>> items = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
+        		
+        		this.elementTable.setItems(items);
+        		this.elementTable.getSortOrder().addAll(this.codeColumn);
+				
 			} else if (option.get() == ButtonType.CANCEL) {
 				this.messageExport.setText("Suppression annulée");
 			} else {
@@ -248,6 +254,7 @@ public class MajStockController {
 			boolean okClicked = mainApp.showElementEditDialog(new AbstractMap.SimpleEntry<String, Element>(ma.getCode(), ma));
 			if (okClicked) {
 				mainApp.getElementData().put(ma.getCode(), ma);
+				this.elementTable.refresh();
 			}
 		}
 	}
