@@ -144,8 +144,14 @@ public class ChaineController {
         boolean okClicked = this.mainApp.showNewChaineDialog(tempChaine);
         if (okClicked) {
             this.mainApp.getChaineData().put(tempChaine.getCode(), tempChaine);
+            ObservableList<Map.Entry<String, ChaineProduction>> items = FXCollections.observableArrayList(this.mainApp.getChaineData().entrySet());
+            this.chaineTable.setItems(items);
+
+            this.chaineTable.getSortOrder().addAll(this.codeColumn);
+            
         }
-    }
+       
+     }
     
     /**
      * Called when the user clicks on the delete button.
@@ -167,7 +173,8 @@ public class ChaineController {
                 this.messageExport.setText("No selection!");
              } else if (option.get() == ButtonType.OK) {
                 this.messageExport.setText("Chaine(s) supprimée(s)");
-                this.chaineTable.getItems().remove(selectedIndex);
+                this.mainApp.getChaineData().remove(this.chaineTable.getItems().remove(selectedIndex).getKey());
+                this.chaineTable.refresh();
              } else if (option.get() == ButtonType.CANCEL) {
                 this.messageExport.setText("Suppression annulé");
              } else {

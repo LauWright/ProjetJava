@@ -83,6 +83,8 @@ public class NewChaineDialogController {
         //ajout des elements au tableau
         ObservableList<Map.Entry<String, Element>> items = FXCollections.observableArrayList(this.mainApp.getElementData().entrySet());
 		this.elementTable.setItems(items);
+
+		this.elementTable.getSortOrder().addAll(this.codeColumn);
     }
 
 	/**
