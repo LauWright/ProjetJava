@@ -31,7 +31,7 @@
          <columns>
             <TableColumn fx:id="codePColumn" prefWidth="83.0" text="Code" />
             <TableColumn fx:id="nomPColumn" prefWidth="476.0" text="Nom" />
-            <TableColumn fx:id="quantitePColumn" prefWidth="91.0" text="Quantite" />
+            <TableColumn fx:id="quantitePColumn" prefWidth="91.0" text="Quantité" />
             <TableColumn fx:id="mesurePColumn" prefWidth="82.0" text="Mesure" />
             <TableColumn fx:id="prixVentePColumn" prefWidth="106.0" text="Prix de vente" />
             <TableColumn fx:id="prixAchatPColumn" prefWidth="101.0" text="Prix d'achat" />

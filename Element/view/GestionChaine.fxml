@@ -16,10 +16,11 @@
             <TableColumn fx:id="nomColumn" prefWidth="337.0" text="Nom" />
          </columns>
       </TableView>
-      <Label layoutX="538.0" layoutY="40.0" text="Détails:">
+      <Label layoutX="538.0" layoutY="40.0" text="Détails">
          <font>
-            <Font size="23.0" />
-         </font></Label>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
       <Label fx:id="sorties" layoutX="830.0" layoutY="144.0" text="Label" />
       <Label layoutX="543.0" layoutY="101.0" text="Code">
          <font>

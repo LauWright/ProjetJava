@@ -107,7 +107,6 @@ public class SimulationProductionController {
 		this.buttonRecap();
 		this.btnExporter.setDisable(true);
 		this.btnSimuler.setDisable(true);
-		// ici //
 		this.choiceSemaine.setDisable(true);
 		this.scrollChaine.setDisable(true);
 
@@ -210,7 +209,6 @@ public class SimulationProductionController {
 		if (alert.getResult() == ButtonType.YES) {
 			this.btnExporter.setDisable(false);
 			this.btnSimuler.setDisable(false);
-			// ici //
 			this.choiceSemaine.setDisable(false);
 			this.scrollChaine.setDisable(false);
 
