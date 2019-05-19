@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -7,10 +11,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.StockPreviDialogController">
+<AnchorPane prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.StockPreviDialogController">
    <children>
       <Button layoutX="654.0" layoutY="547.0" mnemonicParsing="false" onAction="#handleFermer" text="fermer" />
-      <Label layoutX="30.0" layoutY="26.0" prefHeight="26.0" prefWidth="451.0" text="Stock prévisionnel en fin de semaine">
+      <Label layoutX="62.0" layoutY="29.0" prefHeight="26.0" prefWidth="451.0" text="Stock prévisionnel en fin de semaine">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -18,8 +22,8 @@
       <TableView fx:id="elementTable" layoutX="62.0" layoutY="85.0" prefHeight="441.0" prefWidth="637.0">
         <columns>
           <TableColumn fx:id="codeColumn" prefWidth="109.0" text="Code" />
-          <TableColumn fx:id="nomColumn" prefWidth="211.0" text="nom" />
-            <TableColumn fx:id="quantiteColumn" prefWidth="151.0" text="quantite" />
+          <TableColumn fx:id="nomColumn" prefWidth="211.0" text="Nom" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="151.0" text="Quantité" />
           <TableColumn fx:id="variationColumn" prefWidth="167.0" text="Variation" />
         </columns>
       </TableView>

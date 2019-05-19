@@ -40,17 +40,17 @@
             <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Code" textAlignment="RIGHT" GridPane.valignment="TOP">
+            <Label text="Code :" textAlignment="RIGHT" GridPane.valignment="TOP">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label text="Prix d'Achat" textAlignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Label text="Prix d'Achat :" textAlignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label text="Prix de vente" textAlignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <Label text="Prix de vente :" textAlignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -58,7 +58,7 @@
             <Label fx:id="codeLabel" text="Label" GridPane.columnIndex="1" GridPane.valignment="TOP" />
             <Label fx:id="prixAchatLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
             <Label fx:id="prixVenteLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-            <Label text="Type" textAlignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+            <Label text="Type :" textAlignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -80,12 +80,12 @@
       </Label>
       <RadioButton fx:id="maRadio" layoutX="123.0" layoutY="608.0" mnemonicParsing="false" text="Matiere Premiere" />
       <RadioButton fx:id="produitRadio" layoutX="269.0" layoutY="608.0" mnemonicParsing="false" text="Produit" />
-      <Label layoutX="62.0" layoutY="636.0" text="Veuillez sélectionner un type avant de cliquer sur ajouter." textFill="#ff8c00">
+      <Label layoutX="31.0" layoutY="636.0" text="Veuillez sélectionner un type d'élement avant de cliquer sur ajouter." textFill="#ff8c00">
          <font>
             <Font name="System Italic" size="11.0" />
          </font>
       </Label>
-      <Label layoutX="62.0" layoutY="659.0" text="Veuillez sélectionner un élément de la liste avant de cliquer sur modifier." textFill="#ff8c00">
+      <Label layoutX="31.0" layoutY="659.0" text="Veuillez sélectionner un élément de la liste avant de cliquer sur modifier." textFill="#ff8c00">
          <font>
             <Font name="System Italic" size="11.0" />
          </font>

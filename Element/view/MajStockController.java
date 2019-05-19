@@ -177,7 +177,7 @@ public class MajStockController {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Confirmation");
-			alert.setHeaderText("Etes-vous sûr de vouloir supprimer ces éléments?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ces éléments ?");
 
 			// option != null.
 			Optional<ButtonType> option = alert.showAndWait();
@@ -198,7 +198,7 @@ public class MajStockController {
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune sélection");
 			alert.setHeaderText("Aucun élément séletionné");
-			alert.setContentText("Veuillez sélectionner un ou plusieurs éléments dans le tableau.");
+			alert.setContentText("Veuillez sélectionner un ou plusieurs éléments dans le tableau");
 
 			alert.showAndWait();
 		}
@@ -214,7 +214,7 @@ public class MajStockController {
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune sélection");
 			alert.setHeaderText("Aucun type séletionné");
-			alert.setContentText("Veuillez sélectionner un type \n (matière première ou produit");
+			alert.setContentText("Veuillez sélectionner un type d'élement" + "\n" + "Matière première ou Produit");
 			alert.showAndWait();			
 		}
 		int id = this.mainApp.getElementData().size() + 1;
@@ -269,9 +269,9 @@ public class MajStockController {
 	        // Nothing selected.
 	        Alert alert = new Alert(AlertType.WARNING);
 	        alert.initOwner(mainApp.getPrimaryStage());
-	        alert.setTitle("Aucune sélèction");
+	        alert.setTitle("Aucune séléction");
 	        alert.setHeaderText("Aucun élément selectionné");
-	        alert.setContentText("Veuillez choisir un élément à modifier.");
+	        alert.setContentText("Veuillez choisir dans le tableau un élément à modifier");
 
 	        alert.showAndWait();
 	    }
@@ -285,13 +285,13 @@ public class MajStockController {
     	 Alert alert = new Alert(AlertType.CONFIRMATION);
          alert.initOwner(mainApp.getPrimaryStage());
          alert.setTitle("Confirmation");
-         alert.setHeaderText("Etes-vous sûr de vouloir enregistrer vos modifications?");
+         alert.setHeaderText("Êtes-vous sûr de vouloir enregistrer vos modifications ?");
 
          // option != null.
          Optional<ButtonType> option = alert.showAndWait();
     
          if (option.get() == null) {
-            this.messageExport.setText("No selection!");
+            this.messageExport.setText("Non selection !");
          } else if (option.get() == ButtonType.OK) {
             this.messageExport.setText("Modifications enregistrés");
             (new ImportExportCsv()).writeCsvElement("newElements.csv", this.mainApp.getElementData());

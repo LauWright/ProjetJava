@@ -126,7 +126,7 @@ public class IndicateurHistoriqueController {
 		for (Semaine s : p.getSemaines()) {
 			if (s.getResultat() > 0) {
 				CheckBox ch = new CheckBox();
-				ch.setText("Semaine " + s.getIdSemaine());
+				ch.setText("Semaine n° " + s.getIdSemaine());
 
 				Button b = new Button();
 				b.setText("Stock prévisionnel");
@@ -164,18 +164,18 @@ public class IndicateurHistoriqueController {
 					b = true;
 					double dou = s.getStockPreviSortie().get(d.getCodeElement()).getQuantite();
 					if (dou >= d.getQuantiteDemande()) {
-						recap += "Demande pour la semaine " + s.getIdSemaine() + " : " + d.getCodeElement() + "x" + d.getQuantiteDemande() + " respecté à 100%\n";
+						recap += "Demande pour la semaine n° " + s.getIdSemaine() + " : " + d.getQuantiteDemande() + " x " + d.getCodeElement() +" respecté à 100 %\n";
 						recap += "\n";
 					} else {
 						double pourcent = (s.getStockPreviSortie().get(d.getCodeElement()).getQuantite() * 100) / d.getQuantiteDemande();
-						recap += "Demande pour la semaine " + s.getIdSemaine() + " : " + d.getCodeElement() + "x" + d.getQuantiteDemande() + " respecté à " + pourcent + "%\n";
+						recap += "Demande pour la semaine n° " + s.getIdSemaine() + " : " + d.getQuantiteDemande() + " x " + d.getCodeElement() + " respecté à " + pourcent + " %\n";
 						recap += "\n";
 						ok = false;
 					}
 				}
 			}
 			if (!b) {
-				recap += "Demande pour la semaine " + d.getIdSemaine() + " : " + d.getCodeElement() + "x" + d.getQuantiteDemande() + " respecté à 0% (aucune simulation)\n";
+				recap += "Demande pour la semaine n° " + d.getIdSemaine() + " : " + d.getQuantiteDemande() + " x "+ d.getCodeElement() + " respecté à 0 % (aucune simulation)\n";
 				recap += "\n";
 				ok = false;
 			}
@@ -185,7 +185,7 @@ public class IndicateurHistoriqueController {
 			this.demandeLabel.setText("Toutes les demandes ont été respectées");
 			this.demandeLabel.setTextFill(Color.web("#5C9C69"));
 		} else {
-			this.demandeLabel.setText("Certaines demandes n'ont pas été respectées");
+			this.demandeLabel.setText("Attention ! Certaines demandes n'ont pas été respectées");
 			this.demandeLabel.setTextFill(Color.web("#E02020"));
 		}
 		this.btnDetails.setVisible(true);

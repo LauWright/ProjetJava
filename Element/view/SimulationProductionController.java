@@ -207,7 +207,7 @@ public class SimulationProductionController {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			this.btnExporter.setDisable(false);
+			this.btnExporter.setDisable(true); //ici
 			this.btnSimuler.setDisable(false);
 			this.choiceSemaine.setDisable(false);
 			this.scrollChaine.setDisable(false);
@@ -240,6 +240,27 @@ public class SimulationProductionController {
 			for (Node n : this.buttonGrid.getChildren()) {
 				n.setVisible(false);
 			}
+		}else{ //ici
+			for (Node n : this.buttonGrid.getChildren()) {
+				n.setVisible(false);
+			}
+			
+			for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+				for (Node no : this.gridChaine.getChildren()) {
+					if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
+						CheckBox ch = (CheckBox) no;
+						ch.setSelected(false);
+					}
+				}
+				for (Node no : this.gridChaine.getChildren()) {
+					if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
+						TextField tf = (TextField) no;
+						tf.setText("0");
+					}
+				}
+			}
+			
+			
 		}
 
 	}
@@ -280,6 +301,7 @@ public class SimulationProductionController {
 
 				alert.showAndWait();
 			} else {
+				this.btnExporter.setDisable(false); //ici
 				Semaine semaine = null;
 				if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0 && this.index == -1) {
 					semaine = this.programmation.getSemaines()
@@ -808,7 +830,7 @@ public class SimulationProductionController {
 	public void reinitialiseProgramations() {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
 		alert.setContentText("Etes-vous sûr de vouloir tout réinitialiser ? \n"
-				+ "Cela supprimera toute les programmations enregistrées \n" + "jusqu'a maintenant");
+				+ "Cela supprimera les programmations enregistrées jusqu'à maintenant");
 		alert.setHeaderText("");
 		alert.showAndWait();
 
@@ -829,11 +851,13 @@ public class SimulationProductionController {
 		if (newProg) {
 			this.btnExporter.setDisable(true);
 			this.btnSimuler.setDisable(true);
+			this.choiceSemaine.setDisable(true);
+			this.scrollChaine.setDisable(true);
 			this.mainApp.getProgrammations().add(this.programmation);
 			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
 			this.newProgrammation();
 			Alert alert = new Alert(AlertType.INFORMATION, "", ButtonType.OK);
-			alert.setContentText("Export réussi!");
+			alert.setContentText("Export réussi ");
 			alert.setHeaderText("");
 			alert.showAndWait();
 		} else {
@@ -856,7 +880,7 @@ public class SimulationProductionController {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Confirmation");
-			alert.setHeaderText("Etes-vous sûr de vouloir effectuer cette production?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir effectuer cette production ?");
 
 			// option != null.
 			Optional<ButtonType> option = alert.showAndWait();

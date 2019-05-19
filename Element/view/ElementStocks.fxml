@@ -21,20 +21,20 @@
       <TableView fx:id="matierePremiereTable" layoutX="40.0" layoutY="35.0" prefHeight="277.0" prefWidth="938.0">
          <columns>
             <TableColumn fx:id="codeMAColumn" prefWidth="83.0" text="Code" />
-            <TableColumn fx:id="nomMAColumn" prefWidth="509.0" text="Nom" />
-            <TableColumn fx:id="quantiteMAColumn" prefWidth="100.0" text="Quantité" />
-            <TableColumn fx:id="mesureMAColumn" prefWidth="114.0" text="Mesure" />
-            <TableColumn fx:id="prixAchatMAColumn" prefWidth="131.0" text="Prix d'achat" />
+            <TableColumn fx:id="nomMAColumn" prefWidth="493.0" text="Nom" />
+            <TableColumn fx:id="quantiteMAColumn" prefWidth="102.0" text="Quantité" />
+            <TableColumn fx:id="mesureMAColumn" prefWidth="128.0" text="Mesure" />
+            <TableColumn fx:id="prixAchatMAColumn" prefWidth="119.0" text="Prix d'achat" />
          </columns>
       </TableView>
       <TableView fx:id="produitTable" layoutX="40.0" layoutY="351.0" prefHeight="305.0" prefWidth="940.0">
          <columns>
             <TableColumn fx:id="codePColumn" prefWidth="83.0" text="Code" />
-            <TableColumn fx:id="nomPColumn" prefWidth="476.0" text="Nom" />
-            <TableColumn fx:id="quantitePColumn" prefWidth="91.0" text="Quantité" />
-            <TableColumn fx:id="mesurePColumn" prefWidth="82.0" text="Mesure" />
-            <TableColumn fx:id="prixVentePColumn" prefWidth="106.0" text="Prix de vente" />
-            <TableColumn fx:id="prixAchatPColumn" prefWidth="101.0" text="Prix d'achat" />
+            <TableColumn fx:id="nomPColumn" prefWidth="426.0" text="Nom" />
+            <TableColumn fx:id="quantitePColumn" prefWidth="105.0" text="Quantité" />
+            <TableColumn fx:id="mesurePColumn" prefWidth="85.0" text="Mesure" />
+            <TableColumn fx:id="prixVentePColumn" prefWidth="113.0" text="Prix de vente" />
+            <TableColumn fx:id="prixAchatPColumn" prefWidth="119.0" text="Prix d'achat" />
          </columns>
       </TableView>
       <Label layoutX="41.0" layoutY="322.0" text="Produits en stock">
