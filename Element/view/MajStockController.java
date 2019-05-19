@@ -262,6 +262,7 @@ public class MajStockController {
 	        boolean okClicked = this.mainApp.showElementEditDialog(selectedElement);
 	        if (okClicked) {
 	            showElementDetails(selectedElement);
+	            this.elementTable.refresh();
 	        }
 
 	    } else {
