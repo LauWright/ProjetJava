@@ -441,10 +441,13 @@ public class SimulationProductionController {
 									}
 									List<Couple> entrees = c.getEntrees();
 									boolean reussi = true;
+									boolean examiner = false;
 									for (Couple couple : entrees) {
 										Element e = semaine.getStockPreviSortie().get(couple.getCode());
 										e.soustraire(couple.getQte() * Double.valueOf(tf.getText()));
+										
 										if (e.examiner()) {
+											examiner =true;
 											if (e.getClass().getSimpleName().equals("MatierePremiere")) {
 												MatierePremiere ma = (MatierePremiere) e;
 												if (ma.getPrixAchat() == -1) {
@@ -511,18 +514,20 @@ public class SimulationProductionController {
 													if (e.getQuantite() < 0) {
 														e.setQuantite(0);
 													}
-													reussi = false;
+													reussi = true;
 												}
 											}
-										} else {
-											List<Couple> sorties = c.getSorties();
-											for (Couple couples : sorties) {
-												semaine.getStockPreviSortie().get(couples.getCode())
-														.ajouter(couples.getQte());
-											}
-										}
-
+										} 
 									}
+									if(!examiner) {
+										List<Couple> sorties = c.getSorties();
+										for (int x = 0; x < c.getSorties().size(); x++) {
+											
+											semaine.getStockPreviSortie().get(sorties.get(x).getCode())
+													.ajouter(sorties.get(x).getQte()*Double.valueOf(tf.getText()));
+										}
+									}
+									
 								}
 							}
 						}
