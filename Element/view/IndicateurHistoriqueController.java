@@ -116,7 +116,7 @@ public class IndicateurHistoriqueController {
 
 		this.gridSem.getChildren().clear();
 
-		this.labelSemaine.setText("Semaines de la programmation n°" + id);
+		this.labelSemaine.setText("Semaines de la programmation n° " + id);
 
 		Programmation p = this.mainApp.getProgrammations().get(id - 1);
 
@@ -168,14 +168,14 @@ public class IndicateurHistoriqueController {
 						recap += "\n";
 					} else {
 						double pourcent = (s.getStockPreviSortie().get(d.getCodeElement()).getQuantite() * 100) / d.getQuantiteDemande();
-						recap += "Demande pour la semaine n° " + s.getIdSemaine() + " : " + d.getQuantiteDemande() + " x " + d.getCodeElement() + " respecté à " + pourcent + " %\n";
+						recap += "Demande client pour la semaine n° " + s.getIdSemaine() + " : " + d.getQuantiteDemande() + " x " + d.getCodeElement() + " respecté à " + pourcent + " %\n";
 						recap += "\n";
 						ok = false;
 					}
 				}
 			}
 			if (!b) {
-				recap += "Demande pour la semaine n° " + d.getIdSemaine() + " : " + d.getQuantiteDemande() + " x "+ d.getCodeElement() + " respecté à 0 % (aucune simulation)\n";
+				recap += "Demande client pour la semaine n° " + d.getIdSemaine() + " : " + d.getQuantiteDemande() + " x "+ d.getCodeElement() + " respecté à 0 % (aucune simulation)\n";
 				recap += "\n";
 				ok = false;
 			}

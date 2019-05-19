@@ -204,6 +204,7 @@ public class SimulationProductionController {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
 		alert.setContentText("Voulez-vous démarrer une nouvelle programmation ?");
 		alert.setHeaderText("");
+		alert.getDialogPane().setPrefSize(480, 100);
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
@@ -277,6 +278,7 @@ public class SimulationProductionController {
 			alert.setTitle("Aucune programmation");
 			alert.setHeaderText("Attention aucune programmation créée");
 			alert.setContentText("Veuillez créer une nouvelle programmation\n");
+			alert.getDialogPane().setPrefSize(480, 100);
 
 			alert.showAndWait();
 		} else {
@@ -297,8 +299,8 @@ public class SimulationProductionController {
 				alert.initOwner(mainApp.getPrimaryStage());
 				alert.setTitle("Aucune selection");
 				alert.setHeaderText("Attention aucune chaîne selectionée");
-				alert.setContentText("Veuillez selectionner une chaîne \n" + "et rentrer un niveau.");
-
+				alert.setContentText("Veuillez selectionner une chaîne et rentrer un niveau");
+				alert.getDialogPane().setPrefSize(480, 100);
 				alert.showAndWait();
 			} else {
 				this.btnExporter.setDisable(false); //ici
@@ -338,8 +340,8 @@ public class SimulationProductionController {
 						alert.initOwner(mainApp.getPrimaryStage());
 						alert.setTitle("Semaine incorrect");
 						alert.setHeaderText("Attention semaine incorrecte");
-						alert.setContentText(
-								"Veuillez choisir la semaine consécutif \n" + "à la précédente selectionné \n");
+						alert.setContentText("Veuillez choisir la semaine consécutif à la précédente selectionné");
+						alert.getDialogPane().setPrefSize(480, 100);
 
 						alert.showAndWait();
 						return;
@@ -837,9 +839,10 @@ public class SimulationProductionController {
 	@FXML
 	public void reinitialiseProgramations() {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
-		alert.setContentText("Etes-vous sûr de vouloir tout réinitialiser ? \n"
+		alert.setContentText("Êtes-vous sûr de vouloir tout réinitialiser ? \n"
 				+ "Cela supprimera les programmations enregistrées jusqu'à maintenant");
 		alert.setHeaderText("");
+		alert.getDialogPane().setPrefSize(550, 140);
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
@@ -878,6 +881,7 @@ public class SimulationProductionController {
 			alert.setTitle("Aucune programmation");
 			alert.setHeaderText("Attention aucune programmation créée");
 			alert.setContentText("Veuillez créer une nouvelle programmation\n");
+			alert.getDialogPane().setPrefSize(480, 100); 
 
 			alert.showAndWait();
 		}
@@ -893,6 +897,7 @@ public class SimulationProductionController {
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Confirmation");
 			alert.setHeaderText("Êtes-vous sûr de vouloir effectuer cette production ?");
+			alert.getDialogPane().setPrefSize(480, 100);
 
 			// option != null.
 			Optional<ButtonType> option = alert.showAndWait();
@@ -947,6 +952,7 @@ public class SimulationProductionController {
 			alert.setTitle("Aucune simulation");
 			alert.setHeaderText("Aucune simulation effectuée");
 			alert.setContentText("Veuillez réaliser une simulation avant de produire");
+			alert.getDialogPane().setPrefSize(480, 100);
 
 			alert.showAndWait();
 		}

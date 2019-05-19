@@ -177,7 +177,10 @@ public class MajStockController {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ces éléments ?");
+			alert.setHeaderText("");
+			alert.setContentText("Êtes-vous sûr de vouloir supprimer ces éléments ?");
+			alert.getDialogPane().setPrefSize(480, 100);
+			
 
 			// option != null.
 			Optional<ButtonType> option = alert.showAndWait();
@@ -205,6 +208,7 @@ public class MajStockController {
 			alert.setTitle("Aucune sélection");
 			alert.setHeaderText("Aucun élément séletionné");
 			alert.setContentText("Veuillez sélectionner un ou plusieurs éléments dans le tableau");
+			alert.getDialogPane().setPrefSize(480, 100);
 
 			alert.showAndWait();
 		}
@@ -219,8 +223,9 @@ public class MajStockController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune sélection");
-			alert.setHeaderText("Aucun type séletionné");
-			alert.setContentText("Veuillez sélectionner un type d'élement" + "\n" + "Matière première ou Produit");
+			alert.setHeaderText("Aucun type d'élément séletionné");
+			alert.setContentText("Veuillez sélectionner un type d'élement : Matière première ou Produit");
+			alert.getDialogPane().setPrefSize(520, 100);
 			alert.showAndWait();			
 		}
 		int id = this.mainApp.getElementData().size() + 1;
@@ -279,6 +284,7 @@ public class MajStockController {
 	        alert.setTitle("Aucune séléction");
 	        alert.setHeaderText("Aucun élément selectionné");
 	        alert.setContentText("Veuillez choisir dans le tableau un élément à modifier");
+	        alert.getDialogPane().setPrefSize(480, 100);
 
 	        alert.showAndWait();
 	    }
@@ -292,7 +298,9 @@ public class MajStockController {
     	 Alert alert = new Alert(AlertType.CONFIRMATION);
          alert.initOwner(mainApp.getPrimaryStage());
          alert.setTitle("Confirmation");
-         alert.setHeaderText("Êtes-vous sûr de vouloir enregistrer vos modifications ?");
+         alert.setHeaderText("");
+         alert.setContentText("Êtes-vous sûr de vouloir enregistrer vos modifications ?");
+         alert.getDialogPane().setPrefSize(480, 100);
 
          // option != null.
          Optional<ButtonType> option = alert.showAndWait();

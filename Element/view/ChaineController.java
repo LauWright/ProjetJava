@@ -153,6 +153,7 @@ public class ChaineController {
        
      }
     
+    
     /**
      * Called when the user clicks on the delete button.
      */
@@ -164,7 +165,9 @@ public class ChaineController {
         	 Alert alert = new Alert(AlertType.CONFIRMATION);
              alert.initOwner(mainApp.getPrimaryStage());
              alert.setTitle("Confirmation");
-             alert.setHeaderText("Etes-vous sûr de vouloir supprimer ces chaînes?");
+             alert.setContentText("Êtes-vous sûr de vouloir supprimer ces chaînes ?");
+             alert.setHeaderText("");
+             alert.getDialogPane().setPrefSize(480, 100);
 
              // option != null.
              Optional<ButtonType> option = alert.showAndWait();
@@ -186,7 +189,8 @@ public class ChaineController {
             alert.initOwner(mainApp.getPrimaryStage());
             alert.setTitle("Aucune selection");
             alert.setHeaderText("Aucune chaîne selectionée");
-            alert.setContentText("Veuillez selectionner une chaîne dans le tableau.");
+            alert.setContentText("Veuillez selectionner une chaîne dans le tableau");
+            alert.getDialogPane().setPrefSize(480, 100);
 
             alert.showAndWait();
         }
@@ -201,13 +205,16 @@ public class ChaineController {
     	 Alert alert = new Alert(AlertType.CONFIRMATION);
          alert.initOwner(mainApp.getPrimaryStage());
          alert.setTitle("Confirmation");
-         alert.setHeaderText("Etes-vous sûr de vouloir enregistrer vos modifications?");
+         alert.setContentText("Êtes-vous sûr de vouloir enregistrer vos modifications ?");
+         alert.setHeaderText("");
+         
+         alert.getDialogPane().setPrefSize(480, 100);
 
          // option != null.
          Optional<ButtonType> option = alert.showAndWait();
     
          if (option.get() == null) {
-            this.messageExport.setText("No selection!");
+            this.messageExport.setText("Aucune selection");
          } else if (option.get() == ButtonType.OK) {
             this.messageExport.setText("Modifications enregistrés");
             (new ImportExportCsv()).writeCsvChaineProduction(this.mainApp.getChaineData());

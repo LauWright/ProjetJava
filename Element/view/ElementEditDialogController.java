@@ -144,6 +144,7 @@ public class ElementEditDialogController {
            alert.setTitle("Champs incorrect");
            alert.setHeaderText("Veuillez corriger les champs incorrects");
            alert.setContentText(errorMessage);
+           alert.getDialogPane().setPrefSize(480, 100);
 
            alert.showAndWait();
 
