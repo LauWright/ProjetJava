@@ -377,8 +377,35 @@ public class SimulationProductionController {
 											}
 											i++;
 										}
+										List<String> listeCodeC = new ArrayList<>();
 										for (Integer cle : listeK.keySet()) {
+											listeCodeC.add(listeK.get(cle).getCode());
 											semaine.getChaineProductionNiveau().get(cle).remove(listeK.get(cle));
+										}
+										//retirer les achats des chaines qu'on a suppromé car les achats se feront dans les semaines les moins chers
+										List<Achat> achatsS = new ArrayList<>();
+										for(String s : listeCodeC) {
+											for(Achat a : semaine.getAchats()) {
+												if(a.getChaine().getCode().equals(s)) {
+													achatsS.add(a);
+												}
+											}
+										}
+										for(Achat as : achatsS) {
+											semaine.getAchats().remove(as);
+										}
+										
+										//retirer les produits manquants des chaines qu'on a suppromé car les achats se feront dans les semaines les moins chers
+										List<ProduitManquant> produitMS = new ArrayList<>();
+										for(String s : listeCodeC) {
+											for(ProduitManquant pm : semaine.getProduitManquant()) {
+												if(pm.getChaine().getCode().equals(s)) {
+													produitMS.add(pm);
+												}
+											}
+										}
+										for(ProduitManquant pms : produitMS) {
+											semaine.getProduitManquant().remove(pms);
 										}
 										if (place) {
 											if (semaine.getChaineProductionNiveau().get(y).isEmpty()) {
