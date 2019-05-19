@@ -48,4 +48,12 @@ public class ProduitManquant extends Produit{
 		return this.chaine;
 	}
 	
+	/**
+	 * 
+	 * @return la chaine de production du produit manquant
+	 */
+	public void ajouterQuantiteManquante(double ajout) {
+		this.qteP = new SimpleDoubleProperty(this.qteP.get() + ajout);
+	}
+	
 }

@@ -359,7 +359,7 @@ public class SimulationProductionController {
 								for (Node no : this.gridChaine.getChildren()) {
 									if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
 										tf = (TextField) no;
-										if (Integer.parseInt(tf.getText()) == 0) {
+										if (Integer.parseInt(tf.getText()) <= 0) {
 											zero = true;
 										}
 									}
@@ -415,18 +415,6 @@ public class SimulationProductionController {
 											semaine.getAchats().remove(as);
 										}
 										
-										//retirer les produits manquants des chaines qu'on a suppromé car les achats se feront dans les semaines les moins chers
-										List<ProduitManquant> produitMS = new ArrayList<>();
-										for(String s : listeCodeC) {
-											for(ProduitManquant pm : semaine.getProduitManquant()) {
-												if(pm.getChaine().getCode().equals(s)) {
-													produitMS.add(pm);
-												}
-											}
-										}
-										for(ProduitManquant pms : produitMS) {
-											semaine.getProduitManquant().remove(pms);
-										}
 										if (place) {
 											if (semaine.getChaineProductionNiveau().get(y).isEmpty()) {
 												semaine.getChaineProductionNiveau().remove(y);
@@ -487,14 +475,29 @@ public class SimulationProductionController {
 											}
 											if (e.getClass().getSimpleName().equals("Produit")) {
 												Produit p = (Produit) e;
+												ProduitManquant pmTmp = null;
 												if (e.getPrixAchat() == -1) {
-													semaine.getProduitManquant()
-															.add(new ProduitManquant(p.getCode(), p.getNom(),
-																	p.getQuantite(), p.getMesure(), p.getPrixVente(),
-																	p.getPrixAchat(), p.isAchetable(),
-																	p.getCoutFabrication(), 0 - e.getQuantite(), c));
-													e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
-													reussi = false;
+													boolean trouve = false;
+													int o = 0;
+													for(ProduitManquant pm : semaine.getProduitManquant()) {
+														if(pm.getCode().equals(p.getCode())) {
+															trouve = true;
+															break;
+														}
+														i++;
+													}
+													if(!trouve) {
+														semaine.getProduitManquant()
+																.add(new ProduitManquant(p.getCode(), p.getNom(),
+																		p.getQuantite(), p.getMesure(), p.getPrixVente(),
+																		p.getPrixAchat(), p.isAchetable(),
+																		p.getCoutFabrication(), 0 - e.getQuantite(), c));
+														e.ajouter(couple.getQte() * Double.valueOf(tf.getText()));
+														reussi = false;
+													} else {
+														semaine.getProduitManquant().get(o).ajouterQuantiteManquante(0 - e.getQuantite());
+														reussi = false;
+													}
 												} else {
 													semaine.getAchats()
 															.add(new Achat(p.getCode(), p.getNom(), e.getQuantite(),
