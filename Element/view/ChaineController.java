@@ -177,7 +177,9 @@ public class ChaineController {
              } else if (option.get() == ButtonType.OK) {
                 this.messageExport.setText("Chaine(s) supprimée(s)");
                 this.mainApp.getChaineData().remove(this.chaineTable.getItems().get(selectedIndex).getKey());
-                this.chaineTable.refresh();
+                ObservableList<Map.Entry<String, ChaineProduction>> items = FXCollections.observableArrayList(this.mainApp.getChaineData().entrySet());
+                this.chaineTable.setItems(items);
+                this.chaineTable.getSortOrder().addAll(this.codeColumn);
              } else if (option.get() == ButtonType.CANCEL) {
                 this.messageExport.setText("Suppression annulé");
              } else {
