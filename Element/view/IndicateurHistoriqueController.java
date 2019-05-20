@@ -651,18 +651,8 @@ public class IndicateurHistoriqueController {
 	 * @return int id de la semaine
 	 */
 	public int getIdSem(String sem) {
-		boolean ok = false;
-		String idSem = "";
-		for (int i = 0; i < sem.length(); i++) {
-			if (ok) {
-				idSem += sem.charAt(i);
-			} else {
-				ok = (' ' == sem.charAt(i));
-			}
-		}
-
-		return Integer.parseInt(idSem);
-
+		String s = sem.split(" ")[2];
+		return Integer.parseInt(s);
 	}
 
 	public void stockPrevi(Semaine s) {
