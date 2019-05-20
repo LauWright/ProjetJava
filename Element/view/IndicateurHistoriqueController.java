@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -70,6 +71,9 @@ public class IndicateurHistoriqueController {
 
 	@FXML
 	private Pane pane;
+	
+	@FXML
+	private ScrollPane scPaneInd;
 
 	/**
 	 * Constructeur
@@ -285,6 +289,8 @@ public class IndicateurHistoriqueController {
 			 */
 			if (itsOk) {
 
+				
+				
 				/**
 				 * On affiche le numéro de semaine
 				 */
@@ -332,14 +338,10 @@ public class IndicateurHistoriqueController {
 				 * On parcours les chaines de production de la semaine
 				 */
 				while (it.hasNext()) {
-					Object cle = it.next(); // tu peux typer plus finement ici
+					
+					Object cle = it.next(); 
 
-					List<ChaineProduction> valeur = (List<ChaineProduction>) s.getChaineProductionNiveau().get(cle); // tu
-																														// peux
-																														// typer
-																														// plus
-																														// finement
-																														// ici
+					List<ChaineProduction> valeur = (List<ChaineProduction>) s.getChaineProductionNiveau().get(cle); 
 
 					/**
 					 * On récupère le nombre de fois que la production a été faite
@@ -511,6 +513,7 @@ public class IndicateurHistoriqueController {
 				 */
 				j++;
 				Label rentaLab = new Label("Rentabilité ");
+				
 				this.gridRes.add(rentaLab, 0, j);
 
 				rentaSemaine = (double) Math.round(rentaSemaine * 1000) / 1000;
@@ -518,8 +521,10 @@ public class IndicateurHistoriqueController {
 				Label rentaCou = new Label();
 				rentaCou.setText(rentaSemaine + "%");
 				this.gridRes.add(rentaCou, 1, j);
+				
 
 				Separator separator1 = new Separator();
+				separator1.setPadding(new Insets(15,0,15,0));
 				j++;
 				this.gridRes.add(separator1, 0, j);
 
