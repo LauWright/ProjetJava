@@ -36,18 +36,18 @@
             <Font name="System Bold" size="13.0" />
          </font></Label>
       <Label fx:id="entrees" layoutX="623.0" layoutY="144.0" text="Label" />
-      <ButtonBar layoutX="56.0" layoutY="607.0" prefHeight="40.0" prefWidth="233.0">
+      <ButtonBar layoutX="41.0" layoutY="607.0" prefHeight="40.0" prefWidth="233.0">
          <buttons>
           <Button mnemonicParsing="false" onAction="#handleNewChaine" prefHeight="15.0" prefWidth="98.0" text="Ajouter" />
             <Button mnemonicParsing="false" onAction="#handleDeleteChaine" prefHeight="26.0" text="Supprimer" />
          </buttons>
       </ButtonBar>
       <Button layoutX="827.0" layoutY="614.0" mnemonicParsing="false" onAction="#handleExporter" text="Enregistrer" />
-      <Label layoutX="579.0" layoutY="584.0" text="N'oubliez pas d'enregistrer pour conserver vos modifications." textFill="#ff8c00">
+      <Label layoutX="579.0" layoutY="642.0" text="N'oubliez pas d'enregistrer pour conserver vos modifications." textFill="#ff8c00">
          <font>
-            <Font size="11.0" />
+            <Font name="System Italic" size="11.0" />
          </font>
       </Label>
-      <Label fx:id="messageExport" layoutX="712.0" layoutY="565.0" text="Label" textFill="#42bf67" />
+      <Label fx:id="messageExport" layoutX="283.0" layoutY="618.0" text="Label" textFill="#42bf67" />
    </children>
 </AnchorPane>
