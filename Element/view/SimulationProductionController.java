@@ -65,9 +65,6 @@ public class SimulationProductionController {
 
 	@FXML
 	private Button btnExporter;
-	
-	@FXML
-	private Button btnAnnuler;
 
 	@FXML
 	private GridPane buttonGrid;
@@ -112,7 +109,6 @@ public class SimulationProductionController {
 		this.btnSimuler.setDisable(true);
 		this.choiceSemaine.setDisable(true);
 		this.scrollChaine.setDisable(true);
-		this.btnAnnuler.setDisable(true); //ici
 
 		// Initialisation selecteur des semaines
 		Calendar calendar = Calendar.getInstance();
@@ -162,33 +158,7 @@ public class SimulationProductionController {
 		this.scrollChaine.setFitToHeight(true);
 		this.scrollChaine.setPannable(true);
 	}
-	
-	/**
-	 * Annule toute la simulation
-	 */
-	public void buttonAnnuler() {
-		for (Node n : this.buttonGrid.getChildren()) {
-			n.setVisible(false);
-			
-		for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
-			for (Node no : this.gridChaine.getChildren()) {
-				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
-					CheckBox ch = (CheckBox) no;
-					ch.setSelected(false);
-				}
-			}
-			for (Node no : this.gridChaine.getChildren()) {
-				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
-					TextField tf = (TextField) no;
-					tf.setText("0");
-				}
-			}
-		}	
-		
-		}
-		
-		this.btnExporter.setDisable(true); 
-	}
+
 
 	/**
 	 * Affiche le recapitulatif d'une simulation pour une semaine donnée
@@ -213,9 +183,19 @@ public class SimulationProductionController {
 					getRecap(sem.getText());
 				}
 			});
+			
+			
 			delete.setVisible(false);
+			delete.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					supprimerDerniereSemaine();
+				}
+			});
 			this.buttonGrid.add(sem, 0, i);
 			this.buttonGrid.add(recap, 1, i);
+			this.buttonGrid.add(delete, 2, i);
+			
 		}
 	}
 
@@ -243,7 +223,6 @@ public class SimulationProductionController {
 			this.btnSimuler.setDisable(false);
 			this.choiceSemaine.setDisable(false);
 			this.scrollChaine.setDisable(false);
-			this.btnAnnuler.setDisable(false);
 
 			/// Réinitialiser les stocks prévisionnels
 			List<Semaine> semaines = new ArrayList<>();
@@ -352,7 +331,6 @@ public class SimulationProductionController {
 				alert.showAndWait();
 			} else {
 				this.btnExporter.setDisable(false); //ici
-				this.btnAnnuler.setDisable(false);
 				Semaine semaine = null;
 				if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0 && this.index == -1) {
 					semaine = this.programmation.getSemaines()
@@ -616,6 +594,53 @@ public class SimulationProductionController {
 			}
 		}
 	}
+	
+	public void supprimerDerniereSemaine() {
+		int i = 0;
+		while(this.programmation.getSemaines().get(i).getResultat() != 0) {
+			i++;
+		}
+		i--;
+		if(i>0) {
+			this.programmation.getSemaines().get(i).setQuantiteStock(this.programmation.getSemaines().get(i-1).getStockPreviSortie());
+			this.programmation.getSemaines().get(i).setQuantiteStockSortie(this.programmation.getSemaines().get(i).getStockPreviEntree());
+			this.programmation.getSemaines().get(i).getChaineProductionNiveau().clear();
+			this.programmation.getSemaines().get(i).getAchats().clear();
+			this.programmation.getSemaines().get(i).getProduitManquant().clear();
+			this.programmation.getSemaines().get(i).setResultat(0);
+		}
+		
+		if(i == 0) {
+			this.programmation.getSemaines().get(0)
+			.setStockPreviEntree(new ImportExportCsv().importElement("newElements.csv", ';'));
+			this.programmation.getSemaines().get(0)
+			.setStockPreviSortie(new ImportExportCsv().importElement("newElements.csv", ';'));
+			this.programmation.getSemaines().get(0).getChaineProductionNiveau().clear();
+			this.programmation.getSemaines().get(0).getAchats().clear();
+			this.programmation.getSemaines().get(0).getProduitManquant().clear();
+			this.programmation.getSemaines().get(0).setResultat(0);
+		}
+		
+		for (Node n : this.buttonGrid.getChildren()) {
+			if (GridPane.getRowIndex(n) == i && GridPane.getColumnIndex(n) == 0) {
+				n.setVisible(false);
+			}
+			if (GridPane.getRowIndex(n) == i && GridPane.getColumnIndex(n) == 1) {
+				n.setVisible(false);
+			}
+			if (GridPane.getRowIndex(n) == i && GridPane.getColumnIndex(n) == 2) {
+				n.setVisible(false);
+			}
+		}
+		
+		for (Node n : this.buttonGrid.getChildren()) {
+
+			if (GridPane.getRowIndex(n) == i-1 && GridPane.getColumnIndex(n) == 2) {
+				n.setVisible(true);
+			}
+		}
+		
+	}
 
 	/**
 	 * Ouverture de la boite de dialog de récapitulatif pour une semaine
@@ -829,12 +854,32 @@ public class SimulationProductionController {
 					}
 					if (GridPane.getRowIndex(n) == i && GridPane.getColumnIndex(n) == 2) {
 						n.setVisible(true);
-						n.setDisable(true);
 					}
 				}
 			}
 			i++;
 		}
+		
+		int u = 0;
+		while(this.programmation.getSemaines().get(u).getResultat() != 0) {
+			u++;
+		}
+		u--;
+
+		if(u>0) {
+			System.out.println("test1");
+			for (int j = 0 ; j < u; j++) {
+				System.out.println("test2");
+				for (Node n : this.buttonGrid.getChildren()) {
+					System.out.println("test3");
+					if (GridPane.getRowIndex(n) == j && GridPane.getColumnIndex(n) == 2) {
+					System.out.println("test4");
+						n.setVisible(false);
+					}
+				}
+			}
+		}
+		
 	}
 
 	/**
