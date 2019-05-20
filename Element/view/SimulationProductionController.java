@@ -866,6 +866,25 @@ public class SimulationProductionController {
 			this.mainApp.setnbProgrammation(0);
 			new ImportExportCsv().writeCsvProgrammation(this.mainApp.getProgrammations());
 			this.newProg = false;
+		}else{ 
+			for (Node n : this.buttonGrid.getChildren()) {
+				n.setVisible(false);
+			}
+			
+			for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+				for (Node no : this.gridChaine.getChildren()) {
+					if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
+						CheckBox ch = (CheckBox) no;
+						ch.setSelected(false);
+					}
+				}
+				for (Node no : this.gridChaine.getChildren()) {
+					if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
+						TextField tf = (TextField) no;
+						tf.setText("0");
+					}
+				}
+			}
 		}
 		this.btnExporter.setDisable(true);
 		this.btnSimuler.setDisable(true);
