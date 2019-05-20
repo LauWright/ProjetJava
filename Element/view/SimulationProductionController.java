@@ -65,6 +65,9 @@ public class SimulationProductionController {
 
 	@FXML
 	private Button btnExporter;
+	
+	@FXML
+	private Button btnAnnuler;
 
 	@FXML
 	private GridPane buttonGrid;
@@ -109,6 +112,7 @@ public class SimulationProductionController {
 		this.btnSimuler.setDisable(true);
 		this.choiceSemaine.setDisable(true);
 		this.scrollChaine.setDisable(true);
+		this.btnAnnuler.setDisable(true); //ici
 
 		// Initialisation selecteur des semaines
 		Calendar calendar = Calendar.getInstance();
@@ -157,6 +161,33 @@ public class SimulationProductionController {
 		this.scrollChaine.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		this.scrollChaine.setFitToHeight(true);
 		this.scrollChaine.setPannable(true);
+	}
+	
+	/**
+	 * Annule toute la simulation
+	 */
+	public void buttonAnnuler() {
+		for (Node n : this.buttonGrid.getChildren()) {
+			n.setVisible(false);
+			
+		for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+			for (Node no : this.gridChaine.getChildren()) {
+				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
+					CheckBox ch = (CheckBox) no;
+					ch.setSelected(false);
+				}
+			}
+			for (Node no : this.gridChaine.getChildren()) {
+				if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
+					TextField tf = (TextField) no;
+					tf.setText("0");
+				}
+			}
+		}	
+		
+		}
+		
+		this.btnExporter.setDisable(true); 
 	}
 
 	/**
@@ -212,6 +243,7 @@ public class SimulationProductionController {
 			this.btnSimuler.setDisable(false);
 			this.choiceSemaine.setDisable(false);
 			this.scrollChaine.setDisable(false);
+			this.btnAnnuler.setDisable(false);
 
 			/// Réinitialiser les stocks prévisionnels
 			List<Semaine> semaines = new ArrayList<>();
@@ -320,6 +352,7 @@ public class SimulationProductionController {
 				alert.showAndWait();
 			} else {
 				this.btnExporter.setDisable(false); //ici
+				this.btnAnnuler.setDisable(false);
 				Semaine semaine = null;
 				if (this.choiceSemaine.getSelectionModel().getSelectedIndex() == 0 && this.index == -1) {
 					semaine = this.programmation.getSemaines()
@@ -889,7 +922,7 @@ public class SimulationProductionController {
 		this.btnExporter.setDisable(true);
 		this.btnSimuler.setDisable(true);
 		this.choiceSemaine.setDisable(true);
-		this.scrollChaine.setDisable(true);
+		
 	}
 
 	/**
