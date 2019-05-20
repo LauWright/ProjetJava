@@ -208,7 +208,7 @@ public class SimulationProductionController {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			this.btnExporter.setDisable(true); //ici
+			this.btnExporter.setDisable(true); 
 			this.btnSimuler.setDisable(false);
 			this.choiceSemaine.setDisable(false);
 			this.scrollChaine.setDisable(false);
@@ -240,8 +240,24 @@ public class SimulationProductionController {
 
 			for (Node n : this.buttonGrid.getChildren()) {
 				n.setVisible(false);
+				
+			for (int i = 0; i < this.mainApp.getChaineData().size(); i++) {
+				for (Node no : this.gridChaine.getChildren()) {
+					if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 0) {
+						CheckBox ch = (CheckBox) no;
+						ch.setSelected(false);
+					}
+				}
+				for (Node no : this.gridChaine.getChildren()) {
+					if (GridPane.getRowIndex(no) == i + 1 && GridPane.getColumnIndex(no) == 1) {
+						TextField tf = (TextField) no;
+						tf.setText("0");
+					}
+				}
+			}	
+			
 			}
-		}else{ //ici
+		}else{ 
 			for (Node n : this.buttonGrid.getChildren()) {
 				n.setVisible(false);
 			}
